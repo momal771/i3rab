@@ -1,0 +1,22 @@
+{
+  "name": "I3râb Dojo — إعراب",
+  "short_name": "I3râb Dojo",
+  "description": "Grammaire arabe classique pour francophones",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a3d2e",
+  "theme_color": "#0a3d2e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
