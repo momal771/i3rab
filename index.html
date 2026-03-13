@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إعراب — I3râb Dojo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f4f1eb;min-height:100vh;display:flex;justify-content:center;padding:1rem}
+.app{background:white;border-radius:14px;overflow:hidden;width:100%;max-width:720px;box-shadow:0 2px 24px rgba(0,0,0,.1);align-self:flex-start}
+.hdr{background:#0a3d2e;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between}
+.hdr-t{color:#e8c97a;font-size:19px;font-weight:600}
+.hdr-s{color:rgba(232,201,122,.55);font-size:11px;margin-top:2px}
+.hdr-ar{color:#c9a84c;font-size:30px;font-family:serif;opacity:.75}
+.nav{display:flex;border-bottom:1px solid #e8e4da;background:#faf7f2;overflow-x:auto}
+.nb{flex:1;min-width:62px;padding:9px 4px;border:none;background:transparent;cursor:pointer;font-size:11px;color:#666;border-bottom:2px solid transparent;transition:all .2s;font-family:inherit;white-space:nowrap}
+.nb.active{color:#1a6b4a;border-bottom:2px solid #1a6b4a;font-weight:600}
+.nb:hover:not(.active){background:#f0ece4}
+.scr{display:none;padding:1.1rem}
+.scr.active{display:block}
+.sec-lbl{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+/* HOME */
+.wb{background:#0a3d2e;border-radius:10px;padding:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.wb-ar{font-size:32px;color:#e8c97a;font-family:serif}
+.wb-tx{color:rgba(255,255,255,.82);font-size:12px;line-height:1.65}
+.wb-tx strong{color:#e8c97a;font-weight:600}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:1rem}
+.pc{border:1px solid #e0dbd0;border-radius:10px;padding:11px;text-align:center;cursor:pointer;transition:border-color .2s}
+.pc:hover{border-color:#1a6b4a}
+.pc-ic{font-size:18px;margin-bottom:4px}
+.pc-n{font-size:12px;font-weight:600;color:#222}
+.pc-s{font-size:10px;color:#888;margin-top:1px}
+.pb{height:3px;background:#e0dbd0;border-radius:2px;margin-top:6px}
+.pf{height:100%;border-radius:2px;background:#1a6b4a}
+.ri{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid #e0dbd0;border-radius:10px;margin-bottom:5px;cursor:pointer;transition:background .15s}
+.ri:hover{background:#faf7f2}
+.rb{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;white-space:nowrap}
+.rb.na{background:#e1f5ee;color:#0f6e56}
+.rb.sa{background:#e6f1fb;color:#185fa5}
+.rb.i3{background:#faeeda;color:#854f0b}
+.rb.ho{background:#fbeaf0;color:#993356}
+.ri-ti{font-size:12px;font-weight:500;flex:1;color:#222}
+/* FICHES */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.fc{border:1px solid #e0dbd0;border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.fc:hover{border-color:#1a6b4a;background:#faf7f2}
+.fc-cat{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.fc-ti{font-size:13px;font-weight:600;color:#222;margin-bottom:3px}
+.fc-ar{font-size:16px;color:#bbb;font-family:serif;text-align:right;position:absolute;right:10px;top:10px;opacity:.35}
+.fc-de{font-size:11px;color:#777;line-height:1.45}
+.cat-na{color:#0f6e56}.cat-sa{color:#185fa5}.cat-i3{color:#854f0b}.cat-ho{color:#993356}
+.tab-filter{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.tf{border:1px solid #e0dbd0;border-radius:20px;padding:4px 11px;font-size:11px;cursor:pointer;background:white;color:#666;font-family:inherit;transition:all .15s}
+.tf.active{background:#0a3d2e;color:#e8c97a;border-color:#0a3d2e}
+/* FICHE DETAIL */
+.fl.hidden{display:none}
+.bk{display:flex;align-items:center;gap:5px;background:transparent;border:none;cursor:pointer;font-size:12px;color:#888;margin-bottom:.9rem;padding:0;font-family:inherit}
+.bk:hover{color:#333}
+.fdh{background:#0a3d2e;border-radius:10px;padding:1.1rem;margin-bottom:.9rem;color:white}
+.fdh-cat{font-size:10px;color:#c9a84c;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fdh-ti{font-size:17px;font-weight:600;margin-bottom:3px}
+.fdh-ar{font-size:26px;font-family:serif;color:#e8c97a;text-align:right}
+.rb2{border:1px solid #e0dbd0;border-radius:10px;padding:12px;margin-bottom:8px}
+.rb2-ti{font-size:12px;font-weight:600;color:#222;margin-bottom:6px}
+.rb2-de{font-size:12px;color:#555;line-height:1.6;margin-bottom:8px}
+.er{display:flex;align-items:center;gap:8px;padding:7px;background:#faf7f2;border-radius:6px;margin-bottom:5px}
+.ear{font-size:17px;font-family:serif;color:#1a6b4a;flex:1;text-align:right;direction:rtl}
+.etr{font-size:11px;color:#666;flex:1}
+.el{font-size:10px;padding:2px 6px;border-radius:10px;font-weight:600;white-space:nowrap}
+.l-na{background:#faeeda;color:#854f0b}.l-ra{background:#e1f5ee;color:#0f6e56}.l-ja{background:#e6f1fb;color:#185fa5}.l-jz{background:#fbeaf0;color:#993356}
+/* CONJ TABLE */
+.ctbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+.ctbl th{background:#0a3d2e;color:#e8c97a;padding:6px 8px;font-weight:600;text-align:left}
+.ctbl td{padding:6px 8px;border-bottom:1px solid #e8e4da;color:#222}
+.ctbl tr:nth-child(even) td{background:#faf7f2}
+.ctbl .ar-cell{font-family:serif;font-size:16px;text-align:right;direction:rtl;color:#1a6b4a}
+/* I3RAB */
+.phrase-box{background:#faf7f2;border-radius:10px;padding:1rem;margin-bottom:10px;text-align:center}
+.phrase-ar{font-size:26px;font-family:serif;direction:rtl;color:#222;line-height:2;cursor:default}
+.word-chip{display:inline-block;padding:3px 7px;border-radius:5px;cursor:pointer;transition:background .15s;margin:0 2px}
+.word-chip:hover{background:rgba(26,107,74,.15)}
+.word-chip.selected{background:rgba(26,107,74,.25)}
+.i3rab-panel{border:1px solid #e0dbd0;border-radius:10px;padding:12px;min-height:80px;margin-bottom:8px;background:white}
+.i3rab-hint{font-size:12px;color:#aaa;text-align:center;padding:1rem 0}
+.i3rab-word{font-size:22px;font-family:serif;color:#0a3d2e;margin-bottom:6px;direction:rtl}
+.i3rab-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.i3rab-tag{font-size:11px;padding:3px 9px;border-radius:12px;font-weight:600}
+.it-cas{background:#faeeda;color:#854f0b}.it-fonc{background:#e1f5ee;color:#0f6e56}
+.phrase-nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.pn-btn{border:1px solid #e0dbd0;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;background:white;color:#444;font-family:inherit;transition:all .15s}
+.pn-btn:hover{border-color:#1a6b4a;color:#1a6b4a}
+.pn-btn.active-p{background:#0a3d2e;color:#e8c97a;border-color:#0a3d2e}
+/* QUIZ */
+.qi{text-align:center;padding:1.2rem 0}
+.qi-ti{font-size:17px;font-weight:600;margin-bottom:7px;color:#222}
+.qi-su{font-size:12px;color:#666;margin-bottom:1.2rem;line-height:1.6}
+.qmg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:1.2rem}
+.qmb{border:1px solid #e0dbd0;border-radius:10px;padding:12px 6px;cursor:pointer;text-align:center;background:white;transition:all .2s;font-family:inherit}
+.qmb:hover{border-color:#1a6b4a}
+.qmb.sel{border-color:#1a6b4a;border-width:2px;background:#f0f8f4}
+.qm-ic{font-size:18px;margin-bottom:5px}
+.qm-na{font-size:12px;font-weight:600;color:#222}
+.qm-su{font-size:10px;color:#888;margin-top:1px}
+.diff-sel{display:flex;gap:6px;justify-content:center;margin-bottom:1.2rem}
+.ds{border:1px solid #e0dbd0;border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:white;color:#666;font-family:inherit;transition:all .15s}
+.ds.sel{background:#0a3d2e;color:#e8c97a;border-color:#0a3d2e}
+.strt{background:#0a3d2e;color:#e8c97a;border:none;border-radius:10px;padding:11px 28px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .2s}
+.strt:hover{background:#1a6b4a}
+.qa{display:none}.qa.active{display:block}
+.qi-sec.hidden{display:none}
+.qtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.qpb{flex:1;height:3px;background:#e0dbd0;border-radius:2px;margin:0 10px}
+.qpf{height:100%;border-radius:2px;background:#1a6b4a;transition:width .4s}
+.qcnt{font-size:11px;color:#888}
+.qsco{font-size:11px;background:#e1f5ee;color:#0f6e56;padding:3px 9px;border-radius:12px;font-weight:600}
+.qcard{border:1px solid #e0dbd0;border-radius:12px;padding:1.25rem;margin-bottom:.9rem;text-align:center;background:#faf7f2}
+.qtlbl{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.qar{font-size:32px;font-family:serif;color:#0a3d2e;direction:rtl;margin-bottom:6px}
+.qpr{font-size:13px;color:#555}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ob{border:1px solid #e0dbd0;border-radius:10px;padding:11px;cursor:pointer;background:white;font-size:12px;text-align:center;transition:all .15s;font-family:inherit;color:#222;direction:ltr;unicode-bidi:plaintext}
+.ob:hover:not(:disabled){border-color:#1a6b4a;background:#f0f8f4}
+.ob.correct{background:#e1f5ee;border-color:#0f6e56;color:#0f6e56;font-weight:600}
+.ob.wrong{background:#ffeeee;border-color:#c0392b;color:#c0392b}
+.ob:disabled{cursor:default}
+.exb{border:1px solid #e0dbd0;border-radius:10px;padding:12px;margin:.9rem 0;background:#faf7f2;font-size:12px;color:#555;line-height:1.6;display:none}
+.exb.vis{display:block}
+.ext{font-weight:600;color:#222;margin-bottom:3px}
+.nxt{background:#0a3d2e;color:#e8c97a;border:none;border-radius:10px;padding:9px 20px;font-size:12px;cursor:pointer;font-family:inherit;display:none}
+.nxt.vis{display:inline-block}
+.nxt:hover{background:#1a6b4a}
+.qres{display:none;text-align:center;padding:1.2rem 0}.qres.active{display:block}
+.rsc{font-size:48px;font-weight:700;color:#1a6b4a;margin-bottom:3px}
+.rlb{font-size:13px;color:#666;margin-bottom:1.2rem}
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:1.2rem}
+.rst{border:1px solid #e0dbd0;border-radius:10px;padding:11px}
+.rn{font-size:20px;font-weight:700;color:#222}
+.rl{font-size:10px;color:#888;margin-top:2px}
+.rtr{border:1px solid #1a6b4a;background:transparent;color:#1a6b4a;border-radius:10px;padding:9px 20px;font-size:12px;cursor:pointer;font-family:inherit;margin-right:7px}
+/* LEXIQUE */
+.lex-search{width:100%;border:1px solid #e0dbd0;border-radius:10px;padding:8px 12px;font-size:13px;margin-bottom:10px;font-family:inherit;background:white;color:#222;outline:none}
+.lex-search:focus{border-color:#1a6b4a}
+.lex-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #e0dbd0;border-radius:10px;margin-bottom:5px}
+.li-ar{font-size:19px;font-family:serif;min-width:60px;color:#0a3d2e;direction:rtl;text-align:right;font-weight:600}
+.li-tr{font-size:12px;font-weight:600;color:#222}
+.li-de{font-size:11px;color:#666;margin-top:1px}
+.li-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;white-space:nowrap;align-self:flex-start;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hdr">
+  <div><div class="hdr-t">إعراب — I3râb Dojo</div><div class="hdr-s">Grammaire arabe pour francophones</div></div>
+  <div class="hdr-ar">ع</div>
+</div>
+<div class="nav">
+  <button class="nb active" onclick="showScr('home')">🏠 Accueil</button>
+  <button class="nb" onclick="showScr('fiches')">📖 Fiches</button>
+  <button class="nb" onclick="showScr('i3rab')">🔍 I3râb</button>
+  <button class="nb" onclick="showScr('conj')">🔤 Conjugaison</button>
+  <button class="nb" onclick="showScr('quiz')">✏️ Quiz</button>
+  <button class="nb" onclick="showScr('lexique')">📚 Lexique</button>
+</div>
+
+<!-- HOME -->
+<div id="scr-home" class="scr active">
+  <div class="wb">
+    <div class="wb-ar">مرحباً</div>
+    <div class="wb-tx">Bienvenue ! Découvrez l'<strong>إعراب</strong> (déclinaison), la <strong>صرف</strong> (morphologie) et la <strong>نحو</strong> (syntaxe) avec fiches, tableaux de conjugaison et quiz progressifs.</div>
+  </div>
+  <div class="sec-lbl">Votre progression</div>
+  <div class="pg">
+    <div class="pc" onclick="showScr('quiz')"><div class="pc-ic">📝</div><div class="pc-n">إعراب</div><div class="pc-s">déclinaison</div><div class="pb"><div class="pf" style="width:65%"></div></div></div>
+    <div class="pc" onclick="showScr('quiz')"><div class="pc-ic">🔤</div><div class="pc-n">صرف</div><div class="pc-s">morphologie</div><div class="pb"><div class="pf" style="width:40%"></div></div></div>
+    <div class="pc" onclick="showScr('quiz')"><div class="pc-ic">🌿</div><div class="pc-n">نحو</div><div class="pc-s">syntaxe</div><div class="pb"><div class="pf" style="width:72%"></div></div></div>
+  </div>
+  <div class="sec-lbl">Accès rapide</div>
+  <div class="ri" onclick="openFiche('idafa')"><span class="rb na">Nah7w</span><span class="ri-ti">الإضافة — La construction d'annexion</span><span style="color:#aaa;font-size:12px">›</span></div>
+  <div class="ri" onclick="openFiche('nasb')"><span class="rb na">Nah7w</span><span class="ri-ti">النصب — Les 7 cas du nasb</span><span style="color:#aaa;font-size:12px">›</span></div>
+  <div class="ri" onclick="showScr('i3rab')"><span class="rb i3">I3râb</span><span class="ri-ti">Analyser une phrase complète mot par mot</span><span style="color:#aaa;font-size:12px">›</span></div>
+  <div class="ri" onclick="showScr('conj')"><span class="rb sa">Sarf</span><span class="ri-ti">Verbes défectueux — tableaux de conjugaison</span><span style="color:#aaa;font-size:12px">›</span></div>
+</div>
+
+<!-- FICHES -->
+<div id="scr-fiches" class="scr">
+  <div id="fiches-list" class="fl">
+    <div class="tab-filter">
+      <button class="tf active" onclick="filterFiches('all',this)">Tout</button>
+      <button class="tf" onclick="filterFiches('na',this)">Nah7w</button>
+      <button class="tf" onclick="filterFiches('sa',this)">Sarf</button>
+      <button class="tf" onclick="filterFiches('i3',this)">I3râb</button>
+      <button class="tf" onclick="filterFiches('ho',this)">7ourouf</button>
+    </div>
+    <div class="fg" id="fiches-grid"></div>
+  </div>
+  <div id="fiche-detail-zone"></div>
+</div>
+
+<!-- I3RAB INTERACTIF -->
+<div id="scr-i3rab" class="scr">
+  <div class="sec-lbl" style="margin-bottom:8px">Cliquez sur un mot pour son analyse complète</div>
+  <div class="phrase-nav" id="phrase-nav"></div>
+  <div class="phrase-box"><div class="phrase-ar" id="phrase-ar"></div></div>
+  <div class="i3rab-panel" id="i3rab-panel"><div class="i3rab-hint">← Sélectionnez un mot dans la phrase ci-dessus</div></div>
+  <div class="sec-lbl" style="margin-top:12px">Traduction</div>
+  <div style="font-size:13px;color:#555;line-height:1.6;margin-top:4px" id="phrase-trans"></div>
+</div>
+
+<!-- CONJUGAISON -->
+<div id="scr-conj" class="scr">
+  <div class="tab-filter" id="conj-tabs"></div>
+  <div id="conj-content"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="scr-quiz" class="scr">
+  <div id="qi-sec" class="qi">
+    <div class="qi-ti">Choisissez un mode</div>
+    <div class="qi-su">Explications grammaticales après chaque réponse. Plus de 40 questions disponibles.</div>
+    <div class="qmg">
+      <div class="qmb sel" onclick="selMode(this,'i3rab')"><div class="qm-ic">📝</div><div class="qm-na">إعراب</div><div class="qm-su">déclinaison</div></div>
+      <div class="qmb" onclick="selMode(this,'sarf')"><div class="qm-ic">🔤</div><div class="qm-na">صرف</div><div class="qm-su">morphologie</div></div>
+      <div class="qmb" onclick="selMode(this,'na7w')"><div class="qm-ic">🌿</div><div class="qm-na">نحو</div><div class="qm-su">syntaxe</div></div>
+      <div class="qmb" onclick="selMode(this,'7ourouf')"><div class="qm-ic">🔗</div><div class="qm-na">حروف الجر</div><div class="qm-su">prépositions</div></div>
+      <div class="qmb" onclick="selMode(this,'idafa')"><div class="qm-ic">🔗</div><div class="qm-na">إضافة</div><div class="qm-su">annexion</div></div>
+      <div class="qmb" onclick="selMode(this,'munada')"><div class="qm-ic">📢</div><div class="qm-na">منادى</div><div class="qm-su">vocatif</div></div>
+      <div class="qmb" onclick="selMode(this,'maf3ulat')"><div class="qm-ic">🎯</div><div class="qm-na">مفعولات</div><div class="qm-su">compléments</div></div>
+      <div class="qmb" onclick="selMode(this,'istithna')"><div class="qm-ic">➖</div><div class="qm-na">استثناء</div><div class="qm-su">exception</div></div>
+      <div class="qmb" onclick="selMode(this,'tawabi3')"><div class="qm-ic">🔁</div><div class="qm-na">توابع</div><div class="qm-su">suiveurs</div></div>
+      <div class="qmb" onclick="selMode(this,'af3al_khamsa')"><div class="qm-ic">✋</div><div class="qm-na">أفعال خمسة</div><div class="qm-su">5 verbes</div></div>
+      <div class="qmb" onclick="selMode(this,'mamnu3')"><div class="qm-ic">🚫</div><div class="qm-na">ممنوع</div><div class="qm-su">indéclinable</div></div>
+      <div class="qmb" onclick="selMode(this,'asma_khamsa')"><div class="qm-ic">🖐</div><div class="qm-na">أسماء خمسة</div><div class="qm-su">5 noms</div></div>
+      <div class="qmb" onclick="selMode(this,'la_nafiya')"><div class="qm-ic">🚷</div><div class="qm-na">لا النافية</div><div class="qm-su">négation genre</div></div>
+      <div class="qmb" onclick="selMode(this,'shart')"><div class="qm-ic">⚡</div><div class="qm-na">الشرط</div><div class="qm-su">condition</div></div>
+      <div class="qmb" onclick="selMode(this,'i3rab_avance')"><div class="qm-ic">🔬</div><div class="qm-na">إعراب متقدم</div><div class="qm-su">taqdiryy/mahall</div></div>
+      <div class="qmb" onclick="selMode(this,'sarf_avance')"><div class="qm-ic">⚗️</div><div class="qm-na">صرف متقدم</div><div class="qm-su">formes & participes</div></div>
+      <div class="qmb" onclick="selMode(this,'adad')"><div class="qm-ic">🔢</div><div class="qm-na">العدد</div><div class="qm-su">nombres</div></div>
+      <div class="qmb" onclick="selMode(this,'ta3ajjub')"><div class="qm-ic">😲</div><div class="qm-na">التعجب</div><div class="qm-su">exclamation</div></div>
+      <div class="qmb" onclick="selMode(this,'jumla')"><div class="qm-ic">📐</div><div class="qm-na">الجملة</div><div class="qm-su">types de phrases</div></div>
+      <div class="qmb" onclick="selMode(this,'mabni_mu3rab')"><div class="qm-ic">🔒</div><div class="qm-na">مبني/معرب</div><div class="qm-su">invariable</div></div>
+      <div class="qmb" onclick="selMode(this,'madh_dham')"><div class="qm-ic">⚖️</div><div class="qm-na">مدح وذم</div><div class="qm-su">éloge & blâme</div></div>
+      <div class="qmb" onclick="selMode(this,'maf3ul_ma3ah')"><div class="qm-ic">🤝</div><div class="qm-na">مفعول معه</div><div class="qm-su">accompagnement</div></div>
+      <div class="qmb" onclick="selMode(this,'af3al_muqaraba')"><div class="qm-ic">⏳</div><div class="qm-na">أفعال مقاربة</div><div class="qm-su">imminence</div></div>
+      <div class="qmb" onclick="selMode(this,'khabar_insha')"><div class="qm-ic">🗣️</div><div class="qm-na">خبر وإنشاء</div><div class="qm-su">assertif/performatif</div></div>
+      <div class="qmb" onclick="selMode(this,'qasam')"><div class="qm-ic">🤲</div><div class="qm-na">القسم</div><div class="qm-su">serment</div></div>
+      <div class="qmb" onclick="selMode(this,'hal_detail')"><div class="qm-ic">🏃</div><div class="qm-na">الحال</div><div class="qm-su">manière</div></div>
+      <div class="qmb" onclick="selMode(this,'tawkid_detail')"><div class="qm-ic">💪</div><div class="qm-na">التوكيد</div><div class="qm-su">confirmation</div></div>
+      <div class="qmb" onclick="selMode(this,'nawasikh')"><div class="qm-ic">🔄</div><div class="qm-na">النواسخ</div><div class="qm-su">récap complet</div></div>
+      <div class="qmb" onclick="selMode(this,'ikhtisas')"><div class="qm-ic">🎯</div><div class="qm-na">الاختصاص</div><div class="qm-su">spécification</div></div>
+      <div class="qmb" onclick="selMode(this,'mix')"><div class="qm-ic">🎲</div><div class="qm-na">Mélange</div><div class="qm-su">tout en 1</div></div>
+    </div>
+    <div class="diff-sel">
+      <button class="ds sel" onclick="selDiff(this,'easy')">Débutant</button>
+      <button class="ds" onclick="selDiff(this,'med')">Intermédiaire</button>
+      <button class="ds" onclick="selDiff(this,'hard')">Avancé</button>
+    </div>
+    <button class="strt" onclick="startQuiz()">Commencer le quiz ›</button>
+  </div>
+  <div id="qa-sec" class="qa">
+    <div class="qtop">
+      <span class="qcnt" id="qcnt">1/8</span>
+      <div class="qpb"><div class="qpf" id="qpf" style="width:0%"></div></div>
+      <span class="qsco" id="qsco">0 pts</span>
+    </div>
+    <div class="qcard">
+      <div class="qtlbl" id="qtlbl">I3râb</div>
+      <div class="qar" id="qar">—</div>
+      <div class="qpr" id="qpr">Question</div>
+    </div>
+    <div class="og" id="og"></div>
+    <div class="exb" id="exb"><div class="ext" id="ext"></div><div id="exd"></div></div>
+    <div style="text-align:right;margin-top:8px"><button class="nxt" id="nxt" onclick="nextQ()">Suivant ›</button></div>
+  </div>
+  <div id="qres-sec" class="qres">
+    <div class="rsc" id="rsc">0/8</div>
+    <div class="rlb">Questions réussies</div>
+    <div class="rg">
+      <div class="rst"><div class="rn" id="rcor">0</div><div class="rl">Correctes</div></div>
+      <div class="rst"><div class="rn" id="rwro">0</div><div class="rl">Erreurs</div></div>
+      <div class="rst"><div class="rn" id="rpct">0%</div><div class="rl">Score</div></div>
+    </div>
+    <button class="rtr" onclick="resetQuiz()">Réessayer</button>
+    <button class="strt" onclick="showScr('fiches')">Voir les fiches</button>
+  </div>
+</div>
+
+<!-- LEXIQUE -->
+<div id="scr-lexique" class="scr">
+  <input class="lex-search" placeholder="Rechercher un terme…" oninput="filterLex(this.value)">
+  <div id="lex-list"></div>
+</div>
+</div>
+
+<script>
+const fiches=[
+  {id:'nasb',cat:'na',catL:'Nah7w',ar:'النَّصْب',ti:'Le nasb — l\'accusatif',de:'Cas, marqueurs et 7 situations clés',content:{def:'Le <b>nasb</b> (نصب) est l\'un des trois cas de la déclinaison. Marqué par la fatha ـَ (tanwin ـً), il s\'applique au COD, après les sœurs de إنَّ, au hal, tamyiz…',rules:[{ti:'Marqueur',de:'Fatha ـَ sur le singulier et le pluriel brisé ; ي pour le duel et le pluriel sain masculin.'},{ti:'Les 7 cas de nasb',de:'1. مفعول به — COD\n2. Après إنَّ et ses sœurs\n3. Après كانَ et ses sœurs (خبر كانَ)\n4. حال — état du sujet\n5. تمييز — complément distinctif\n6. مستثنى — exception après إلاَّ\n7. مفعول مطلق — COD absolu (توكيد)'}],examples:[{ar:'رَأَيْتُ الطَّالِبَ',tr:'J\'ai vu l\'étudiant',l:'l-na',lt:'nasb COD'},{ar:'إنَّ الكِتَابَ مُفِيدٌ',tr:'Certes, le livre est utile',l:'l-na',lt:'nasb / إنَّ'},{ar:'جَاءَ مُسْرِعاً',tr:'Il est venu rapidement',l:'l-na',lt:'حال'}]}},
+  {id:'raf3',cat:'na',catL:'Nah7w',ar:'الرَّفْع',ti:'Le raf3 — le nominatif',de:'Sujet, mubtada, khabar…',content:{def:'Le <b>raf3</b> est le cas de base, marqué par la damma ـُ (tanwin ـٌ).',rules:[{ti:'Marqueur',de:'Damma ـُ sur singulier et pluriel brisé ; و pour le duel et le pluriel sain masculin.'},{ti:'Principales fonctions',de:'1. فاعل — sujet du verbe\n2. مبتدأ — thème de phrase nominale\n3. خبر — prédicat de phrase nominale\n4. نائب الفاعل — sujet du verbe passif\n5. اسم كانَ — sujet de كانَ et ses sœurs'}],examples:[{ar:'جَاءَ الطَّالِبُ',tr:'L\'étudiant est venu',l:'l-ra',lt:'فاعل'},{ar:'الكِتَابُ مُفِيدٌ',tr:'Le livre est utile',l:'l-ra',lt:'مبتدأ + خبر'},{ar:'كَانَ الجَوُّ جَمِيلاً',tr:'Le temps était beau',l:'l-ra',lt:'اسم كانَ'}]}},
+  {id:'jar',cat:'ho',catL:'7ourouf',ar:'حُرُوفُ الجَرّ',ti:'حروف الجر — Prépositions',de:'Les 12 prépositions arabes et leur effet',content:{def:'Les <b>7ourouf el jar</b> mettent le nom suivant au cas du jar (kasra ـِ). Elles sont indéclinables.',rules:[{ti:'Liste complète',de:'في (dans) — مِن (de/depuis) — إلى (vers) — على (sur) — عن (au sujet de) — بِ (avec/par) — لِ (pour/à) — كَ (comme) — مُنذُ (depuis) — حَتَّى (jusqu\'à) — رُبَّ (combien de) — وَ (serment)'}],examples:[{ar:'ذَهَبْتُ إلى المَدْرَسةِ',tr:'Je suis allé à l\'école',l:'l-ja',lt:'إلى + jar'},{ar:'الكِتَابُ عَلى الطَّاوِلةِ',tr:'Le livre est sur la table',l:'l-ja',lt:'على + jar'},{ar:'كَتَبْتُ بِالقَلَمِ',tr:'J\'ai écrit avec le stylo',l:'l-ja',lt:'بِ + jar'}]}},
+  {id:'jazm',cat:'i3',catL:'I3râb',ar:'الجَزْم',ti:'Le jazm — l\'apocopé',de:'Verbes au moudhari3 après لم، لا، إن…',content:{def:'Le <b>jazm</b> s\'applique uniquement aux verbes à l\'inaccompli (مضارع). Marqué par le sukun ـْ ou la suppression de la lettre faible.',rules:[{ti:'Jawâzim (أدوات الجزم)',de:'لَمْ — لَمَّا — لَا الناهية — إن — مَن / ما / مَتى (conditionnels)'},{ti:'Double jazm',de:'إن تَدْرُسْ تَنْجَحْ → les deux verbes au jazm'}],examples:[{ar:'لَمْ يَذْهَبْ',tr:'Il n\'est pas allé',l:'l-jz',lt:'لم + jazm'},{ar:'لَا تَكْذِبْ',tr:'Ne mens pas !',l:'l-jz',lt:'نهي'},{ar:'إنْ تَجْتَهِدْ تَنْجَحْ',tr:'Si tu travailles tu réussiras',l:'l-jz',lt:'condition'}]}},
+  {id:'idafa',cat:'na',catL:'Nah7w',ar:'الإضافة',ti:'الإضافة — Construction d\'annexion',de:'Relier deux noms : "le livre de l\'étudiant"',content:{def:'L\'<b>idafa</b> (إضافة) lie deux noms. Le مضاف perd le tanwin et al (ال), le مضاف إليه se met au jar.',rules:[{ti:'Règles essentielles',de:'1. مضاف : ni ال ni tanwin\n2. مضاف إليه : toujours au jar\n3. Adjectif : accord avec le مضاف إليه en définition\n4. Idafa triple possible : مَدِينَةُ رَسُولِ اللهِ'},{ti:'Types',de:'Haqiqiyya (réelle) : possession réelle\nMajaziyya (figurée) : رَجُلُ حَرْبٍ = un homme de guerre'}],examples:[{ar:'كِتَابُ الطَّالِبِ',tr:'Le livre de l\'étudiant',l:'l-ja',lt:'idafa simple'},{ar:'بَابُ البَيْتِ الكَبِيرِ',tr:'La porte de la grande maison',l:'l-ja',lt:'adj. suit مضاف إليه'},{ar:'مَدِينَةُ رَسُولِ اللهِ',tr:'La ville du messager de Dieu',l:'l-ja',lt:'idafa triple'}]}},
+  {id:'3illa',cat:'sa',catL:'Sarf',ar:'حُرُوفُ العِلَّة',ti:'حروف العلة — Lettres faibles',de:'ا، و، ي — sources d\'irrégularités',content:{def:'Les <b>7ourouf el 3illa</b> sont les trois lettres faibles ا، و، ي. Les verbes qui les contiennent subissent des modifications à la conjugaison.',rules:[{ti:'Types de verbes défectueux',de:'مثال : و/ي en 1ère radicale (وَجَدَ)\nأجوف : و/ي en 2ème radicale (قَالَ، بَاعَ)\nناقص : و/ي en 3ème radicale (دَعَا، مَشَى)\nلفيف : deux lettres faibles (وَقَى)'},{ti:'Transformations fréquentes',de:'Jazm des أجوف : suppression de la radicale centrale (يَقُولُ → يَقُلْ)\nNasb/jazm des ناقص : suppression de la finale faible'}],examples:[{ar:'وَجَدَ / يَجِدُ',tr:'Trouver — le و tombe au مضارع',l:'l-ra',lt:'مثال'},{ar:'قَالَ / يَقُولُ',tr:'Dire — أجوف',l:'l-ra',lt:'أجوف'},{ar:'دَعَا / يَدْعُو',tr:'Appeler — ناقص',l:'l-ra',lt:'ناقص'}]}},
+  {id:'kana',cat:'na',catL:'Nah7w',ar:'كَانَ وَأَخَوَاتُهَا',ti:'كانَ et ses sœurs',de:'Verbes copules : اسم au raf3, خبر au nasb',content:{def:'<b>كانَ وَأَخَوَاتُهَا</b> modifient la phrase nominale : leur اسم reste au raf3, leur خبر passe au nasb.',rules:[{ti:'Les sœurs de كانَ',de:'كَانَ (était) — أَصْبَحَ (devenu matin) — أَمْسَى (devenu soir) — بَاتَ (passé la nuit) — ظَلَّ (resté) — صَارَ (devenu) — لَيْسَ (n\'est pas)'},{ti:'Structure',de:'كانَ + اسمها (raf3) + خبرها (nasb)'}],examples:[{ar:'كَانَ الجَوُّ بَارِداً',tr:'Le temps était froid',l:'l-na',lt:'كانَ'},{ar:'لَيْسَ الكَسَلُ مُفِيداً',tr:'La paresse n\'est pas utile',l:'l-na',lt:'لَيْسَ'},{ar:'صَارَ الطِّفْلُ طَبِيباً',tr:'L\'enfant est devenu médecin',l:'l-na',lt:'صَارَ'}]}},
+  {id:'inna',cat:'na',catL:'Nah7w',ar:'إنَّ وَأَخَوَاتُهَا',ti:'إنَّ et ses sœurs',de:'Particules nasibah : اسم au nasb, خبر au raf3',content:{def:'<b>إنَّ وَأَخَوَاتُهَا</b> inversent les cas : elles mettent leur اسم au <b>nasb</b> et laissent leur خبر au raf3.',rules:[{ti:'Les 6 sœurs',de:'إنَّ (certes) — أنَّ (que) — كأنَّ (comme si) — لكنَّ (mais) — لَيْتَ (si seulement) — لَعَلَّ (peut-être)'}],examples:[{ar:'إنَّ العِلْمَ نُورٌ',tr:'Certes, le savoir est lumière',l:'l-na',lt:'اسم إنَّ nasb'},{ar:'لَيْتَ الشَّبَابَ يَعُودُ',tr:'Si seulement la jeunesse revenait !',l:'l-na',lt:'لَيْتَ'},{ar:'كأنَّهُ أَسَدٌ',tr:'Il est comme un lion',l:'l-na',lt:'كأنَّ'}]}},
+  {id:'dham',cat:'na',catL:'Nah7w',ar:'الذَّمّ',ti:'المدح والذم — Éloge et blâme',de:'نِعْمَ، بِئْسَ، سَاءَ',content:{def:'Formules figées d\'éloge (مدح) et de blâme (ذم). Structure : verbe + agent au raf3 + مخصوص.',rules:[{ti:'Éloge',de:'نِعْمَ (quel bon…) — حَبَّذَا (quelle merveille !)'},{ti:'Blâme',de:'بِئْسَ (quel mauvais…) — سَاءَ (il est mauvais que) — لَا حَبَّذَا'}],examples:[{ar:'نِعْمَ المُعَلِّمُ',tr:'Quel bon professeur !',l:'l-ra',lt:'مدح'},{ar:'بِئْسَ الكَسُولُ',tr:'Quel mauvais paresseux !',l:'l-jz',lt:'ذم'},{ar:'سَاءَ مَا يَفْعَلُونَ',tr:'Ce qu\'ils font est mauvais',l:'l-jz',lt:'ذم'}]}},
+  {id:'tamyiz',cat:'na',catL:'Nah7w',ar:'التَّمْيِيز',ti:'التمييز — Le complément distinctif',de:'Préciser une quantité ou un état ambigu',content:{def:'Le <b>tamyiz</b> est un nom au nasb qui lève l\'ambiguïté d\'un nombre, d\'une mesure ou d\'un état.',rules:[{ti:'Types',de:'Tamyiz de nombre : après 11–99 (عِشْرُونَ كِتَاباً)\nTamyiz de phrase : أَنَا أَكْثَرُ مِنْكَ مَالاً'}],examples:[{ar:'عِشْرُونَ طَالِباً',tr:'Vingt étudiants',l:'l-na',lt:'تمييز de nombre'},{ar:'اشْتَرَيْتُ رِطْلاً زَيْتاً',tr:'J\'ai acheté une livre d\'huile',l:'l-na',lt:'تمييز de mesure'}]}},
+  {id:'munada',cat:'na',catL:'Nah7w',ar:'المُنَادَى',ti:'المنادى — Le vocatif',de:"Appeler quelqu'un : يَا زَيْدُ، يَا طَالِبَ العِلْمِ",content:{def:"Le <b>munada</b> est le nom appelé après une particule de vocatif. La plus courante est <b>يَا</b>. Son cas dépend de son type.",rules:[{ti:'Particules du vocatif',de:"يَا — أَيَا — هَيَا — أَيْ — الهمزة (proche)"},{ti:'5 types et leurs cas',de:"1. مفرد علم (nom propre) → mabnî sur raf3 : يَا زَيْدُ\n2. نكرة مقصودة (indéfini visé) → mabnî sur raf3 : يَا رَجُلُ\n3. نكرة غير مقصودة → nasb : يَا رَجُلاً\n4. مضاف → nasb : يَا طَالِبَ العِلْمِ\n5. شبيه بالمضاف → nasb : يَا طَالِباً عِلْماً"},{ti:'Formule coranique',de:"يَا أَيُّهَا النَّاسُ → أَيُّ mabnî sur raf3, النَّاسُ = نعت au raf3"}],examples:[{ar:'يَا زَيْدُ أَقْبِلْ',tr:"Ô Zayd, viens !",l:'l-ra',lt:'مفرد علم'},{ar:'يَا طَالِبَ العِلْمِ',tr:"Ô chercheur de savoir",l:'l-na',lt:'مضاف — nasb'},{ar:'يَا أَيُّهَا النَّاسُ',tr:"Ô vous les gens",l:'l-ra',lt:'formule coranique'}]}},
+  {id:'maf3ul-mutlaq',cat:'na',catL:'Nah7w',ar:'المَفْعُول المُطْلَق',ti:'المفعول المطلق — COD absolu',de:'Renforcer ou préciser une action par son masdar',content:{def:"Le <b>maf3ul mutlaq</b> est un masdar au nasb, de même racine que le verbe. Il renforce (توكيد) ou précise le type de l'action.",rules:[{ti:'Renforcement — توكيد',de:"Même racine, sans adjectif : ضَرَبْتُهُ ضَرْباً = je l'ai vraiment frappé"},{ti:'Type/manière — نوع',de:"Avec adjectif : ضَرَبْتُهُ ضَرْباً شَدِيداً = violemment"},{ti:'Substitution',de:"Le masdar peut remplacer le verbe : إِكْرَاماً لِلضَّيْفِ (sans verbe)"}],examples:[{ar:'ضَرَبْتُهُ ضَرْباً شَدِيداً',tr:"Je l'ai frappé violemment",l:'l-na',lt:'نوع'},{ar:'سَجَدَ سُجُوداً',tr:"Il s'est vraiment prosterné",l:'l-na',lt:'توكيد'},{ar:'حَقًّا أَقُولُ',tr:'En vérité je dis',l:'l-na',lt:'masdar substitué'}]}},
+  {id:'maf3ul-liajlih',cat:'na',catL:'Nah7w',ar:'المَفْعُول لأَجْلِه',ti:'المفعول لأجله — Complément de cause',de:'Exprimer le but ou la raison : جِئْتُ طَلَبَ العِلْمِ',content:{def:"Le <b>maf3ul li-ajlihi</b> est un masdar au nasb répondant à la question : pourquoi ? Il doit partager le sujet et le temps du verbe.",rules:[{ti:'4 conditions requises',de:"1. Masdar (nom verbal)\n2. Même sujet que le verbe\n3. Même temps que l'action\n4. Exprime la cause ou le but"},{ti:'Avec ou sans لِ',de:"Sans li- : جِئْتُ طَلَبَ العِلْمِ\nAvec li- si conditions non remplies : جَاءَ لِطَلَبِ العِلْمِ"}],examples:[{ar:'جِئْتُ طَلَبَ العِلْمِ',tr:'Je suis venu pour chercher le savoir',l:'l-na',lt:'مفعول لأجله'},{ar:'قُمْتُ إِجْلَالاً لِلْأُسْتَاذِ',tr:'Je me suis levé par respect',l:'l-na',lt:'مفعول لأجله'},{ar:'يَبْكِي خَشْيَةً مِنَ اللهِ',tr:'Il pleure par crainte de Dieu',l:'l-na',lt:'مفعول لأجله'}]}},
+  {id:'maf3ul-fih',cat:'na',catL:'Nah7w',ar:'المَفْعُول فِيه',ti:'المفعول فيه — Circonstanciel',de:'Temps et lieu : ظرف الزمان والمكان',content:{def:"Le <b>maf3ul fih</b> (aussi : ظرف) est un nom au nasb indiquant le temps ou le lieu de l'action.",rules:[{ti:'ظرف الزمان — temps',de:"يَوْمَ، لَيْلَةَ، صَبَاحَ، حِينَ، عِنْدَ… → nasb\nEx : جِئْتُ يَوْمَ الجُمُعةِ"},{ti:'ظرف المكان — lieu',de:"فَوْقَ، تَحْتَ، أَمَامَ، وَرَاءَ، يَمِينَ، شِمَالَ… → nasb\nEx : جَلَسْتُ أَمَامَ البَيْتِ"},{ti:'ظروف invariables',de:"أَيْنَ، مَتَى، هُنَا، هُنَاكَ، أَمْسِ → mabnî"}],examples:[{ar:'جِئْتُ يَوْمَ الجُمُعةِ',tr:'Je suis venu le vendredi',l:'l-na',lt:'ظرف زمان'},{ar:'جَلَسَ أَمَامَ المَسْجِدِ',tr:"Il s'est assis devant la mosquée",l:'l-na',lt:'ظرف مكان'},{ar:'سَافَرْتُ صَبَاحاً',tr:"J'ai voyagé le matin",l:'l-na',lt:'ظرف زمان'}]}},
+  {id:'istithna',cat:'na',catL:'Nah7w',ar:'الاسْتِثْنَاء',ti:'الاستثناء — Exception',de:'إلاَّ، غيرَ، سِوى — sauf, excepté',content:{def:"L'<b>istithna</b> exclut un élément d'un ensemble. L'outil principal est <b>إلاَّ</b>. Le cas du مستثنى dépend du contexte.",rules:[{ti:'Phrase positive complète → nasb obligatoire',de:"جَاءَ الطُّلَّابُ إلاَّ زَيْداً (tous vinrent sauf Zayd)"},{ti:'Phrase négative complète → nasb ou badal',de:"مَا جَاءَ الطُّلَّابُ إلاَّ زَيْداً/زَيْدٌ (les deux cas acceptés)"},{ti:'Phrase incomplète → selon la fonction',de:"مَا جَاءَ إلاَّ زَيْدٌ (Zayd = فاعل → raf3)"},{ti:'غير وسوى',de:"Elles-mêmes au nasb, le nom qui suit est au jar"}],examples:[{ar:'جَاءَ الطُّلَّابُ إلاَّ زَيْداً',tr:'Les étudiants vinrent sauf Zayd',l:'l-na',lt:'positif — nasb'},{ar:'مَا جَاءَ إلاَّ زَيْدٌ',tr:'Personne ne vint sauf Zayd',l:'l-ra',lt:'incomplète — raf3'},{ar:'حَضَرَ الجَمِيعُ غَيْرَ طَالِبٍ',tr:'Tous étaient là sauf un étudiant',l:'l-na',lt:'غير'}]}},
+  {id:'tawabi3',cat:'na',catL:'Nah7w',ar:'التَّوَابِع',ti:'التوابع — Les suiveurs',de:'نعت، عطف، بدل، توكيد',content:{def:"Les <b>tawabi3</b> suivent leur référent en cas, genre, nombre et définition. 4 types fondamentaux.",rules:[{ti:'1. النعت — adjectif épithète',de:"Suit le nom en cas, genre, nombre, définition\nالرَّجُلُ الكَرِيمُ / رَجُلٌ كَرِيمٌ"},{ti:'2. العطف — coordination',de:"Suit le précédent en cas via : و، ف، ثم، أو، بل، لكن، حتى\nجَاءَ زَيْدٌ وَعَمْرٌو"},{ti:'3. البدل — apposition',de:"Remplace le premier en cas — 4 sous-types\nرَأَيْتُ زَيْداً أَخَاكَ (بدل كل)"},{ti:'4. التوكيد — confirmation',de:"Renforce — لفظي (répétition) ou معنوي (نَفْسُهُ، عَيْنُهُ، كُلُّهُ)\nجَاءَ زَيْدٌ نَفْسُهُ"}],examples:[{ar:'جَاءَ الرَّجُلُ الكَرِيمُ',tr:"L'homme généreux est venu",l:'l-ra',lt:'نعت'},{ar:'رَأَيْتُ زَيْداً أَخَاكَ',tr:"J'ai vu Zayd, ton frère",l:'l-na',lt:'بدل'},{ar:'جَاءَ زَيْدٌ نَفْسُهُ',tr:'Zayd lui-même est venu',l:'l-ra',lt:'توكيد'}]}},
+  {id:'af3al-khamsa',cat:'i3',catL:'I3râb',ar:'الأَفْعَالُ الخَمْسَة',ti:'الأفعال الخمسة — Les cinq verbes',de:'يَفْعَلانِ، يَفْعَلُونَ… — i3râb par lettres',content:{def:"Les <b>af3al khamsa</b> sont 5 formes du مضارع qui ont un i3râb spécial : au lieu de voyelles, elles se déclinent par <b>ajout ou suppression du نون</b>.",rules:[{ti:'Les 5 formes',de:"يَفْعَلانِ (2 masc.) — تَفْعَلانِ (2 fém. ou masc.) — يَفْعَلُونَ (pl. masc.) — تَفْعَلُونَ (2ème pl. masc.) — تَفْعَلِينَ (2ème fém. sing.)"},{ti:'I3râb',de:"Raf3 → نون présent : يَفْعَلانِ / يَفْعَلُونَ\nNasb & Jazm → نون supprimé : لَنْ يَفْعَلا / لَمْ يَفْعَلُوا"},{ti:'Mémo',de:"Raf3 = نون présent (ثبوت النون)\nNasb/Jazm = نون supprimé (حذف النون)"}],examples:[{ar:'يَذْهَبَانِ إلى المَدْرَسةِ',tr:'Ils deux vont à l\'école',l:'l-ra',lt:'raf3 — نون présent'},{ar:'لَنْ يَذْهَبَا',tr:'Ils deux n\'iront pas',l:'l-na',lt:'nasb — نون supprimé'},{ar:'لَمْ يَذْهَبُوا',tr:'Ils ne sont pas allés',l:'l-jz',lt:'jazm — نون supprimé'}]}},
+  {id:'mamnu3',cat:'i3',catL:'I3râb',ar:'المَمْنُوعُ مِنَ الصَّرْف',ti:'الممنوع من الصرف — Indéclinable',de:'Noms sans tanwin ni kasra : أحمد، مساجد، حمراء…',content:{def:"Le <b>mamnû3 min al-sarf</b> est un nom qui refuse le tanwin et remplace la kasra par une fatha au jar. Il répond à des critères précis.",rules:[{ti:'2 causes suffisantes (علتان)',de:"Un nom est ممنوع s'il a 2 causes parmi :\n• Être un nom propre étranger (إبراهيم، يوسف)\n• Être sur le schème أَفْعَل (أَحْمَد، أَكْبَر)\n• Être un pluriel brisé sur مَفَاعِل/مَفَاعِيل (مَسَاجِد، مَدَارِس)\n• Être un adjectif féminin en ـاء (حَمْرَاء، بَيْضَاء)\n• Être composé de plus de 3 syllabes se terminant par ـان (عُثْمَان)"},{ti:'Au jar : fatha au lieu de kasra',de:"ذَهَبْتُ إلى مَسَاجِدَ (non : مَسَاجِدِ)\nمَرَرْتُ بِأَحْمَدَ (non : بِأَحْمَدِ)"},{ti:'Exception : avec ال ou idafa → kasra normale',de:"المَسَاجِدِ (avec ال) / مَسَاجِدِ المَدِينةِ (idafa) → kasra revient"}],examples:[{ar:'ذَهَبْتُ إلى مَسَاجِدَ',tr:'Je suis allé vers des mosquées',l:'l-na',lt:'jar = fatha (ممنوع)'},{ar:'مَرَرْتُ بِأَحْمَدَ',tr:'Je suis passé par Ahmad',l:'l-na',lt:'nom propre ممنوع'},{ar:'الحَدِيقَةُ حَمْرَاءُ',tr:'Le jardin est rouge',l:'l-ra',lt:'raf3 sans tanwin'}]}},
+  {id:'asma-khamsa',cat:'i3',catL:'I3râb',ar:'الأَسْمَاءُ الخَمْسَة',ti:'الأسماء الخمسة — Les cinq noms',de:'أَبٌ، أَخٌ، حَمٌ، فُوهُ، ذُو — i3râb par lettres longues',content:{def:"Les <b>asmâ khamsa</b> sont 5 noms qui se déclinent non par voyelles mais par <b>lettres longues</b> : و (raf3), ا (nasb), ي (jar).",rules:[{ti:'Les 5 noms',de:"أَبٌ (père) — أَخٌ (frère) — حَمٌ (beau-père) — فَمٌ (bouche, forme فُو) — ذُو (possesseur de)"},{ti:'Déclinaison',de:"Raf3 → و : جَاءَ أَبُوهُ\nNasb → ا : رَأَيْتُ أَبَاهُ\nJar → ي : مَرَرْتُ بِأَبِيهِ"},{ti:'Conditions',de:"Doit être مضاف (annexé) à un pronom ou nom\nSans idafa : forme normale avec voyelles (أَبٌ/أَبٍ/أَباً)"}],examples:[{ar:'جَاءَ أَبُوهُ',tr:'Son père est venu',l:'l-ra',lt:'raf3 — و'},{ar:'رَأَيْتُ أَبَاهُ',tr:"J'ai vu son père",l:'l-na',lt:'nasb — ا'},{ar:'ذُو عِلْمٍ',tr:'Celui qui possède le savoir',l:'l-ra',lt:'ذو — raf3'}]}},
+  {id:'la-nafiya',cat:'na',catL:'Nah7w',ar:'لَا النَّافِيَة لِلْجِنْس',ti:'لا النافية للجنس — Négation de genre',de:'لَا طَالِبَ مُهْمِلٌ — nier toute une catégorie',content:{def:"<b>لا النافية للجنس</b> nie une catégorie entière. Similaire à إنَّ : son اسم au nasb, son خبر au raf3. Très utilisée en arabe classique et coranique.",rules:[{ti:'Structure',de:"لا + اسمها (nasb) + خبرها (raf3)\nلا طَالِبَ مُهْمِلٌ = il n'existe aucun étudiant négligent"},{ti:'Types de l\'اسم',de:"Singulier ou pluriel brisé → nasb sans tanwin : لا رَجُلَ\nDoubler si répété : لا رَجُلَ وَلا امْرَأةَ"},{ti:'Différence avec لا العاطفة',de:"لا النافية للجنس nie la catégorie entière\nلا العاطفة (conjonction) : جَاءَ زَيْدٌ لا عَمْرٌو"}],examples:[{ar:'لا إلهَ إلاَّ اللهُ',tr:"Il n'existe de dieu qu'Allah",l:'l-na',lt:'formule coranique'},{ar:'لا طَالِبَ مُهْمِلٌ فِي الفَصْلِ',tr:"Il n'y a aucun étudiant négligent dans la classe",l:'l-na',lt:'لا النافية للجنس'},{ar:'لا حَوْلَ وَلا قُوَّةَ إلاَّ بِاللهِ',tr:'Nulle force ni puissance sinon en Dieu',l:'l-na',lt:'formule classique'}]}},
+  {id:'i3rab-taqdiri',cat:'i3',catL:'I3râb',ar:'الإعْرَابُ التَّقْدِيرِي',ti:'الإعراب التقديري والمحلي',de:'I3râb sous-entendu (lettres faibles) et positionnel',content:{def:"Deux types d'i3râb particuliers : <b>تقديري</b> (sous-entendu, non visible) et <b>محلي</b> (positionnel, pour les indéclinables).",rules:[{ti:'الإعراب التقديري — sous-entendu',de:"Sur les lettres faibles, la voyelle est cachée :\n• Alif : مُوسَى — raf3 taqdiryy (impossible de mettre ـُ sur alif)\n• Waw finale : يَدْعُو — raf3 taqdiryy\n• Ya finale : القَاضِي — raf3 taqdiryy\nFormule : مرفوع بضمة مقدرة على الألف / الواو / الياء"},{ti:'الإعراب المحلي — positionnel',de:"Pour les indéclinables (مبني) en position syntaxique :\n• الضمائر : هُوَ في محل رفع فاعل\n• الجمل : في محل رفع خبر\n• الأسماء الموصولة : الَّذِي في محل نصب مفعول به"}],examples:[{ar:'جَاءَ مُوسَى',tr:'Moïse est venu',l:'l-ra',lt:'مرفوع بضمة مقدرة على الألف'},{ar:'رَأَيْتُ القَاضِيَ',tr:"J'ai vu le juge",l:'l-na',lt:'منصوب بفتحة ظاهرة (ya acceptable)'},{ar:'هُوَ يَكْتُبُ',tr:'Il écrit',l:'l-ra',lt:'هو — محل رفع مبتدأ'}]}},
+  {id:'awzan',cat:'sa',catL:'Sarf',ar:'أَوْزَانُ الفِعْل',ti:'أوزان الفعل الثلاثي — Les 6 schèmes de base',de:'فَعَلَ، فَعِلَ، فَعُلَ… et leurs masdar',content:{def:"Les verbes trilittères nus ont <b>6 schèmes</b> (أوزان) à l'accompli, et leurs masdar (noms verbaux) sont imprévisibles — il faut les apprendre par cœur.",rules:[{ti:'Les 6 schèmes du passé',de:"1. فَعَلَ → يَفْعُلُ (ex: كَتَبَ/يَكْتُبُ — écrire)\n2. فَعَلَ → يَفْعِلُ (ex: جَلَسَ/يَجْلِسُ — s'asseoir)\n3. فَعَلَ → يَفْعَلُ (ex: فَتَحَ/يَفْتَحُ — ouvrir)\n4. فَعِلَ → يَفْعَلُ (ex: عَلِمَ/يَعْلَمُ — savoir)\n5. فَعُلَ → يَفْعُلُ (ex: كَرُمَ/يَكْرُمُ — être généreux)\n6. فَعِلَ → يَفْعِلُ (rare : حَسِبَ/يَحْسِبُ — penser)"},{ti:'Masdar — nom verbal',de:"Chaque schème a ses masdar courants :\nفَعَلَ/يَفْعُلُ → فُعُول (كُتُوب، جُلُوس)\nفَعَلَ/يَفْعِلُ → فَعْل (ضَرْب، فَهْم)\nفَعُلَ → فَعَالَة (كَرَامَة، شَجَاعَة)\nLe masdar de forme I reste imprévisible — mémorisation indispensable"}],examples:[{ar:'كَتَبَ / يَكْتُبُ / كِتَابَة',tr:'Écrire — schème I (فَعَلَ/يَفْعُلُ)',l:'l-ra',lt:'وزن I'},{ar:'عَلِمَ / يَعْلَمُ / عِلْم',tr:'Savoir — schème IV (فَعِلَ/يَفْعَلُ)',l:'l-ra',lt:'وزن IV'},{ar:'كَرُمَ / يَكْرُمُ / كَرَم',tr:'Être généreux — schème V (فَعُلَ/يَفْعُلُ)',l:'l-ra',lt:'وزن V'}]}},
+  {id:'mazid',cat:'sa',catL:'Sarf',ar:'الفِعْلُ المَزِيد',ti:'الفعل المزيد — Formes dérivées II à X',de:'Sens dérivés : causatif, réflexif, quérir, réciprocité…',content:{def:"En ajoutant des lettres au trilitère nu (الفعل المجرد), on obtient des <b>formes dérivées</b> (مزيد) aux sens prévisibles. Les plus courantes sont II, III, IV, V, VI, VII, VIII, X.",rules:[{ti:'Forme II — فَعَّلَ',de:"Sens : intensif ou causatif\nعَلَّمَ = enseigner (causatif de عَلِمَ)\nكَسَّرَ = briser en morceaux (intensif)\nMasdar : تَفْعِيل (تَعْلِيم، تَكْسِير)"},{ti:'Forme III — فَاعَلَ',de:"Sens : action réciproque\nكَاتَبَ = s'écrire avec (réciprocité de كَتَبَ)\nقَاتَلَ = combattre (se battre avec)\nMasdar : مُفَاعَلَة / فِعَال (مُكَاتَبَة، قِتَال)"},{ti:'Forme IV — أَفْعَلَ',de:"Sens : causatif\nأَخْرَجَ = faire sortir (causatif de خَرَجَ)\nأَسْلَمَ = se soumettre → embrasser l'Islam\nMasdar : إِفْعَال (إِخْرَاج، إِسْلَام)"},{ti:'Forme V — تَفَعَّلَ',de:"Sens : réflexif de II\nتَعَلَّمَ = s'apprendre, apprendre (réfl. de عَلَّمَ)\nتَكَسَّرَ = se briser (réfl. de كَسَّرَ)\nMasdar : تَفَعُّل (تَعَلُّم، تَكَسُّر)"},{ti:'Forme VII — انْفَعَلَ',de:"Sens : passif ou réflexif intransitif\nانْكَسَرَ = se briser / avoir été brisé\nانْطَلَقَ = partir, se lancer\nMasdar : اِنْفِعَال (اِنْكِسَار، اِنْطِلَاق)"},{ti:'Forme X — اسْتَفْعَلَ',de:"Sens : quérir, demander, estimer\nاسْتَغْفَرَ = demander pardon\nاسْتَخْرَجَ = extraire (chercher à faire sortir)\nMasdar : اِسْتِفْعَال (اِسْتِغْفَار، اِسْتِخْرَاج)"}],examples:[{ar:'عَلَّمَ / تَعَلَّمَ',tr:'Enseigner (II) / Apprendre (V)',l:'l-ra',lt:'II ↔ V réflexif'},{ar:'كَسَرَ / انْكَسَرَ',tr:'Briser (I) / Se briser (VII)',l:'l-ra',lt:'I ↔ VII passif'},{ar:'غَفَرَ / اسْتَغْفَرَ',tr:'Pardonner (I) / Demander pardon (X)',l:'l-ra',lt:'I ↔ X quérir'}]}},
+  {id:'ism-fail',cat:'sa',catL:'Sarf',ar:'اسْمُ الفَاعِل وَاسْمُ المَفْعُول',ti:'اسم الفاعل والمفعول — Participes',de:'فَاعِل (actif) et مَفْعُول (passif) selon la forme',content:{def:"Les <b>participes</b> dérivent du verbe selon la forme. Ils s'accordent en genre et en nombre, et peuvent fonctionner comme adjectif ou nom.",rules:[{ti:'Forme I — schème fixe',de:"اسم الفاعل → فَاعِل : كَاتِب (écrivant/écrivain)\nاسم المفعول → مَفْعُول : مَكْتُوب (écrit)"},{ti:'Formes II–X — schème régulier',de:"اسم الفاعل → مُفَعِّل / مُفَاعِل / مُفْعِل…\nاسم المفعول → مُفَعَّل / مُفَاعَل / مُفْعَل…\nRègle simple : مُ en préfixe + kasra avant-dernière syllabe (فاعل) ou fatha (مفعول)"},{ti:'Accord',de:"Masc. sing. : كَاتِب / مَكْتُوب\nFém. sing. : كَاتِبَة / مَكْتُوبَة\nPl. sain masc. : كَاتِبُون / مَكْتُوبُون\nPl. brisé courant : كُتَّاب (pl. de كَاتِب)"}],examples:[{ar:'كَاتِب / مَكْتُوب',tr:'Écrivant — Écrit (forme I)',l:'l-ra',lt:'فاعل/مفعول I'},{ar:'مُعَلِّم / مُتَعَلِّم',tr:'Enseignant (II) — Apprenant (V)',l:'l-ra',lt:'مُفَعِّل / مُتَفَعِّل'},{ar:'مُسْتَغْفِر / مُسْتَغْفَر',tr:'Celui qui demande pardon — Celui à qui on demande pardon (X)',l:'l-ra',lt:'forme X'}]}},
+  {id:'mizan',cat:'sa',catL:'Sarf',ar:'المِيزَانُ الصَّرْفِي',ti:'الميزان الصرفي — La balance morphologique',de:'Analyser tout mot arabe : فَعَلَ، فَعْل، فَاعِل…',content:{def:"Le <b>mizan sarfi</b> (الميزان الصرفي) est l'outil fondamental de la morphologie arabe. Il permet d'analyser tout mot en le calquant sur le schème فَعَلَ (ف، ع، ل = les 3 radicales).",rules:[{ti:'Principe',de:"Les 3 lettres ف ع ل représentent les 3 radicales :\nكَتَبَ → فَعَلَ (ك=ف, ت=ع, ب=ل)\nكِتَاب → فِعَال (lettre supplémentaire ا = حرف زائد)"},{ti:'Lettres ajoutées (الحروف الزائدة)',de:"Mémo : سَأَلْتُمُونِيهَا (10 lettres pouvant être ajoutées)\nToute lettre hors ف-ع-ل est une lettre ajoutée (زائدة)"},{ti:'Utilité pratique',de:"Identifier la racine d'un mot inconnu\nDéterminer la forme (I–X) d'un verbe\nComprendre le sens à partir du schème\nEx : مُسْتَخْرَج → مُسْتَفْعَل → forme X passif → extrait"}],examples:[{ar:'كَتَبَ → فَعَلَ',tr:'Écrire — schème de base',l:'l-ra',lt:'ميزان I'},{ar:'كِتَاب → فِعَال',tr:'Livre — lettre ا ajoutée',l:'l-ra',lt:'ميزان avec زيادة'},{ar:'مُسْتَخْرَج → مُسْتَفْعَل',tr:'Extrait — forme X مفعول',l:'l-ra',lt:'ميزان X'}]}},
+  {id:'adad',cat:'na',catL:'Nah7w',ar:'العَدَدُ وَالمَعْدُود',ti:'العدد والمعدود — Les nombres',de:'L\'accord paradoxal : 3–10 inversent le genre',content:{def:"L\'accord des nombres en arabe est célèbre pour son <b>paradoxe</b> : les nombres 3–10 prennent le genre <b>opposé</b> au nom compté. À mémoriser absolument.",rules:[{ti:'1–2 : accord normal',de:"وَاحِدٌ / وَاحِدَةٌ — accord direct\nاثْنَانِ / اثْنَتَانِ — duel, accord direct"},{ti:'3–10 : genre inversé (المخالفة)',de:"ثَلَاثَةُ رِجَالٍ (رجال = masc. → ثلاثة avec ة)\nثَلَاثُ نِسَاءٍ (نساء = fém. → ثلاث sans ة)\nRègle : المعدود مذكر → العدد مؤنث، والعكس"},{ti:'11–12 : accord direct',de:"أَحَدَ عَشَرَ رَجُلاً / إِحْدَى عَشْرَةَ امْرَأةً\nLes deux parties s\'accordent avec le nom compté"},{ti:'13–19 : genre mixte',de:"صَدْرُه (unité) : genre inversé\nعَجُزُه (dizaine عَشَرَ) : genre direct\nثَلَاثَةَ عَشَرَ رَجُلاً / ثَلَاثَ عَشْرَةَ امْرَأةً"},{ti:'20–99 : accord direct, معدود au nasb singulier',de:"عِشْرُونَ كِتَاباً / خَمْسُونَ طَالِباً\nLe معدود est toujours singulier et au nasb (تمييز)"},{ti:'100, 1000 : masculin fixe',de:"مِئَةُ طَالِبٍ (مئة toujours fém., معدود au jar singulier)\nأَلْفُ كِتَابٍ (ألف toujours masc.)"}],examples:[{ar:'ثَلَاثَةُ رِجَالٍ',tr:'Trois hommes (masc. → ة)',l:'l-ra',lt:'3–10 paradoxe'},{ar:'ثَلَاثُ نِسَاءٍ',tr:'Trois femmes (fém. → sans ة)',l:'l-ra',lt:'3–10 paradoxe'},{ar:'عِشْرُونَ طَالِباً',tr:'Vingt étudiants',l:'l-na',lt:'20–99, تمييز au nasb'}]}},
+  {id:'ta3ajjub',cat:'na',catL:'Nah7w',ar:'أُسْلُوبُ التَّعَجُّب',ti:'أسلوب التعجب — L\'exclamation',de:'ما أَجْمَلَهُ ! — أَجْمِل بِهِ ! — deux formules fixes',content:{def:"L\'exclamation (التعجب) exprime l\'admiration ou l\'étonnement. Il existe <b>deux formules canoniques</b> en arabe classique, toutes deux dérivées d\'un adjectif ou d\'un verbe.",rules:[{ti:'Formule 1 : ما أَفْعَلَهُ',de:"ما = nom au raf3 (مبتدأ)\nأَفْعَلَ = verbe passé sur schème أَفْعَلَ (خبر)\nPronon suffixe = l\'objet admiré\nEx : مَا أَجْمَلَ السَّمَاءَ ! (Que le ciel est beau !)"},{ti:'Formule 2 : أَفْعِل بِ',de:"أَفْعِل = impératif sur schème أَفْعِل (en réalité : fعل ماضٍ mabnî)\nبِ = préposition — le nom suit au jar\nEx : أَجْمِل بِالسَّمَاءِ ! (Que le ciel est beau !)"},{ti:'Conditions sur le verbe source',de:"Le verbe doit être : ثلاثي (trilitère) — تصرف (conjuguable) — متصرف — pas de couleur/défaut\nPour les autres : on utilise ما أَشَدَّ + مصدر"},{ti:'I3râb de la formule 1',de:"مَا : مبتدأ mabnî sur sukun, في محل رفع\nأَجْمَلَ : فعل ماضٍ، فاعله ضمير مستتر هو\nالسَّمَاءَ : مفعول به — nasb"}],examples:[{ar:'مَا أَجْمَلَ السَّمَاءَ !',tr:'Que le ciel est beau !',l:'l-na',lt:'formule ما أَفْعَلَ'},{ar:'أَجْمِل بِالعِلْمِ !',tr:'Que le savoir est beau !',l:'l-jz',lt:'formule أَفْعِل بِ'},{ar:'مَا أَشَدَّ الحَرَّ !',tr:'Que la chaleur est intense !',l:'l-na',lt:'ما أَشَدَّ + nom'}]}},
+  {id:'jumla-types',cat:'na',catL:'Nah7w',ar:'الجُمْلَة الاسْمِيَّة وَالفِعْلِيَّة',ti:'الجملة الاسمية والفعلية — Types de phrases',de:'Phrase nominale vs verbale : ordre, sens, et تقديم وتأخير',content:{def:"L\'arabe distingue deux types de phrases fondamentaux : la <b>جملة اسمية</b> (commence par un nom) et la <b>جملة فعلية</b> (commence par un verbe). Ce choix affecte le sens et l\'i3râb.",rules:[{ti:'الجملة الاسمية — phrase nominale',de:"Commence par مبتدأ (raf3) + خبر (raf3)\nExprime un état, une propriété, une vérité générale\nالكِتَابُ مُفِيدٌ (Le livre est utile)"},{ti:'الجملة الفعلية — phrase verbale',de:"Commence par le verbe + فاعل (raf3) + مفعول به (nasb)\nExprime une action, un événement\nكَتَبَ الطَّالِبُ الدَّرْسَ"},{ti:'تقديم وتأخير — antéposition',de:"Avancer un élément = le mettre en relief\nإِيَّاكَ نَعْبُدُ (C\'est Toi que nous adorons) — مفعول avancé\nفِي البَيْتِ رَجُلٌ (Dans la maison il y a un homme) — خبر avancé"},{ti:'Accord du verbe en phrase verbale',de:"Si فاعل suit le verbe : accord en genre seulement (pas en nombre)\nكَتَبَ الطُّلَّابُ (et non : كَتَبُوا الطُّلَّابُ)\nSi فاعل précède : accord complet en genre ET nombre"},{ti:'الجملة الفعلية كخبر',de:"Le خبر peut être une phrase verbale entière :\nالطَّالِبُ يَكْتُبُ الدَّرْسَ\n(الطالب = مبتدأ, يكتب الدرس = جملة فعلية في محل رفع خبر)"}],examples:[{ar:'الكِتَابُ مُفِيدٌ',tr:'Le livre est utile',l:'l-ra',lt:'جملة اسمية'},{ar:'كَتَبَ الطَّالِبُ',tr:'L\'étudiant a écrit',l:'l-ra',lt:'جملة فعلية'},{ar:'إِيَّاكَ نَعْبُدُ',tr:'C\'est Toi que nous adorons',l:'l-na',lt:'تقديم المفعول'}]}},
+  {id:'mabni-mu3rab',cat:'i3',catL:'I3râb',ar:'المَبْنِي وَالمُعْرَب',ti:'المبني والمعرب — Déclinable vs invariable',de:'Ce qui change ses finales vs ce qui reste fixe',content:{def:"Tout mot arabe est soit <b>مُعْرَب</b> (déclinable — ses finales changent selon la fonction) soit <b>مَبْنِي</b> (invariable — sa finale est fixe quoi qu\'il arrive).",rules:[{ti:'المُعْرَب — déclinable',de:"La grande majorité des noms et adjectifs\nLes verbes مضارع (sauf s\'ils sont مبني)\nIl se décline en raf3 / nasb / jar (/ jazm pour les verbes)"},{ti:'المَبْنِي — invariable',de:"Tous les verbes ماضٍ et أمر\nTous les حروف (particules)\nLes pronoms (هو، هي، أنا…)\nLes noms invariables : الأسماء الموصولة (الذي، التي)، أسماء الإشارة (هذا، تلك)، أسماء الاستفهام (مَن، ما، أين…)"},{ti:'المضارع المبني — cas particuliers',de:"مضارع + نون التوكيد → مبني على الفتح : لَيَذْهَبَنَّ\nمضارع + نون النسوة → مبني على السكون : يَذْهَبْنَ\nAutrement → مُعْرَب"},{ti:'I3râb du مبني',de:"Le mot مبني a un i3râb محلي (positionnel)\nهو في محل رفع فاعل (هو est مبني mais occupe la position de فاعل)\nOn dit : مبني على الضم / الفتح / الكسر / السكون selon sa finale fixe"}],examples:[{ar:'هُوَ يَكْتُبُ',tr:'Il écrit',l:'l-ra',lt:'هو : مبني على الضم، في محل رفع مبتدأ'},{ar:'الَّذِي جَاءَ',tr:'Celui qui est venu',l:'l-ra',lt:'الذي : مبني على السكون'},{ar:'أَيْنَ الكِتَابُ ؟',tr:'Où est le livre ?',l:'l-ra',lt:'أين : مبني على الفتح'}]}},
+  {id:'madh-dham-complet',cat:'na',catL:'Nah7w',ar:'المَدْحُ وَالذَّمُّ الكَامِل',ti:'المدح والذم — Éloge et blâme complet',de:'نِعْمَ، بِئْسَ، حَبَّذَا، لا حَبَّذَا — structure complète',content:{def:"Les formules d\'éloge (مدح) et de blâme (ذم) sont des <b>verbes figés</b> à structure fixe. Elles comprennent un agent (المخصوص بالمدح/الذم) et une spécification (المخصوص).",rules:[{ti:'نِعْمَ وبِئْسَ — structure',de:"نِعْمَ/بِئْسَ + فاعل (raf3 défini ou ضمير) + المخصوص\n3 types de فاعل :\n1. اسم معرفة : نِعْمَ الرَّجُلُ زَيْدٌ\n2. نكرة مجرورة بمن : نِعْمَ مِنْ رَجُلٍ زَيْدٌ\n3. ضمير مستتر + تمييز : نِعْمَ رَجُلاً زَيْدٌ"},{ti:'المخصوص بالمدح/الذم — i3râb',de:"Le مخصوص peut être :\n• مبتدأ (خبره جملة نِعْمَ قبله) : زَيْدٌ مرفوع\n• خبر لمبتدأ محذوف : هو زَيْدٌ\nLes deux analyses sont acceptées"},{ti:'حَبَّذَا ولا حَبَّذَا',de:"حَبَّ = فعل ماضٍ، ذَا = فاعل (اسم إشارة)\nالمخصوص يلي directement : حَبَّذَا العِلْمُ !\nNégation : لا حَبَّذَا الكَسَلُ !"},{ti:'سَاءَ — blâme fort',de:"Même structure que بِئْسَ\nسَاءَ مَثَلاً الَّذِينَ كَذَّبُوا (Coran)\nMخصوص peut être une proposition"}],examples:[{ar:'نِعْمَ المُعَلِّمُ زَيْدٌ',tr:'Quel bon professeur que Zayd !',l:'l-ra',lt:'نعم — فاعل défini'},{ar:'بِئْسَ رَجُلاً الكَذَّابُ',tr:'Quel mauvais homme que le menteur !',l:'l-ra',lt:'بئس — تمييز'},{ar:'حَبَّذَا العِلْمُ',tr:'Quelle merveille que le savoir !',l:'l-ra',lt:'حبذا'},{ar:'لا حَبَّذَا الكَسَلُ',tr:'Que la paresse est détestable !',l:'l-ra',lt:'لا حبذا'}]}},
+  {id:'maf3ul-ma3ah',cat:'na',catL:'Nah7w',ar:'المَفْعُول مَعَه',ti:'المفعول معه — Complément d\'accompagnement',de:'واو المعية : سِرْتُ والنَّهْرَ',content:{def:"Le <b>مفعول معه</b> est un nom au nasb introduit par واو المعية (le و d\'accompagnement). Il indique ce qui accompagne l\'action, sans être coordonné au sujet.",rules:[{ti:'Définition de واو المعية',de:"Le و ici ne coordonne pas (≠ عطف) — il signifie \"en même temps que\", \"avec\"\nEx : سِرْتُ والنَّهْرَ = je marchais le long du fleuve (avec le fleuve)"},{ti:'I3râb',de:"Le nom après واو المعية = مفعول معه → nasb\nسِرْتُ والنَّهْرَ : النَّهْرَ = منصوب على المعية"},{ti:'Distinction avec العطف',de:"عطف : جَاءَ زَيْدٌ وَعَمْرٌو (Zayd ET Amr sont venus — les deux sujets)\nمعية : جِئْتُ وَطُلُوعَ الشَّمْسِ (je suis venu avec le lever du soleil — pas de coordination)"},{ti:'Condition',de:"Le مفعول معه doit être précédé d\'une action. On ne peut pas commencer une phrase par واو المعية."}],examples:[{ar:'سِرْتُ والنَّهْرَ',tr:'Je marchais le long du fleuve',l:'l-na',lt:'مفعول معه'},{ar:'جِئْتُ وَطُلُوعَ الشَّمْسِ',tr:'Je suis venu avec le lever du soleil',l:'l-na',lt:'مفعول معه — temps'},{ar:'اجْتَهَدْتُ وَالاِمْتِحَانَ',tr:'J\'ai travaillé dur à l\'approche de l\'examen',l:'l-na',lt:'مفعول معه'}]}},
+  {id:'af3al-muqaraba',cat:'na',catL:'Nah7w',ar:'أَفْعَالُ المُقَارَبَة',ti:'أفعال المقاربة والرجاء والشروع — Verbes d\'imminence',de:'كَادَ، عَسَى، أَخَذَ، جَعَلَ… — structure et i3râb',content:{def:"Ces verbes, dits <b>أفعال المقاربة والرجاء والشروع</b>, fonctionnent comme كانَ (ناسخة) : leur اسم au raf3 et leur خبر est une proposition verbale au مضارع.",rules:[{ti:'Groupe 1 — المقاربة (imminence)',de:"كَادَ / يَكَادُ : être sur le point de (le plus fréquent)\nأَوْشَكَ : être imminent\nكَرَبَ : être proche de\nخبرها : مضارع avec أن ou sans أن\nكَادَ يَسْقُطُ = il était sur le point de tomber"},{ti:'Groupe 2 — الرجاء (espoir)',de:"عَسَى : peut-être que, il se peut que (espoir ou crainte)\nحَرَى / اخْلَوْلَقَ : semblable à عسى\nخبرها : مضارع précédé de أَنْ obligatoirement\nعَسَى أَنْ يَنْجَحَ = peut-être qu\'il réussira"},{ti:'Groupe 3 — الشروع (commencement)',de:"أَخَذَ، جَعَلَ، شَرَعَ، بَدَأَ، أَنْشَأَ\nخبرها : مضارع sans أن\nأَخَذَ يَكْتُبُ = il se mit à écrire"},{ti:'I3râb de عسى',de:"عَسَى الطَّالِبُ أَنْ يَنْجَحَ\nالطالب = اسم عسى (raf3)\nأن ينجح = خبر عسى في محل نصب\nينجح = منصوب بأن"}],examples:[{ar:'كَادَ يَسْقُطُ',tr:'Il était sur le point de tomber',l:'l-ra',lt:'كاد — مقاربة'},{ar:'عَسَى أَنْ يَنْجَحَ',tr:'Peut-être qu\'il réussira',l:'l-na',lt:'عسى — رجاء'},{ar:'أَخَذَ يَكْتُبُ',tr:'Il se mit à écrire',l:'l-ra',lt:'أخذ — شروع'}]}},
+  {id:'khabar-insha',cat:'na',catL:'Nah7w',ar:'الخَبَرُ وَالإِنْشَاء',ti:'الأسلوب الخبري والإنشائي — Assertif vs Performatif',de:'Énoncer un fait vs accomplir un acte par la parole',content:{def:"Toute phrase arabe est soit <b>خَبَر</b> (assertive — on peut la qualifier de vraie ou fausse) soit <b>إِنْشَاء</b> (performative — l\'acte s\'accomplit en la prononçant).",rules:[{ti:'الأسلوب الخبري — assertif',de:"Exprime un fait, une information, une description\nPeut être vrai (صادق) ou faux (كاذب)\nEx : جَاءَ زَيْدٌ / الكِتَابُ مُفِيدٌ"},{ti:'الإنشاء الطلبي — performatif demandant',de:"Demande une réaction de l\'interlocuteur — 5 types :\n1. الأمر (impératif) : اكْتُبْ !\n2. النهي (interdiction) : لا تَكْذِبْ !\n3. الاستفهام (question) : هَلْ جَاءَ ؟\n4. التمني (souhait) : لَيْتَ الشَّبَابَ يَعُودُ\n5. النداء (appel) : يَا زَيْدُ !"},{ti:'الإنشاء غير الطلبي — performatif non-demandant',de:"Accomplit un acte sans demander de réponse :\nالمدح والذم : نِعْمَ الرَّجُلُ\nالتعجب : مَا أَجْمَلَهُ !\nالقسم (serment) : وَاللهِ لَأَفْعَلَنَّ\nالعقود (contrats) : بِعْتُكَ هَذِهِ الدَّارَ"},{ti:'Importance pratique',de:"Le نهي (لا + مضارع مجزوم) se distingue de لا النافية\nL\'استفهام peut avoir des sens détournés (إنكار، تعجب، تقرير)"}],examples:[{ar:'جَاءَ زَيْدٌ',tr:'Zayd est venu (vrai ou faux ?)',l:'l-ra',lt:'خبر — assertif'},{ar:'اكْتُبِ الدَّرْسَ !',tr:'Écris la leçon !',l:'l-jz',lt:'إنشاء طلبي — أمر'},{ar:'وَاللهِ لَأَجْتَهِدَنَّ',tr:'Par Dieu, je travaillerai dur !',l:'l-na',lt:'إنشاء — قسم'}]}},
+  {id:'qasam',cat:'na',catL:'Nah7w',ar:'أُسْلُوبُ القَسَم',ti:'أسلوب القسم — Le serment',de:'وَاللهِ، بِاللهِ، تَاللهِ — structure et جواب القسم',content:{def:"Le <b>serment</b> (قسم) est très fréquent en arabe classique et coranique. Il se compose de : أداة القسم + المقسم به (ce par quoi on jure) + جواب القسم.",rules:[{ti:'Outils du serment — حروف القسم',de:"وَ (le plus fréquent) : وَاللهِ = par Dieu\nبِ : بِاللهِ = je jure par Dieu\nتَ (uniquement avec الله) : تَاللهِ لَأَفْعَلَنَّ"},{ti:'جواب القسم — l\'apodose',de:"Si affirmative : لَ + مضارع مؤكد بنون\nوَاللهِ لَأَذْهَبَنَّ (Par Dieu j\'irai assurément)\nSi négative : لا ou لن ou ما\nوَاللهِ لا أَكْذِبُ (Par Dieu je ne mentirai pas)"},{ti:'I3râb du المقسم به',de:"Le nom après و/ب/ت est au jar (مجرور بحرف القسم)\nوَاللهِ : الله = مجرور بالواو"},{ti:'Lam التوكيد + نون التوكيد',de:"لَ + نون توكيد ثقيلة (ـنَّ) = توكيد double après قسم\nلَيَقُومَنَّ = il se lèvera assurément"}],examples:[{ar:'وَاللهِ لَأَجْتَهِدَنَّ',tr:'Par Dieu, je travaillerai assurément !',l:'l-na',lt:'قسم + لام + نون توكيد'},{ar:'تَاللهِ لَقَدْ آثَرَكَ اللهُ',tr:'Par Dieu, Dieu t\'a préféré',l:'l-ra',lt:'تاء القسم — coranique'},{ar:'بِاللهِ لا أَفْعَلُ',tr:'Par Dieu je ne ferai pas cela',l:'l-ra',lt:'جواب منفي'}]}},
+  {id:'hal-detail',cat:'na',catL:'Nah7w',ar:'الحَال المُفْرَدَة وَالجُمْلَة',ti:'الحال — Le complément de manière détaillé',de:'حال مفردة، جملة حالية، شبه جملة — nasb et conditions',content:{def:"La <b>حال</b> (complément de manière) répond à la question \"comment ?\" et décrit l\'état du صاحب الحال au moment de l\'action. Elle est toujours au nasb.",rules:[{ti:'الحال المفردة — adjectif seul',de:"Adjectif au nasb, nécéssairement نكرة (indéfini)\nجَاءَ زَيْدٌ رَاكِباً = Zayd est venu à cheval (راكباً = حال منصوب)\nAccord en genre/nombre avec صاحب الحال"},{ti:'الحال الجملة — proposition',de:"Phrase entière en حال — condition : صاحب الحال doit être défini (معرفة) ou verbe précédent\nجَاءَ زَيْدٌ وَهُوَ يَضْحَكُ = Zayd est venu en riant\nWaو الحالية (و qui introduit la حال جملة)"},{ti:'الحال شبه الجملة — semi-proposition',de:"Jar-majrur ou ظرف en حال\nجَاءَ زَيْدٌ عَلَى فَرَسٍ = Zayd est venu sur un cheval\nعلى فرس = شبه جملة في محل نصب حال"},{ti:'صاحب الحال — le référent',de:"Le nom dont la حال décrit l\'état — toujours معرفة (défini) sauf exception\nMostement le فاعل ou مفعول به"}],examples:[{ar:'جَاءَ زَيْدٌ رَاكِباً',tr:'Zayd est venu à cheval',l:'l-na',lt:'حال مفردة منصوبة'},{ar:'جَاءَ وَهُوَ يَضْحَكُ',tr:'Il est venu en riant',l:'l-ra',lt:'جملة حالية — واو الحال'},{ar:'دَخَلَ القَاعَةَ مُسْرِعاً',tr:'Il entra dans la salle en se pressant',l:'l-na',lt:'حال مفردة'}]}},
+  {id:'tawkid-detail',cat:'na',catL:'Nah7w',ar:'التَّوْكِيدُ اللَّفْظِي وَالمَعْنَوِي',ti:'التوكيد — Confirmation lexicale et sémantique',de:'توكيد لفظي (répétition) vs معنوي (نفسه، كله، كلاهما…)',content:{def:"Le <b>توكيد</b> renforce un mot précédent. Il suit son référent (المؤكَّد) en cas, genre et définition. Deux types : <b>لفظي</b> (répétition du mot) et <b>معنوي</b> (mots spéciaux).",rules:[{ti:'التوكيد اللفظي — répétition',de:"Répéter exactement le même mot ou une phrase équivalente\nجَاءَ جَاءَ زَيْدٌ = Zayd est vraiment venu\nنَعَمْ نَعَمْ، لا لا — renforcement de particule"},{ti:'التوكيد المعنوي — mots spéciaux',de:"نَفْسُهُ / عَيْنُهُ = lui-même (singulier)\nكِلَاهُمَا / كِلْتَاهُمَا = tous les deux (duel)\nكُلُّهُ / كُلُّهُمْ = tout entier / tous (pluriel)\nجَمِيعُهُمْ / أَجْمَعُونَ = tous sans exception"},{ti:'I3râb du توكيد معنوي',de:"Suit le مؤكَّد en cas ET se décline lui-même\nرَأَيْتُ الطُّلَّابَ كُلَّهُمْ : كلَّ = nasb (suit الطلاب), هم = pronom suffixe\nجَاءَ الرَّجُلُ نَفْسُهُ : نفسُ = raf3 (suit الرجل)"},{ti:'Accord de كلا/كلتا',de:"كِلَاهُمَا = raf3 (مرفوع بالألف comme مثنى)\nكِلَيْهِمَا = nasb/jar (منصوب/مجرور بالياء)\nكِلْتَاهُمَا = féminin duel raf3"}],examples:[{ar:'جَاءَ الرَّجُلُ نَفْسُهُ',tr:'L\'homme lui-même est venu',l:'l-ra',lt:'توكيد معنوي — نفسه'},{ar:'رَأَيْتُ الطُّلَّابَ كُلَّهُمْ',tr:'J\'ai vu tous les étudiants',l:'l-na',lt:'كلَّهم — nasb'},{ar:'جَاءَ الأُسْتَاذَانِ كِلَاهُمَا',tr:'Les deux professeurs sont venus',l:'l-ra',lt:'كلاهما — duel raf3'}]}},
+  {id:'ikhtisas',cat:'na',catL:'Nah7w',ar:'أُسْلُوبُ الاخْتِصَاص',ti:'أسلوب الاختصاص — La spécification',de:'أَنَا — المُسْلِمِينَ — أُحِبُّ الوَطَنَ : mise en relief du sujet',content:{def:"L\'<b>اختصاص</b> est une construction qui spécifie ou précise le sujet d\'une phrase. Elle insert un nom au nasb entre le pronom-sujet et le verbe, explicitant qui est visé.",rules:[{ti:'Structure',de:"ضمير (أنا/نحن) + اسم منصوب (spécification) + reste de la phrase\nأَنَا — الْمُسْلِمَ — أُحِبُّ وَطَنِي\n= Moi — en tant que musulman — j\'aime ma patrie"},{ti:'I3râb du nom en اختصاص',de:"منصوب على الاختصاص — مفعول به لفعل محذوف تقديره (أخص/أعني)\nTj précédé de أل ou اسم موصول"},{ti:'Différence avec المنادى',de:"المنادى : يَا + اسم → appel d\'une 2ème personne\nالاختصاص : après ضمير متكلم (أنا/نحن) → précision du locuteur lui-même"},{ti:'Exemples classiques',de:"نَحْنُ — الْعَرَبَ — نَكْرُمُ الضَّيْفَ\n= Nous — les Arabes — honorons l\'hôte\nFréquent dans la littérature et les discours"}],examples:[{ar:'أَنَا — الْمُسْلِمَ — أُحِبُّ العَدْلَ',tr:'Moi, en tant que musulman, j\'aime la justice',l:'l-na',lt:'اختصاص — منصوب'},{ar:'نَحْنُ — الْعَرَبَ — نَكْرُمُ الضَّيْفَ',tr:'Nous, les Arabes, honorons l\'hôte',l:'l-na',lt:'اختصاص — جمع'}]}},
+  {id:'nawasikh-recap',cat:'na',catL:'Nah7w',ar:'نَوَاسِخُ الجُمْلَة الاسْمِيَّة',ti:'نواسخ الجملة الاسمية — Récapitulatif complet',de:'كان، إن، ظن، كاد — tout ce qui modifie مبتدأ/خبر',content:{def:"Les <b>نواسخ</b> sont les éléments qui entrent sur la جملة اسمية et modifient le cas de ses composants. Il en existe 4 familles principales.",rules:[{ti:'1. كانَ وأخواتها — 13 verbes',de:"Entrent sur مبتدأ+خبر → اسمها raf3, خبرها nasb\nكَانَ، أَصْبَحَ، أَمْسَى، أَضْحَى، بَاتَ، ظَلَّ (verbes de temps)\nصَارَ (devenir), لَيْسَ (ne pas être)\nمَا زَالَ، مَا فَتِئَ، مَا انْفَكَّ، مَا بَرِحَ (continuation), مَا دَامَ (tant que)"},{ti:'2. إنَّ وأخواتها — 6 particules',de:"Entrent sur مبتدأ+خبر → اسمها nasb, خبرها raf3\nإِنَّ (certes), أَنَّ (que — subordonnée), كَأَنَّ (comme si)\nلَكِنَّ (mais), لَيْتَ (si seulement), لَعَلَّ (peut-être)"},{ti:'3. ظَنَّ وأخواتها — verbes de pensée',de:"Entrent sur مبتدأ+خبر → les deux au nasb (مفعولان)\nظَنَّ، حَسِبَ، خَالَ (penser/croire)\nعَلِمَ، وَجَدَ، رَأَى (savoir/trouver — sens mental)\nظَنَنْتُكَ صَادِقاً = je te croyais honnête"},{ti:'4. أفعال المقاربة والرجاء والشروع',de:"Entrent sur مبتدأ+خبر → اسمها raf3, خبرها مضارع (raf3 ou nasb)\nكَادَ، عَسَى، أَخَذَ — déjà vus\nToutes forment un système parallèle à كانَ mais avec خبر verbal"}],examples:[{ar:'كَانَ زَيْدٌ عَالِماً',tr:'Zayd était savant',l:'l-na',lt:'كان — اسم raf3, خبر nasb'},{ar:'إِنَّ زَيْداً عَالِمٌ',tr:'Certes Zayd est savant',l:'l-na',lt:'إن — اسم nasb, خبر raf3'},{ar:'ظَنَنْتُكَ صَادِقاً',tr:'Je te croyais honnête',l:'l-na',lt:'ظن — مفعولان nasb'}]}},
+  {id:'shart',cat:'na',catL:'Nah7w',ar:'أُسْلُوبُ الشَّرْط',ti:'أسلوب الشرط — La condition',de:'إن، إذا، لو، لولا — structures conditionnelles',content:{def:"La <b>proposition conditionnelle</b> se compose de : أداة الشرط + فعل الشرط (jazm) + جواب الشرط (jazm ou autre).",rules:[{ti:'إن — condition pure (jazm)',de:"إنْ تَدْرُسْ تَنْجَحْ → les deux verbes au jazm\nLa plus courante, neutre sur le temps"},{ti:'إذا — condition probable (raf3)',de:"إذا جَاءَ زَيْدٌ أَكْرَمْتُهُ → verbe au passé ou présent raf3\nUtilisée pour ce qui est probable"},{ti:'لَوْ — condition irréelle (passé)',de:"لَوْ دَرَسْتَ لَنَجَحْتَ → si tu avais étudié tu aurais réussi\nجواب الشرط avec لَ"},{ti:'لَوْلا — sans quoi (obstruction)',de:"لَوْلا العِلْمُ لَجَهِلَ النَّاسُ → sans le savoir, les gens seraient ignorants\nمبتدأ après لولا, خبر sous-entendu"}],examples:[{ar:'إنْ تَجْتَهِدْ تَنْجَحْ',tr:'Si tu travailles, tu réussiras',l:'l-jz',lt:'إن + jazm'},{ar:'لَوْ دَرَسْتَ لَنَجَحْتَ',tr:'Si tu avais étudié, tu aurais réussi',l:'l-jz',lt:'لو irréel'},{ar:'لَوْلا العِلْمُ لَجَهِلْنَا',tr:'Sans le savoir, nous serions ignorants',l:'l-ra',lt:'لولا'}]}},
+];
+
+const phrases=[
+  {ar:['كَتَبَ','الطَّالِبُ','الدَّرْسَ'],tr:'L\'étudiant a écrit la leçon.',i3rab:[{word:'كَتَبَ',cas:'Mabnî (invariable)',fonc:'فعل ماضٍ — Verbe au passé',note:'Verbe sain, 3ème pers. sing. masc. — passé invariable'},{word:'الطَّالِبُ',cas:'Raf3 — الرَّفْع',fonc:'فاعل — Sujet du verbe',note:'Damma ـُ car sujet du verbe actif (فاعل)'},{word:'الدَّرْسَ',cas:'Nasb — النَّصْب',fonc:'مفعول به — COD',note:'Fatha ـَ car complément d\'objet direct'}]},
+  {ar:['إنَّ','الكِتَابَ','مُفِيدٌ'],tr:'Certes, le livre est utile.',i3rab:[{word:'إنَّ',cas:'Mabnî — حرف ناسخ',fonc:'Particule nasibah',note:'Met son اسم au nasb, laisse le خبر au raf3'},{word:'الكِتَابَ',cas:'Nasb — النَّصْب',fonc:'اسم إنَّ',note:'Fatha ـَ car اسم إنَّ'},{word:'مُفِيدٌ',cas:'Raf3 — الرَّفْع',fonc:'خبر إنَّ',note:'Tanwin damma ـٌ car خبر de إنَّ'}]},
+  {ar:['ذَهَبَ','الوَلَدُ','إلى','المَدْرَسةِ'],tr:'Le garçon est allé à l\'école.',i3rab:[{word:'ذَهَبَ',cas:'Mabnî',fonc:'فعل ماضٍ',note:'Verbe au passé, 3ème pers. sing. masc.'},{word:'الوَلَدُ',cas:'Raf3 — الرَّفْع',fonc:'فاعل',note:'Damma ـُ car sujet'},{word:'إلى',cas:'Mabnî — حرف جر',fonc:'Préposition',note:'Met le nom suivant au jar'},{word:'المَدْرَسةِ',cas:'Jar — الجَرّ',fonc:'مجرور بـ إلى',note:'Kasra ـِ car après préposition إلى'}]},
+  {ar:['كَانَ','الجَوُّ','بَارِداً'],tr:'Le temps était froid.',i3rab:[{word:'كَانَ',cas:'Mabnî — فعل ناسخ',fonc:'Verbe copule',note:'Met son اسم au raf3, son خبر au nasb'},{word:'الجَوُّ',cas:'Raf3 — الرَّفْع',fonc:'اسم كانَ',note:'Damma ـُ car اسم كانَ'},{word:'بَارِداً',cas:'Nasb — النَّصْب',fonc:'خبر كانَ',note:'Fatha + tanwin ـً car خبر كانَ'}]},
+  {ar:['كِتَابُ','الطَّالِبِ','جَمِيلٌ'],tr:'Le livre de l\'étudiant est beau.',i3rab:[{word:'كِتَابُ',cas:'Raf3 — الرَّفْع',fonc:'مبتدأ + مضاف',note:'Damma ـُ car mubtada ; pas de tanwin car مضاف'},{word:'الطَّالِبِ',cas:'Jar — الجَرّ',fonc:'مضاف إليه',note:'Kasra ـِ car 2ème terme de l\'idafa, toujours au jar'},{word:'جَمِيلٌ',cas:'Raf3 — الرَّفْع',fonc:'خبر المبتدأ',note:'Tanwin damma ـٌ car خبر'}]},
+  {ar:['لَمْ','يَقُلْ','الحَقَّ'],tr:'Il n\'a pas dit la vérité.',i3rab:[{word:'لَمْ',cas:'Mabnî — حرف جازم',fonc:'Jawâzim — particule de négation',note:'Nie le passé, met le مضارع au jazm'},{word:'يَقُلْ',cas:'Jazm — الجَزْم',fonc:'فعل مضارع مجزوم',note:'Verbe أجوف (قَالَ) : suppression de la lettre faible centrale au jazm'},{word:'الحَقَّ',cas:'Nasb — النَّصْب',fonc:'مفعول به',note:'Fatha ـَ car COD'}]},
+  {ar:['يَا','طَالِبَ','العِلْمِ','اجْتَهِدْ'],tr:'Ô chercheur de savoir, travaille !',i3rab:[{word:'يَا',cas:'Mabnî — حرف نداء',fonc:'Particule de vocatif',note:'يَا = particule d\'appel, indéclinable'},{word:'طَالِبَ',cas:'Nasb — النَّصْب',fonc:'منادى مضاف',note:'Fatha ـَ car منادى مضاف — règle : tout منادى مضاف est au nasb'},{word:'العِلْمِ',cas:'Jar — الجَرّ',fonc:'مضاف إليه',note:'Kasra ـِ car 2ème terme de l\'idafa'},{word:'اجْتَهِدْ',cas:'Mabnî — فعل أمر',fonc:'Verbe à l\'impératif',note:'Mabnî sur le sukun — verbe de la phrase du vocatif'}]},
+  {ar:['جَاءَ','الطُّلَّابُ','إلاَّ','زَيْداً'],tr:'Les étudiants sont venus sauf Zayd.',i3rab:[{word:'جَاءَ',cas:'Mabnî',fonc:'فعل ماضٍ',note:'Verbe au passé, 3ème pers. sing.'},{word:'الطُّلَّابُ',cas:'Raf3 — الرَّفْع',fonc:'فاعل',note:'Damma ـُ car sujet — pluriel brisé'},{word:'إلاَّ',cas:'Mabnî — أداة استثناء',fonc:'Particule d\'exception',note:'Indéclinable — met le مستثنى au nasb dans une phrase positive complète'},{word:'زَيْداً',cas:'Nasb — النَّصْب',fonc:'مستثنى بإلاَّ',note:'Fatha ـَ + tanwin car مستثنى dans une phrase positive complète'}]},
+  {ar:['جِئْتُ','طَلَبَ','العِلْمِ'],tr:'Je suis venu pour chercher le savoir.',i3rab:[{word:'جِئْتُ',cas:'Mabnî',fonc:'فعل ماضٍ + فاعل ضمير',note:'Verbe au passé + pronom sujet تُ attaché'},{word:'طَلَبَ',cas:'Nasb — النَّصْب',fonc:'مفعول لأجله',note:'Masdar au nasb répondant à "pourquoi ?", même sujet que جِئْتُ'},{word:'العِلْمِ',cas:'Jar — الجَرّ',fonc:'مضاف إليه',note:'Kasra ـِ car طَلَبَ est مضاف, العِلْمِ est مضاف إليه'}]},
+  {ar:['جَاءَ','أَبُوهُ','الكَرِيمُ'],tr:'Son père généreux est venu.',i3rab:[{word:'جَاءَ',cas:'Mabnî',fonc:'فعل ماضٍ',note:'Verbe au passé invariable'},{word:'أَبُوهُ',cas:'Raf3 — علامته الواو',fonc:'فاعل — اسم من الأسماء الخمسة',note:'أَبُو = raf3 des أسماء خمسة par و (lettre longue, non damma). هُ = مضاف إليه'},{word:'الكَرِيمُ',cas:'Raf3 — الرَّفْع',fonc:'نعت (توابع)',note:'Suit أَبُوهُ en cas (raf3), définition (avec ال), genre et nombre'}]},
+  {ar:['مَا','جَاءَ','إلاَّ','زَيْدٌ'],tr:'Personne n\'est venu sauf Zayd.',i3rab:[{word:'مَا',cas:'Mabnî — حرف نفي',fonc:'Particule de négation',note:'Nie le verbe — indéclinable'},{word:'جَاءَ',cas:'Mabnî',fonc:'فعل ماضٍ',note:'Passé invariable'},{word:'إلاَّ',cas:'Mabnî — أداة استثناء',fonc:'Particule d\'exception',note:'Phrase incomplète (pas de فاعل avant) → le nom après إلاَّ suit sa fonction'},{word:'زَيْدٌ',cas:'Raf3 — الرَّفْع',fonc:'فاعل (phrase incomplète)',note:'Tanwin damma ـٌ — phrase incomplète → زَيْدٌ est فاعل → raf3 (pas nasb)'}]},
+  {ar:['إنْ','تَدْرُسْ','تَنْجَحْ'],tr:'Si tu étudies, tu réussiras.',i3rab:[{word:'إنْ',cas:'Mabnî — أداة شرط جازمة',fonc:'Particule conditionnelle',note:'إنْ = jawâzim : met les deux verbes de la condition au jazm'},{word:'تَدْرُسْ',cas:'Jazm — الجَزْم',fonc:'فعل الشرط — protase',note:'Sukun ـْ car jazm après إنْ — 1er verbe de la condition'},{word:'تَنْجَحْ',cas:'Jazm — الجَزْم',fonc:'جواب الشرط — apodose',note:'Sukun ـْ car jazm — 2ème verbe, réponse de la condition'}]},
+  {ar:['جَاءَ','أَبُوهُ'],tr:'Son père est venu.',i3rab:[{word:'جَاءَ',cas:'Mabnî',fonc:'فعل ماضٍ',note:'Verbe au passé, 3ème pers. sing. masc.'},{word:'أَبُوهُ',cas:'Raf3 — الرَّفْع',fonc:'فاعل — من الأسماء الخمسة',note:'أَبُو : raf3 par la lettre و (non par damma) — règle des الأسماء الخمسة. هُ = pronom suffixe مضاف إليه'}]},
+  {ar:['لَا','إلهَ','إلاَّ','اللهُ'],tr:"Il n'existe de dieu qu'Allah.",i3rab:[{word:'لَا',cas:'Mabnî — لا النافية للجنس',fonc:'Particule de négation de genre',note:'Nie toute la catégorie — son اسم au nasb sans tanwin'},{word:'إلهَ',cas:'Nasb — النَّصْب',fonc:'اسم لا — mabnî sur fatha',note:'Nasb sans tanwin car اسم لا النافية للجنس'},{word:'إلاَّ',cas:'Mabnî — أداة استثناء',fonc:'Exception',note:'Indéclinable'},{word:'اللهُ',cas:'Raf3 — الرَّفْع',fonc:'خبر لا',note:'Damma ـُ — خبر لا النافية للجنس au raf3'}]},
+  {ar:['جَاءَ','مُوسَى'],tr:'Moïse est venu.',i3rab:[{word:'جَاءَ',cas:'Mabnî',fonc:'فعل ماضٍ',note:'Verbe au passé'},{word:'مُوسَى',cas:'Raf3 تقديري — إعراب تقديري',fonc:'فاعل',note:'مرفوع بضمة مقدرة على الألف — impossible de poser ـُ sur une alif finale. I3râb sous-entendu (تقديري)'}]},
+  {ar:['لَمْ','يَذْهَبُوا'],tr:"Ils ne sont pas allés.",i3rab:[{word:'لَمْ',cas:'Mabnî — حرف جازم',fonc:'Jawâzim',note:'Met le مضارع au jazm'},{word:'يَذْهَبُوا',cas:'Jazm — حذف النون',fonc:'فعل مضارع مجزوم — من الأفعال الخمسة',note:'يَذْهَبُونَ = raf3 (نون présente). Au jazm → نون supprimée = يَذْهَبُوا. Règle des الأفعال الخمسة'}]},
+];
+
+const conjData=[
+  {id:'ajwaf',ti:'الأجوف — Verbe creux (و)',ex:'قَالَ — dire (radicales ق-و-ل)',rows:[
+    {pers:'هو',passe:'قَالَ',pres:'يَقُولُ',jazm:'يَقُلْ',nasb:'يَقُولَ'},
+    {pers:'هي',passe:'قَالَتْ',pres:'تَقُولُ',jazm:'تَقُلْ',nasb:'تَقُولَ'},
+    {pers:'أنتَ',passe:'قُلْتَ',pres:'تَقُولُ',jazm:'تَقُلْ',nasb:'تَقُولَ'},
+    {pers:'أنا',passe:'قُلْتُ',pres:'أَقُولُ',jazm:'أَقُلْ',nasb:'أَقُولَ'},
+    {pers:'هم',passe:'قَالُوا',pres:'يَقُولُونَ',jazm:'يَقُولُوا',nasb:'يَقُولُوا'},
+  ]},
+  {id:'naqis-waw',ti:'الناقص (و) — Défectif en و',ex:'دَعَا — appeler (radicales د-ع-و)',rows:[
+    {pers:'هو',passe:'دَعَا',pres:'يَدْعُو',jazm:'يَدْعُ',nasb:'يَدْعُوَ'},
+    {pers:'هي',passe:'دَعَتْ',pres:'تَدْعُو',jazm:'تَدْعُ',nasb:'تَدْعُوَ'},
+    {pers:'أنتَ',passe:'دَعَوْتَ',pres:'تَدْعُو',jazm:'تَدْعُ',nasb:'تَدْعُوَ'},
+    {pers:'أنا',passe:'دَعَوْتُ',pres:'أَدْعُو',jazm:'أَدْعُ',nasb:'أَدْعُوَ'},
+    {pers:'هم',passe:'دَعَوْا',pres:'يَدْعُونَ',jazm:'يَدْعُوا',nasb:'يَدْعُوا'},
+  ]},
+  {id:'naqis-ya',ti:'الناقص (ي) — Défectif en ي',ex:'مَشَى — marcher (radicales م-ش-ي)',rows:[
+    {pers:'هو',passe:'مَشَى',pres:'يَمْشِي',jazm:'يَمْشِ',nasb:'يَمْشِيَ'},
+    {pers:'هي',passe:'مَشَتْ',pres:'تَمْشِي',jazm:'تَمْشِ',nasb:'تَمْشِيَ'},
+    {pers:'أنتَ',passe:'مَشَيْتَ',pres:'تَمْشِي',jazm:'تَمْشِ',nasb:'تَمْشِيَ'},
+    {pers:'أنا',passe:'مَشَيْتُ',pres:'أَمْشِي',jazm:'أَمْشِ',nasb:'أَمْشِيَ'},
+    {pers:'هم',passe:'مَشَوْا',pres:'يَمْشُونَ',jazm:'يَمْشُوا',nasb:'يَمْشُوا'},
+  ]},
+  {id:'mithal',ti:'المثال — 1ère radicale و',ex:'وَجَدَ — trouver (radicales و-ج-د)',rows:[
+    {pers:'هو',passe:'وَجَدَ',pres:'يَجِدُ',jazm:'يَجِدْ',nasb:'يَجِدَ'},
+    {pers:'هي',passe:'وَجَدَتْ',pres:'تَجِدُ',jazm:'تَجِدْ',nasb:'تَجِدَ'},
+    {pers:'أنتَ',passe:'وَجَدْتَ',pres:'تَجِدُ',jazm:'تَجِدْ',nasb:'تَجِدَ'},
+    {pers:'أنا',passe:'وَجَدْتُ',pres:'أَجِدُ',jazm:'أَجِدْ',nasb:'أَجِدَ'},
+    {pers:'هم',passe:'وَجَدُوا',pres:'يَجِدُونَ',jazm:'يَجِدُوا',nasb:'يَجِدُوا'},
+  ]},
+  {id:'ajwaf-ya',ti:'الأجوف (ي) — Creux en ي',ex:'بَاعَ — vendre (radicales ب-ي-ع)',rows:[
+    {pers:'هو',passe:'بَاعَ',pres:'يَبِيعُ',jazm:'يَبِعْ',nasb:'يَبِيعَ'},
+    {pers:'هي',passe:'بَاعَتْ',pres:'تَبِيعُ',jazm:'تَبِعْ',nasb:'تَبِيعَ'},
+    {pers:'أنتَ',passe:'بِعْتَ',pres:'تَبِيعُ',jazm:'تَبِعْ',nasb:'تَبِيعَ'},
+    {pers:'أنا',passe:'بِعْتُ',pres:'أَبِيعُ',jazm:'أَبِعْ',nasb:'أَبِيعَ'},
+    {pers:'هم',passe:'بَاعُوا',pres:'يَبِيعُونَ',jazm:'يَبِيعُوا',nasb:'يَبِيعُوا'},
+  ]},
+  {id:'forme-II',ti:'الفعل المزيد — Forme II (فَعَّلَ)',ex:'دَرَّسَ — enseigner (intensif/causatif)',rows:[
+    {pers:'هو',passe:'دَرَّسَ',pres:'يُدَرِّسُ',jazm:'يُدَرِّسْ',nasb:'يُدَرِّسَ'},
+    {pers:'هي',passe:'دَرَّسَتْ',pres:'تُدَرِّسُ',jazm:'تُدَرِّسْ',nasb:'تُدَرِّسَ'},
+    {pers:'أنتَ',passe:'دَرَّسْتَ',pres:'تُدَرِّسُ',jazm:'تُدَرِّسْ',nasb:'تُدَرِّسَ'},
+    {pers:'أنا',passe:'دَرَّسْتُ',pres:'أُدَرِّسُ',jazm:'أُدَرِّسْ',nasb:'أُدَرِّسَ'},
+    {pers:'هم',passe:'دَرَّسُوا',pres:'يُدَرِّسُونَ',jazm:'يُدَرِّسُوا',nasb:'يُدَرِّسُوا'},
+  ]},
+  {id:'forme-III',ti:'الفعل المزيد — Forme III (فَاعَلَ)',ex:'كَاتَبَ — correspondre avec (réciprocité)',rows:[
+    {pers:'هو',passe:'كَاتَبَ',pres:'يُكَاتِبُ',jazm:'يُكَاتِبْ',nasb:'يُكَاتِبَ'},
+    {pers:'هي',passe:'كَاتَبَتْ',pres:'تُكَاتِبُ',jazm:'تُكَاتِبْ',nasb:'تُكَاتِبَ'},
+    {pers:'أنتَ',passe:'كَاتَبْتَ',pres:'تُكَاتِبُ',jazm:'تُكَاتِبْ',nasb:'تُكَاتِبَ'},
+    {pers:'أنا',passe:'كَاتَبْتُ',pres:'أُكَاتِبُ',jazm:'أُكَاتِبْ',nasb:'أُكَاتِبَ'},
+    {pers:'هم',passe:'كَاتَبُوا',pres:'يُكَاتِبُونَ',jazm:'يُكَاتِبُوا',nasb:'يُكَاتِبُوا'},
+  ]},
+  {id:'forme-IV',ti:'الفعل المزيد — Forme IV (أَفْعَلَ)',ex:'أَخْرَجَ — faire sortir (causatif)',rows:[
+    {pers:'هو',passe:'أَخْرَجَ',pres:'يُخْرِجُ',jazm:'يُخْرِجْ',nasb:'يُخْرِجَ'},
+    {pers:'هي',passe:'أَخْرَجَتْ',pres:'تُخْرِجُ',jazm:'تُخْرِجْ',nasb:'تُخْرِجَ'},
+    {pers:'أنتَ',passe:'أَخْرَجْتَ',pres:'تُخْرِجُ',jazm:'تُخْرِجْ',nasb:'تُخْرِجَ'},
+    {pers:'أنا',passe:'أَخْرَجْتُ',pres:'أُخْرِجُ',jazm:'أُخْرِجْ',nasb:'أُخْرِجَ'},
+    {pers:'هم',passe:'أَخْرَجُوا',pres:'يُخْرِجُونَ',jazm:'يُخْرِجُوا',nasb:'يُخْرِجُوا'},
+  ]},
+  {id:'forme-V',ti:'الفعل المزيد — Forme V (تَفَعَّلَ)',ex:'تَعَلَّمَ — apprendre (réflexif de II)',rows:[
+    {pers:'هو',passe:'تَعَلَّمَ',pres:'يَتَعَلَّمُ',jazm:'يَتَعَلَّمْ',nasb:'يَتَعَلَّمَ'},
+    {pers:'هي',passe:'تَعَلَّمَتْ',pres:'تَتَعَلَّمُ',jazm:'تَتَعَلَّمْ',nasb:'تَتَعَلَّمَ'},
+    {pers:'أنتَ',passe:'تَعَلَّمْتَ',pres:'تَتَعَلَّمُ',jazm:'تَتَعَلَّمْ',nasb:'تَتَعَلَّمَ'},
+    {pers:'أنا',passe:'تَعَلَّمْتُ',pres:'أَتَعَلَّمُ',jazm:'أَتَعَلَّمْ',nasb:'أَتَعَلَّمَ'},
+    {pers:'هم',passe:'تَعَلَّمُوا',pres:'يَتَعَلَّمُونَ',jazm:'يَتَعَلَّمُوا',nasb:'يَتَعَلَّمُوا'},
+  ]},
+  {id:'forme-VII',ti:'الفعل المزيد — Forme VII (انْفَعَلَ)',ex:'انْكَسَرَ — se briser (passif/réflexif)',rows:[
+    {pers:'هو',passe:'انْكَسَرَ',pres:'يَنْكَسِرُ',jazm:'يَنْكَسِرْ',nasb:'يَنْكَسِرَ'},
+    {pers:'هي',passe:'انْكَسَرَتْ',pres:'تَنْكَسِرُ',jazm:'تَنْكَسِرْ',nasb:'تَنْكَسِرَ'},
+    {pers:'أنتَ',passe:'انْكَسَرْتَ',pres:'تَنْكَسِرُ',jazm:'تَنْكَسِرْ',nasb:'تَنْكَسِرَ'},
+    {pers:'أنا',passe:'انْكَسَرْتُ',pres:'أَنْكَسِرُ',jazm:'أَنْكَسِرْ',nasb:'أَنْكَسِرَ'},
+    {pers:'هم',passe:'انْكَسَرُوا',pres:'يَنْكَسِرُونَ',jazm:'يَنْكَسِرُوا',nasb:'يَنْكَسِرُوا'},
+  ]},
+  {id:'forme-X',ti:'الفعل المزيد — Forme X (اسْتَفْعَلَ)',ex:'اسْتَغْفَرَ — demander pardon (quérir)',rows:[
+    {pers:'هو',passe:'اسْتَغْفَرَ',pres:'يَسْتَغْفِرُ',jazm:'يَسْتَغْفِرْ',nasb:'يَسْتَغْفِرَ'},
+    {pers:'هي',passe:'اسْتَغْفَرَتْ',pres:'تَسْتَغْفِرُ',jazm:'تَسْتَغْفِرْ',nasb:'تَسْتَغْفِرَ'},
+    {pers:'أنتَ',passe:'اسْتَغْفَرْتَ',pres:'تَسْتَغْفِرُ',jazm:'تَسْتَغْفِرْ',nasb:'تَسْتَغْفِرَ'},
+    {pers:'أنا',passe:'اسْتَغْفَرْتُ',pres:'أَسْتَغْفِرُ',jazm:'أَسْتَغْفِرْ',nasb:'أَسْتَغْفِرَ'},
+    {pers:'هم',passe:'اسْتَغْفَرُوا',pres:'يَسْتَغْفِرُونَ',jazm:'يَسْتَغْفِرُوا',nasb:'يَسْتَغْفِرُوا'},
+  ]},
+];
+
+const allQ={
+  i3rab:[
+    {ar:'جَاءَ الطَّالِبُ',pr:'Cas de الطَّالِبُ ?',co:'Raf3 رفع',opts:['Raf3 رفع','Nasb نصب','Jar جر','Jazm جزم'],ex:'الطَّالِبُ est فاعل (sujet) → raf3, damma ـُ.'},
+    {ar:'رَأَيْتُ الكِتَابَ',pr:'Cas de الكِتَابَ ?',co:'Nasb نصب',opts:['Raf3 رفع','Nasb نصب','Jar جر','Jazm جزم'],ex:'الكِتَابَ est مفعول به (COD) → nasb, fatha ـَ.'},
+    {ar:'إنَّ الطِّفْلَ نَائِمٌ',pr:'Cas de الطِّفْلَ ?',co:'Nasb نصب',opts:['Raf3 رفع','Nasb نصب','Jar جر','Jazm جزم'],ex:'إنَّ est nasibah → son اسم prend le nasb.'},
+    {ar:'لَمْ يَذْهَبْ',pr:'État du verbe يَذْهَبْ ?',co:'Jazm جزم',opts:['Raf3 رفع','Nasb نصب','Jazm جزم','Mabnî'],ex:'لَمْ est jawâzim → jazm, sukun ـْ.'},
+    {ar:'كَانَ الجَوُّ بَارِداً',pr:'Cas de الجَوُّ ?',co:'Raf3 رفع',opts:['Raf3 رفع','Nasb نصب','Jar جر','Jazm جزم'],ex:'الجَوُّ est اسم كانَ → raf3, damma ـُ.'},
+    {ar:'كَانَ الجَوُّ بَارِداً',pr:'Cas de بَارِداً ?',co:'Nasb نصب',opts:['Raf3 رفع','Nasb نصب','Jar جر','Jazm جزم'],ex:'بَارِداً est خبر كانَ → nasb, fatha ـَ + tanwin.'},
+    {ar:'ذَهَبْتُ إلى البَيْتِ',pr:'Cas de البَيْتِ ?',co:'Jar جر',opts:['Raf3 رفع','Nasb نصب','Jar جر','Jazm جزم'],ex:'Après إلى (préposition), le nom est au jar, kasra ـِ.'},
+    {ar:'الكِتَابُ مُفِيدٌ',pr:'Fonction de الكِتَابُ ?',co:'Mubtada مبتدأ',opts:['Mubtada مبتدأ','Khabar خبر','Fa3il فاعل','Maf3ul مفعول'],ex:'Début de phrase nominale → mubtada, raf3.'},
+  ],
+  sarf:[
+    {ar:'قَالَ',pr:'Type de verbe ?',co:'أجوف — creux, 2e rad. faible',opts:['سالم — verbe sain','أجوف — creux, 2e rad. faible','ناقص — 3e rad. faible','مثال — 1e rad. faible'],ex:'ق-و-ل : le و est en 2ème position → أجوف.'},
+    {ar:'دَعَا',pr:'Type de verbe ?',co:'ناقص — 3e rad. faible',opts:['سالم — verbe sain','أجوف — 2e rad. faible','ناقص — 3e rad. faible','مثال — 1e rad. faible'],ex:'د-ع-و : le و est en 3ème position → ناقص.'},
+    {ar:'وَجَدَ يَجِدُ',pr:'Pourquoi le wa disparait au present ?',co:'Regle du mithal : wa tombe au present',opts:['Erreur de conjugaison','Regle du mithal : wa tombe au present','Il devient ya','Verbe sain, pas de changement'],ex:'Les verbes مثال perdent leur و initial au مضارع dans les formes communes.'},
+    {ar:'لَمْ يَقُلْ',pr:'Pourquoi yaqul et non yaqulu ?',co:'Jazm efface la radicale centrale',opts:['Erreur','Jazm efface la radicale centrale','Forme passive','Verbe sain'],ex:'Au jazm, les verbes أجوف suppriment leur radicale centrale faible.'},
+    {ar:'مَشَى يَمْشِي',pr:'3e radicale de masha ?',co:'ya — ي',opts:['waw — و','ya — ي','hamza — ء','alif — ا'],ex:'مَشَى vient de م-ش-ي → 3ème radicale ي → verbe ناقص en ي.'},
+    {ar:'يَدْعُو au jazm ?',pr:'Forme correcte au jazm ?',co:'يَدْعُ',opts:['يَدْعُو','يَدْعُ','يَدْعُوْ','يَدْعَى'],ex:'Les verbes ناقص (en و) perdent leur finale au jazm → يَدْعُ.'},
+    {ar:'بَاعَ',pr:'Type de verbe ?',co:'أجوف — creux, 2e rad. ya',opts:['سالم — verbe sain','أجوف — creux, 2e rad. ya','ناقص — 3e rad. faible','مثال — 1e rad. faible'],ex:'ب-ي-ع : la lettre faible ي est en 2ème position → أجوف.'},
+  ],
+  na7w:[
+    {ar:'بِئْسَ الرَّجُلُ',pr:'Type de formule ?',co:'Dham — ذم (blâme)',opts:['Madh — مدح (éloge)','Dham — ذم (blâme)','Condition','Phrase nominale'],ex:'بِئْسَ = formule de blâme (ذم). Opposé de نِعْمَ (éloge).'},
+    {ar:'نِعْمَ المُعَلِّمُ زَيْدٌ',pr:'Fonction de زَيْدٌ ?',co:'المخصوص بالمدح',opts:['فاعل','مبتدأ','المخصوص بالمدح','خبر'],ex:'Après نِعْمَ/بِئْسَ, le nom spécifique loué/blâmé est المخصوص.'},
+    {ar:'جِئْتُ مُبَكِّراً',pr:'Fonction de مُبَكِّراً ?',co:'Hal حال',opts:['Tamyiz تمييز','Hal حال','Maf3ul مفعول','Khabar خبر'],ex:'مُبَكِّراً décrit l\'état du sujet au moment de l\'action → hal, au nasb.'},
+    {ar:'عِنْدِي عِشْرُونَ كِتَاباً',pr:'Fonction de كِتَاباً ?',co:'Tamyiz تمييز',opts:['Hal حال','Tamyiz تمييز','Maf3ul مفعول','Mubtada مبتدأ'],ex:'Après un nombre (11-99), le nom au nasb singulier est un tamyiz.'},
+    {ar:'لَيْتَ الشَّبَابَ يَعُودُ',pr:'لَيْتَ exprime ?',co:'Le souhait / le regret',opts:['La certitude','Le souhait / le regret','La ressemblance','L\'exception'],ex:'لَيْتَ = sœur de إنَّ exprimant le souhait ou le regret.'},
+    {ar:'صَارَ الطِّفْلُ طَبِيباً',pr:'Fonction de طَبِيباً ?',co:'خبر صَارَ — nasb',opts:['اسم صَارَ — raf3','خبر صَارَ — nasb','مفعول به','حال'],ex:'صَارَ est sœur de كانَ → son خبر est au nasb.'},
+  ],
+  '7ourouf':[
+    {ar:'ذَهَبَ إلى البَيْتِ',pr:'Sens de إلى ?',co:'Vers / à (direction)',opts:['Dans','Vers / à (direction)','Depuis','Sur'],ex:'إلى indique la direction ou la destination.'},
+    {ar:'جَاءَ مِنَ المَدِينةِ',pr:'Sens de مِن ?',co:'De / depuis (origine)',opts:['De / depuis (origine)','Vers','Sur','Avec'],ex:'مِن indique l\'origine, le point de départ.'},
+    {ar:'الكِتَابُ عَلى الطَّاوِلةِ',pr:'Sens de عَلى ?',co:'Sur (position)',opts:['Dans','Sous','Sur (position)','Avec'],ex:'عَلى = sur, à propos de. Ici position physique.'},
+    {ar:'كَتَبَ بِالقَلَمِ',pr:'Sens de بِ ici ?',co:'Avec (instrument)',opts:['Pour','Avec (instrument)','Comme','Depuis'],ex:'بِ + instrument = باء الآلة, indique le moyen.'},
+    {ar:'الكِتَابُ لِلطَّالِبِ',pr:'Sens de لِ ?',co:'Pour / appartenance',opts:['Avec','Sur','Pour / appartenance','Depuis'],ex:'لِ indique la possession ou la destination.'},
+    {ar:'تَكَلَّمَ عَنِ الدَّرْسِ',pr:'Sens de عَن ?',co:'Au sujet de',opts:['Dans','Au sujet de','Vers','Sur'],ex:'عَن = au sujet de, à propos de. Aussi : s\'éloigner de.'},
+  ],
+  idafa:[
+    {ar:'كِتَابُ الطَّالِبِ',pr:'Cas de الطَّالِبِ ?',co:'Jar جر — مضاف إليه',opts:['Raf3 رفع','Nasb نصب','Jar جر — مضاف إليه','Mabnî'],ex:'Le 2ème terme de l\'idafa (مضاف إليه) est toujours au jar.'},
+    {ar:'كِتَابُ الطَّالِبِ',pr:'كِتَابُ a le tanwin ?',co:'Non — il est مضاف',opts:['Oui','Non — il est مضاف','Seulement au nasb','Selon le contexte'],ex:'Le مضاف perd son tanwin. Règle absolue de l\'idafa.'},
+    {ar:'بَيْتُ المُعَلِّمِ الكَبِيرِ',pr:'الكَبِيرِ qualifie quoi ?',co:'المُعَلِّمِ (accord مضاف إليه)',opts:['بَيْتُ','المُعَلِّمِ (accord مضاف إليه)','Les deux','Ni l\'un ni l\'autre'],ex:'L\'adjectif suit le مضاف إليه en cas et définition (accord ambigu, contexte requis).'},
+    {ar:'مَدِينَةُ رَسُولِ اللهِ',pr:'Combien de termes dans cette idafa ?',co:'3 termes — idafa triple',opts:['2 termes','3 termes — idafa triple','4 termes','Ce n\'est pas une idafa'],ex:'مَدِينَةُ (مضاف) → رَسُولِ (مضاف إليه + مضاف) → اللهِ (مضاف إليه).'},
+  ],
+  munada:[
+    {ar:'يَا زَيْدُ',pr:'Cas du منادى زَيْدُ ?',co:'Mabnî sur le raf3',opts:['Nasb نصب','Mabnî sur le raf3','Jar جر','Raf3 décliné'],ex:'زَيْدُ est مفرد علم (nom propre singulier) → mabnî sur le raf3, mais pas décliné.'},
+    {ar:'يَا طَالِبَ العِلْمِ',pr:'Cas du منادى طَالِبَ ?',co:'Nasb نصب',opts:['Mabnî sur raf3','Nasb نصب','Jar جر','Raf3 décliné'],ex:'طَالِبَ est مضاف → le منادى مضاف est toujours au nasb.'},
+    {ar:'يَا رَجُلاً',pr:'Quel type de منادى ?',co:'نكرة غير مقصودة',opts:['مفرد علم','نكرة مقصودة','نكرة غير مقصودة','مضاف'],ex:'رَجُلاً (tanwin) = indéfini non visé → nasb. Si c\'était un appel précis : يَا رَجُلُ (mabnî sur raf3).'},
+    {ar:'يَا أَيُّهَا النَّاسُ',pr:'Cas de النَّاسُ ?',co:'Raf3 — نعت ou بدل',opts:['Nasb نصب','Jar جر','Raf3 — نعت ou بدل','Mabnî'],ex:'أَيُّ est mabnî sur raf3 comme منادى. النَّاسُ suit en raf3 comme نعت ou بدل.'},
+    {ar:'يَا طَالِباً عِلْماً',pr:'Quel type de منادى ?',co:'شبيه بالمضاف',opts:['مفرد علم','مضاف','نكرة مقصودة','شبيه بالمضاف'],ex:'شبيه بالمضاف = quasi-annexé : le nom est indéfini mais suivi d\'un complément → nasb.'},
+  ],
+  maf3ulat:[
+    {ar:'ضَرَبْتُهُ ضَرْباً شَدِيداً',pr:'Fonction de ضَرْباً ?',co:'مفعول مطلق — نوع',opts:['مفعول به','مفعول مطلق — نوع','حال','تمييز'],ex:'ضَرْباً est un masdar de même racine que ضَرَبَ, avec adjectif → مفعول مطلق de type نوع (manière).'},
+    {ar:'سَجَدَ سُجُوداً',pr:'Fonction de سُجُوداً ?',co:'مفعول مطلق — توكيد',opts:['مفعول به','مفعول مطلق — توكيد','حال','تمييز'],ex:'سُجُوداً est masdar de même racine, sans adjectif → مفعول مطلق de type توكيد (renforcement).'},
+    {ar:'جِئْتُ طَلَبَ العِلْمِ',pr:'Fonction de طَلَبَ ?',co:'مفعول لأجله',opts:['مفعول به','مفعول مطلق','مفعول لأجله','حال'],ex:'طَلَبَ répond à "pourquoi ?", masdar au nasb, même sujet que جِئْتُ → مفعول لأجله.'},
+    {ar:'جِئْتُ يَوْمَ الجُمُعةِ',pr:'Fonction de يَوْمَ ?',co:'مفعول فيه — ظرف زمان',opts:['مفعول به','مفعول فيه — ظرف زمان','مفعول لأجله','حال'],ex:'يَوْمَ indique le temps de l\'action → مفعول فيه (ظرف زمان), au nasb.'},
+    {ar:'جَلَسَ أَمَامَ البَيْتِ',pr:'Fonction de أَمَامَ ?',co:'مفعول فيه — ظرف مكان',opts:['مفعول به','مفعول فيه — ظرف مكان','مفعول لأجله','حال'],ex:'أَمَامَ indique le lieu → مفعول فيه (ظرف مكان), au nasb.'},
+    {ar:'قُمْتُ إِجْلَالاً لِلْأُسْتَاذِ',pr:'Fonction de إِجْلَالاً ?',co:'مفعول لأجله',opts:['مفعول مطلق','مفعول لأجله','حال','تمييز'],ex:'إجلالاً répond à "pourquoi ?", masdar au nasb, même sujet → مفعول لأجله.'},
+  ],
+  istithna:[
+    {ar:'جَاءَ الطُّلَّابُ إلاَّ زَيْداً',pr:'Cas de زَيْداً ?',co:'Nasb — مستثنى',opts:['Raf3 رفع','Nasb — مستثنى','Jar جر','Mabnî'],ex:'Phrase positive complète → le مستثنى بإلاَّ est obligatoirement au nasb.'},
+    {ar:'مَا جَاءَ إلاَّ زَيْدٌ',pr:'Cas de زَيْدٌ ?',co:'Raf3 — فاعل (phrase incomplète)',opts:['Nasb نصب','Raf3 — فاعل (phrase incomplète)','Jar جر','Mabnî'],ex:'Phrase incomplète (pas de فاعل mentionné avant) → زَيْدٌ est فاعل → raf3.'},
+    {ar:'حَضَرَ الجَمِيعُ غَيْرَ طَالِبٍ',pr:'Cas de غَيْرَ ?',co:'Nasb — بدل de مستثنى',opts:['Jar جر','Nasb — بدل de مستثنى','Raf3 رفع','Mabnî'],ex:'غير est elle-même au nasb comme إلاَّ. Le nom qui suit غير est au jar (مضاف إليه).'},
+    {ar:'مَا جَاءَ الطُّلَّابُ إلاَّ زَيْداً',pr:'Cas possible de زَيْداً ?',co:'Nasb ou raf3 (badal) — les deux acceptés',opts:['Nasb uniquement','Nasb ou raf3 (badal) — les deux acceptés','Jar uniquement','Mabnî uniquement'],ex:'Phrase négative complète → le مستثنى peut être au nasb (règle générale) ou au raf3 comme بدل du sujet.'},
+  ],
+  tawabi3:[
+    {ar:'جَاءَ الرَّجُلُ الكَرِيمُ',pr:'Fonction de الكَرِيمُ ?',co:'نعت — adjectif épithète',opts:['خبر','نعت — adjectif épithète','بدل','توكيد'],ex:'الكَرِيمُ suit الرَّجُلُ en cas (raf3), définition (مع ال), genre (masc.) et nombre (sing.) → نعت.'},
+    {ar:'رَأَيْتُ زَيْداً أَخَاكَ',pr:'Fonction de أَخَاكَ ?',co:'بدل كل من كل',opts:['نعت','بدل كل من كل','توكيد','عطف'],ex:'أَخَاكَ identifie/précise زَيْداً en le remplaçant totalement → بدل كل من كل, au nasb comme زَيْداً.'},
+    {ar:'جَاءَ زَيْدٌ وَعَمْرٌو',pr:'Fonction de عَمْرٌو ?',co:'معطوف — coordination',opts:['بدل','نعت','معطوف — coordination','توكيد'],ex:'عَمْرٌو suit زَيْدٌ en cas (raf3) via la conjonction و → معطوف (عطف نسق).'},
+    {ar:'جَاءَ زَيْدٌ نَفْسُهُ',pr:'Fonction de نَفْسُهُ ?',co:'توكيد معنوي',opts:['نعت','بدل','توكيد معنوي','خبر'],ex:'نَفْسُهُ renforce et confirme le sujet زَيْدٌ → توكيد معنوي, suit en cas (raf3).'},
+    {ar:'جَاءَ الطُّلَّابُ كُلُّهُمْ',pr:'Fonction de كُلُّهُمْ ?',co:'توكيد معنوي',opts:['حال','نعت','توكيد معنوي','مفعول'],ex:'كُلُّ + pronom suffixe = توكيد معنوي exprimant la totalité. Suit الطُّلَّابُ en raf3.'},
+  ],
+  af3al_khamsa:[
+    {ar:'يَذْهَبَانِ إلى المَدْرَسةِ',pr:'Cas de يَذْهَبَانِ ?',co:'Raf3 — ثبوت النون',opts:['Nasb — حذف النون','Raf3 — ثبوت النون','Jazm — حذف النون','Mabnî'],ex:'يَذْهَبَانِ est au raf3 car النون est présente. Les الأفعال الخمسة : raf3 = نون présent.'},
+    {ar:'لَنْ يَذْهَبَا',pr:'Cas de يَذْهَبَا ?',co:'Nasb — حذف النون',opts:['Raf3 — ثبوت النون','Nasb — حذف النون','Jazm — حذف النون','Mabnî'],ex:'لَنْ = nasibah → nasb. Les الأفعال الخمسة au nasb : النون supprimée → يَذْهَبَا.'},
+    {ar:'لَمْ يَذْهَبُوا',pr:'Cas de يَذْهَبُوا ?',co:'Jazm — حذف النون',opts:['Raf3 — ثبوت النون','Nasb — حذف النون','Jazm — حذف النون','Mabnî'],ex:'لَمْ = jawâzim → jazm. Les الأفعال الخمسة au jazm : النون supprimée → يَذْهَبُوا.'},
+    {ar:'تَذْهَبِينَ إلى السُّوقِ',pr:'Sujet implicite de تَذْهَبِينَ ?',co:'أنتِ — 2ème fém. sing.',opts:['أنتَ — 2ème masc. sing.','أنتِ — 2ème fém. sing.','هي — 3ème fém. sing.','نحن — 1ère pl.'],ex:'تَفْعَلِينَ = l\'une des الأفعال الخمسة : 2ème pers. féminin singulier (أنتِ).'},
+    {ar:'هل يَكْتُبَانِ الدَّرْسَ ؟',pr:'Pourquoi يَكْتُبَانِ et non يَكْتُبُ ?',co:'Duel — 2 sujets masculins',opts:['Pluriel','Duel — 2 sujets masculins','Féminin sing.','Erreur de conjugaison'],ex:'يَفْعَلانِ = forme duelle masculine, une des الأفعال الخمسة. Raf3 car نون présente.'},
+    {ar:'لَمْ يَكْتُبُوا الدَّرْسَ',pr:"يَكْتُبُوا — signe du jazm ?",co:'حذف النون — دليل الجزم',opts:['السكون','حذف النون — دليل الجزم','حذف حرف العلة','الفتحة'],ex:'الأفعال الخمسة au jazm : النون est supprimée. يَكْتُبُونَ → لَمْ يَكْتُبُوا.'},
+    {ar:'أنتِ تَكْتُبِينَ',pr:"تَكْتُبِينَ — au jazm elle devient ?",co:'تَكْتُبِي — حذف النون',opts:['تَكْتُبِينْ','تَكْتُبِي — حذف النون','تَكْتُبَ','تَكْتُبْ'],ex:'تَفْعَلِينَ (2ème fém. sing.) → jazm : تَفْعَلِي (suppression du نون).'},
+    {ar:'هُمَا يَذْهَبَانِ',pr:"Si on ajoute لَنْ, يَذْهَبَانِ devient ?",co:'يَذْهَبَا — nasb par حذف النون',opts:['يَذْهَبَانْ','يَذْهَبَا — nasb par حذف النون','يَذْهَبْ','يَذْهَبُ'],ex:'لَنْ + أفعال خمسة → nasb par حذف النون : لَنْ يَذْهَبَا.'},
+
+  ],
+  mamnu3:[
+    {ar:'ذَهَبْتُ إلى مَسَاجِدَ',pr:'Pourquoi مَسَاجِدَ et non مَسَاجِدِ ?',co:'ممنوع من الصرف — jar = fatha',opts:['Erreur','ممنوع من الصرف — jar = fatha','Nasb','Mabnî'],ex:'مَسَاجِد est ممنوع من الصرف (pluriel brisé مَفَاعِل) → pas de kasra au jar, remplacée par fatha.'},
+    {ar:'مَرَرْتُ بِأَحْمَدَ',pr:'Cas de أَحْمَدَ après بِ ?',co:'Jar = fatha (ممنوع من الصرف)',opts:['Kasra normale','Jar = fatha (ممنوع من الصرف)','Nasb','Raf3'],ex:'أَحْمَد est ممنوع (nom propre sur schème أَفْعَل) → jar = fatha au lieu de kasra.'},
+    {ar:'الحَدِيقَةُ حَمْرَاءُ',pr:'Pourquoi حَمْرَاءُ sans tanwin ?',co:'ممنوع من الصرف — adjectif en ـاء',opts:['Erreur','ممنوع من الصرف — adjectif en ـاء','Mabnî','Idafa'],ex:'حَمْرَاء est ممنوع car adjectif de couleur/défaut sur schème أَفْعَل/فَعْلاء → pas de tanwin.'},
+    {ar:'زُرْتُ مَدَارِسَ كَثِيرةً',pr:'Cas de مَدَارِسَ ?',co:'Nasb — ممنوع من الصرف',opts:['Nasb normal avec tanwin','Nasb — ممنوع من الصرف','Jar','Raf3'],ex:'مَدَارِس = pluriel brisé sur مَفَاعِل → ممنوع من الصرف. COD (مفعول به) → nasb = fatha sans tanwin.'},
+    {ar:'زُرْتُ المَسَاجِدِ',pr:'Cas de المَسَاجِدِ avec ال ?',co:'Jar = kasra (ال lève le ممنوع)',opts:['Jar = fatha (reste ممنوع)','Jar = kasra (ال lève le ممنوع)','Nasb','Mabnî'],ex:'Avec ال ou en idafa, le ممنوع من الصرف retrouve sa kasra normale. Exception importante !'},
+    {ar:'في مَدَارِسَ كَثِيرَةٍ',pr:"Cas de مَدَارِسَ ?",co:'Jar par fatha (ممنوع من الصرف)',opts:['Jar par kasra','Jar par fatha (ممنوع من الصرف)','Nasb','Raf3'],ex:'مَدَارِس = pluriel brisé sur مَفَاعِل → ممنوع → jar par fatha. كَثِيرَةٍ est نعت, déclinable normalement.'},
+    {ar:'سَافَرْتُ إلى فَرَنْسَا',pr:"Cas de فَرَنْسَا ?",co:'Jar par fatha (nom propre étranger)',opts:['Jar par kasra','Jar par fatha (nom propre étranger)','Mabnî','Nasb'],ex:'فَرَنْسَا est un nom propre étranger → ممنوع من الصرف → jar par fatha sans tanwin.'},
+    {ar:'رَأَيْتُ أَكْبَرَ مَسْجِدٍ',pr:"Cas de أَكْبَرَ ?",co:'Nasb — ممنوع على وزن أَفْعَل',opts:['Nasb — ممنوع على وزن أَفْعَل','Jar par fatha','Raf3 par damma','Mabnî'],ex:'أَكْبَر est sur le schème أَفْعَل (adjectif comparatif) → ممنوع من الصرف → nasb par fatha sans tanwin.'},
+
+  ],
+  asma_khamsa:[
+    {ar:'جَاءَ أَبُوهُ',pr:'Signe du raf3 dans أَبُوهُ ?',co:'الواو — lettre longue و',opts:['Damma ـُ','الواو — lettre longue و','Alif ا','Raf3 taqdiryy'],ex:'الأسماء الخمسة au raf3 : الواو. أَبُو = raf3 par و, pas par damma.'},
+    {ar:'رَأَيْتُ أَبَاهُ',pr:'Signe du nasb dans أَبَاهُ ?',co:'الألف — lettre longue ا',opts:['Fatha ـَ','الألف — lettre longue ا','Waw و','Ya ي'],ex:'الأسماء الخمسة au nasb : الألف. أَبَا = nasb par ا, pas par fatha.'},
+    {ar:'مَرَرْتُ بِأَبِيهِ',pr:'Signe du jar dans أَبِيهِ ?',co:'الياء — lettre longue ي',opts:['Kasra ـِ','الياء — lettre longue ي','Alif ا','Waw و'],ex:'الأسماء الخمسة au jar : الياء. أَبِي = jar par ي, pas par kasra.'},
+    {ar:'هُوَ ذُو عِلْمٍ',pr:'Sens de ذُو ici ?',co:'Possesseur de (مضاف)',opts:['Ceci','Possesseur de (مضاف)','Qui','Celui qui'],ex:'ذُو = l\'un des الأسماء الخمسة signifiant "possesseur de". Doit être مضاف : ذُو + nom.'},
+    {ar:'كَلَّمْتُ أَخَاكَ',pr:"Cas de أَخَاكَ ?",co:'Nasb — علامته الألف',opts:['Raf3 — واو','Nasb — علامته الألف','Jar — ياء','Mabnî'],ex:'أَخَ = nasb des أسماء خمسة → lettre longue ا. Le pronom كَ est مضاف إليه.'},
+    {ar:'تَحَدَّثْتُ مَعَ أَخِيكَ',pr:"Cas de أَخِيكَ ?",co:'Jar — علامته الياء',opts:['Raf3 — واو','Nasb — ألف','Jar — علامته الياء','Mabnî'],ex:'أَخِي = jar des أسماء خمسة → lettre longue ي. Après مَعَ (préposition) → jar.'},
+    {ar:'هُوَ ذُو مَالٍ',pr:"Cas de ذُو ?",co:'Raf3 — علامته الواو',opts:['Nasb — ذَا','Raf3 — علامته الواو','Jar — ذِي','Mabnî'],ex:'ذُو = raf3 des أسماء خمسة. Nasb : ذَا. Jar : ذِي. Toujours مضاف.'},
+
+  ],
+  la_nafiya:[
+    {ar:'لا طَالِبَ مُهْمِلٌ',pr:'Fonction de طَالِبَ ?',co:'اسم لا — nasb sans tanwin',opts:['مبتدأ','اسم لا — nasb sans tanwin','مفعول به','فاعل'],ex:'لا النافية للجنس met son اسم au nasb. Singulier → mabnî sur fatha sans tanwin.'},
+    {ar:'لا إلهَ إلاَّ اللهُ',pr:'Cas de إلهَ ?',co:'Nasb — اسم لا',opts:['Raf3 رفع','Nasb — اسم لا','Jar جر','Mabnî'],ex:'إله est اسم لا النافية للجنس → nasb (fatha), sans tanwin.'},
+    {ar:'لا طَالِبَ مُهْمِلٌ',pr:'Cas de مُهْمِلٌ ?',co:'Raf3 — خبر لا',opts:['Nasb نصب','Raf3 — خبر لا','Jar جر','Mabnî'],ex:'خبر لا النافية للجنس est toujours au raf3, comme le خبر de إنَّ.'},
+    {ar:'لا رَجُلَ فِي البَيْتِ',pr:'لا النافية للجنس nie quoi ?',co:'Toute la catégorie (aucun homme)',opts:['Un homme précis','Toute la catégorie (aucun homme)','Plusieurs hommes','Rien'],ex:'لا النافية للجنس nie la catégorie entière : il n\'existe aucun homme dans la maison.'},
+    {ar:'لا رَجُلَ فِي البَيْتِ',pr:"Cas de رَجُلَ ?",co:'اسم لا — مبني على الفتح',opts:['مبتدأ — raf3','اسم لا — مبني على الفتح','مفعول به — nasb','Jar جر'],ex:'رَجُل après لا النافية للجنس = اسم لا. Singulier → mabnî sur fatha (nasb visible sans tanwin).'},
+    {ar:'لا طَالِبَ مُهْمِلٌ',pr:"Cas de مُهْمِلٌ ?",co:'Raf3 — خبر لا',opts:['Nasb نصب','Raf3 — خبر لا','Jar جر','Mabnî'],ex:'لا النافية للجنس : اسمها au nasb, خبرها au raf3 — comme إنَّ mais inversé.'},
+    {ar:'لا رَجُلَ وَلا امْرَأَةَ حَاضِرٌ',pr:"Pourquoi لا répétée ?",co:'Répétition obligatoire si deux اسم',opts:['Facultatif','Répétition obligatoire si deux اسم','Faute de style','Pour le rythme'],ex:'Si le deuxième اسم de لا النافية للجنس est isolé (pas de conjonction directe), لا est répétée.'},
+
+  ],
+  shart:[
+    {ar:'إنْ تَدْرُسْ تَنْجَحْ',pr:'Cas des deux verbes ?',co:'Jazm — فعل الشرط وجوابه',opts:['Raf3','Nasb','Jazm — فعل الشرط وجوابه','Mabnî'],ex:'إن + jazm pour فعل الشرط ET جواب الشرط. Les deux verbes au sukun ـْ.'},
+    {ar:'لَوْ دَرَسْتَ لَنَجَحْتَ',pr:'لَوْ exprime ?',co:'Condition irréelle (passé)',opts:['Condition probable','Condition irréelle (passé)','Souhait','Négation'],ex:'لَوْ = condition irréelle ou contrefactuelle dans le passé. جواب avec لَ.'},
+    {ar:'لَوْلا العِلْمُ لَجَهِلْنَا',pr:'Cas de العِلْمُ après لولا ?',co:'Raf3 — مبتدأ (خبر محذوف)',opts:['Nasb نصب','Raf3 — مبتدأ (خبر محذوف)','Jar جر','Jazm جزم'],ex:'لولا + مبتدأ au raf3, le خبر est toujours sous-entendu (موجود / كائن). Sens : sans le savoir...'},
+    {ar:'إذا جَاءَ زَيْدٌ أَكْرَمْتُهُ',pr:'Différence إذا vs إن ?',co:'إذا = probable, إن = neutre/hypothétique',opts:['Aucune différence','إذا = probable, إن = neutre/hypothétique','إن = passé, إذا = présent','إن = jazm, إذا = nasb'],ex:'إذا exprime ce qui est probable ou attendu. إن est neutre sur la probabilité. Les deux mettent فعل الشرط au passé ou مضارع.'},
+    {ar:'لَوْلا الطِّبُّ لَهَلَكَ كَثِيرٌ',pr:"Cas de الطِّبُّ après لَوْلا ?",co:'Raf3 — مبتدأ (خبر محذوف وجوباً)',opts:['Nasb نصب','Raf3 — مبتدأ (خبر محذوف وجوباً)','Jar جر','Jazm جزم'],ex:'لَوْلا est suivie d\'un مبتدأ au raf3 dont le خبر est obligatoirement sous-entendu (موجود/كائن).'},
+    {ar:'مَنْ يَزْرَعْ يَحْصُدْ',pr:"Cas des deux verbes ?",co:'Jazm — أداة شرط جازمة',opts:['Raf3','Nasb','Jazm — أداة شرط جازمة','Mabnî'],ex:'مَن (qui) est une أداة شرط جازمة comme إنْ → les deux verbes au jazm.'},
+    {ar:'إذا طَلَعَتِ الشَّمْسُ أَضَاءَتِ الأَرْضُ',pr:"إذا met-elle le verbe au jazm ?",co:'Non — إذا ne met pas au jazm',opts:['Oui — jazm obligatoire','Non — إذا ne met pas au jazm','Seulement le جواب','Seulement le فعل الشرط'],ex:'Contrairement à إنْ, إذا n\'est pas jawâzim. Les verbes après إذا sont au passé ou au présent raf3.'},
+
+  ],
+  i3rab_avance:[
+    {ar:'جَاءَ مُوسَى',pr:'I3râb de مُوسَى ?',co:'Raf3 تقديري — ضمة مقدرة على الألف',opts:['Raf3 ظاهر بالضمة','Raf3 تقديري — ضمة مقدرة على الألف','Mabnî','Nasb'],ex:'موسى = ناقص se terminant par alif → impossible d\'afficher ـُ sur l\'alif. I3râb sous-entendu (تقديري).'},
+    {ar:'يَدْعُو زَيْدٌ رَبَّهُ',pr:'I3râb de يَدْعُو ?',co:'Raf3 تقديري — ضمة مقدرة على الواو',opts:['Raf3 ظاهر','Raf3 تقديري — ضمة مقدرة على الواو','Nasb','Jazm'],ex:'يَدْعُو = verbe ناقص au مضارع, se terminant par واو → i3râb sous-entendu sur la waw.'},
+    {ar:'هُوَ يَكْتُبُ',pr:'I3râb de هُوَ ?',co:'في محل رفع مبتدأ',opts:['مرفوع بالضمة','في محل رفع مبتدأ','ليس له إعراب','في محل نصب'],ex:'هُوَ est mabnî (indéclinable) mais occupe la position de مبتدأ → i3râb محلي : في محل رفع مبتدأ.'},
+    {ar:'رَأَيْتُ الَّذِي يَكْتُبُ',pr:'I3râb de الَّذِي ?',co:'في محل نصب مفعول به',opts:['في محل رفع فاعل','في محل نصب مفعول به','في محل جر','ليس له إعراب'],ex:'الَّذِي est mabnî (اسم موصول) mais est COD du verbe رَأَيْتُ → i3râb محلي : في محل نصب مفعول به.'},
+    {ar:'رَأَيْتُ الَّذِي جَاءَ',pr:"I3râb de الَّذِي ?",co:'محلي — في محل نصب مفعول به',opts:['مرفوع بالضمة','محلي — في محل نصب مفعول به','مجرور بالكسرة','لا محل له'],ex:'الَّذِي est مبني (اسم موصول) mais est COD → i3râb محلي : في محل نصب مفعول به.'},
+    {ar:'يَدْعُو رَبَّهُ',pr:"I3râb de يَدْعُو au raf3 ?",co:'مرفوع بضمة مقدرة على الواو',opts:['مرفوع بالضمة الظاهرة','مرفوع بضمة مقدرة على الواو','مبني على الضم','مرفوع بثبوت النون'],ex:'يَدْعُو se termine par و → impossible de mettre ـُ → raf3 تقديري : مرفوع بضمة مقدرة على الواو.'},
+    {ar:'لا حَوْلَ وَلا قُوَّةَ',pr:"Cas de حَوْلَ ?",co:'اسم لا — مبني على الفتح',opts:['Nasb avec tanwin','اسم لا — مبني على الفتح','Raf3 مبتدأ','Jar جر'],ex:'حَوْل après لا النافية للجنس = اسم لا. Singulier → mabnî sur fatha (pas de tanwin).'},
+  ],
+  sarf_avance:[
+    {ar:'عَلَّمَ',pr:'Forme verbale (وزن) ?',co:'Forme II — فَعَّلَ',opts:['Forme I — فَعَلَ','Forme II — فَعَّلَ','Forme III — فَاعَلَ','Forme IV — أَفْعَلَ'],ex:'عَلَّمَ = tachdiid sur la 2e radicale → forme II (فَعَّلَ). Sens causatif de عَلِمَ : enseigner.'},
+    {ar:'أَخْرَجَ',pr:'Forme verbale (وزن) ?',co:'Forme IV — أَفْعَلَ',opts:['Forme I — فَعَلَ','Forme II — فَعَّلَ','Forme IV — أَفْعَلَ','Forme X — اسْتَفْعَلَ'],ex:'أَخْرَجَ = أَ ajouté + trilitère خرج → forme IV (أَفْعَلَ). Sens causatif : faire sortir.'},
+    {ar:'تَعَلَّمَ',pr:'Forme verbale (وزن) ?',co:'Forme V — تَفَعَّلَ',opts:['Forme II — فَعَّلَ','Forme V — تَفَعَّلَ','Forme VII — انْفَعَلَ','Forme X — اسْتَفْعَلَ'],ex:'تَعَلَّمَ = تَ + عَلَّمَ → forme V (تَفَعَّلَ). Réflexif de la forme II : apprendre.'},
+    {ar:'انْكَسَرَ',pr:'Forme verbale (وزن) ?',co:'Forme VII — انْفَعَلَ',opts:['Forme V — تَفَعَّلَ','Forme VII — انْفَعَلَ','Forme VIII — افْتَعَلَ','Forme X — اسْتَفْعَلَ'],ex:'انْكَسَرَ = ان + كسر → forme VII (انْفَعَلَ). Passif/réflexif intransitif de كَسَرَ : se briser.'},
+    {ar:'اسْتَغْفَرَ',pr:'Forme verbale (وزن) ?',co:'Forme X — اسْتَفْعَلَ',opts:['Forme IV — أَفْعَلَ','Forme VII — انْفَعَلَ','Forme VIII — افْتَعَلَ','Forme X — اسْتَفْعَلَ'],ex:'اسْتَغْفَرَ = استـ + غفر → forme X (اسْتَفْعَلَ). Sens : quérir le pardon.'},
+    {ar:'كَاتَبَ',pr:'Sens probable de la forme III ?',co:'Réciprocité — s\'écrire avec',opts:['Intensifier l\'écriture','Réciprocité — s\'écrire avec','Causatif — faire écrire','Passif'],ex:'Forme III (فَاعَلَ) = action réciproque. كَاتَبَ = correspondre, s\'écrire avec quelqu\'un.'},
+    {ar:'اسم الفاعل de كَتَبَ ?',pr:'Participe actif de كَتَبَ (forme I) ?',co:'كَاتِب',opts:['كَتُوب','كَاتِب','مَكْتُوب','كِتَابَة'],ex:'Forme I → اسم الفاعل sur schème فَاعِل : كَاتِب = écrivant/écrivain.'},
+    {ar:'اسم المفعول de كَتَبَ ?',pr:'Participe passif de كَتَبَ (forme I) ?',co:'مَكْتُوب',opts:['كَاتِب','كِتَابَة','مَكْتُوب','كَتْب'],ex:'Forme I → اسم المفعول sur schème مَفْعُول : مَكْتُوب = écrit.'},
+    {ar:'مُعَلِّم',pr:'De quelle forme vient مُعَلِّم ?',co:'Forme II — اسم فاعل de عَلَّمَ',opts:['Forme I — عَلِمَ','Forme II — اسم فاعل de عَلَّمَ','Forme III','Forme IV'],ex:'مُعَلِّم = مُفَعِّل = اسم فاعل de forme II. Enseignant = celui qui enseigne (causatif de عَلِمَ).'},
+    {ar:'كِتَاب → الميزان الصرفي ?',pr:'Schème (وزن) de كِتَاب ?',co:'فِعَال',opts:['فَعَل','فَعَال','فِعَال','فُعُول'],ex:'ك=ف, ت=ع, ب=ل + ا ajoutée entre ع et ل → schème فِعَال.'},
+    {ar:'مَدْرَسَة → الميزان ?',pr:'Schème de مَدْرَسَة ?',co:'مَفْعَلَة',opts:['فَعَلَة','مَفْعِل','مَفْعَلَة','فِعَالَة'],ex:'م ajouté + د=ف, ر=ع, س=ل + ة → schème مَفْعَلَة. Schème de lieu (اسم مكان).'},
+    {ar:'ما الفرق بين عَلِمَ و عَلَّمَ ؟',pr:'عَلِمَ vs عَلَّمَ — quelle différence ?',co:'عَلِمَ = savoir (I), عَلَّمَ = enseigner (II)',opts:['Aucune différence','عَلِمَ = savoir (I), عَلَّمَ = enseigner (II)','عَلِمَ = passé, عَلَّمَ = présent','عَلَّمَ = forme passive'],ex:'Forme I عَلِمَ = savoir. Forme II عَلَّمَ = enseigner. La tachdiid sur la 2e radicale change le sens.'},
+  ],
+  adad:[
+    {ar:'ثَلَاثَةُ رِجَالٍ',pr:'Pourquoi ثَلَاثَة avec ة ?',co:'رجال est masculin → le nombre prend ة (genre inversé)',opts:['رجال est féminin → accord direct','رجال est masculin → le nombre prend ة (genre inversé)','Erreur, on dit ثَلَاثُ رِجَالٍ','Le nombre 3 est toujours avec ة'],ex:'Règle 3–10 : المخالفة — le nombre prend le genre OPPOSÉ au nom compté. رجال = masc. → ثلاثة avec ة.'},
+    {ar:'ثَلَاثُ نِسَاءٍ',pr:'Pourquoi ثَلَاثُ sans ة ?',co:'نساء est féminin → le nombre sans ة (genre inversé)',opts:['نساء est masculin','نساء est féminin → le nombre sans ة (genre inversé)','Le nombre 3 est toujours sans ة','Erreur, on dit ثَلَاثَةُ نِسَاءٍ'],ex:'Règle 3–10 : نساء = fém. → le nombre prend le genre opposé = masculin = sans ة.'},
+    {ar:'عِشْرُونَ طَالِباً',pr:'Cas et forme de طَالِباً ?',co:'Nasb singulier — تمييز',opts:['Raf3 pluriel','Nasb singulier — تمييز','Jar singulier — مضاف إليه','Nasb pluriel'],ex:'Après les nombres 20–99, le nom compté est au nasb singulier = تمييز العدد.'},
+    {ar:'مِئَةُ طَالِبٍ',pr:'Cas de طَالِبٍ après مئة ?',co:'Jar singulier — مضاف إليه',opts:['Nasb singulier — تمييز','Jar singulier — مضاف إليه','Raf3','Jar pluriel'],ex:'مئة est مضاف → le nom qui suit est مضاف إليه au jar singulier.'},
+    {ar:'خَمْسَةَ عَشَرَ طَالِباً',pr:'Genre de خَمْسَةَ dans 15 طالباً ?',co:'ة car طالب masculin (genre inversé pour l\'unité)',opts:['Sans ة — accord direct','ة car طالب masculin (genre inversé pour l\'unité)','ة car طالب féminin','Accord libre'],ex:'13–19 : صدره (unité) prend le genre inversé. طالب = masc. → خمسة avec ة. عشر = accord direct (fém. → sans ة).'},
+    {ar:'اثْنَانِ',pr:'Accord de اثنان ?',co:'Accord direct avec le nom (pas d\'inversion)',opts:['Genre inversé comme 3–10','Accord direct avec le nom (pas d\'inversion)','Toujours masculin','Toujours féminin'],ex:'1 et 2 suivent l\'accord direct. اثنان (masc.) / اثنتان (fém.) — pas de paradoxe.'},
+  ],
+  ta3ajjub:[
+    {ar:'مَا أَجْمَلَ السَّمَاءَ !',pr:'Formule de quel type ?',co:'ما أَفْعَلَ — formule 1 du تعجب',opts:['ما النافية','ما أَفْعَلَ — formule 1 du تعجب','أَفْعِل بِ — formule 2','Phrase interrogative'],ex:'مَا أَجْمَلَ = formule 1 du تعجب. مَا = مبتدأ, أَجْمَلَ = فعل ماضٍ sur schème أَفْعَلَ.'},
+    {ar:'أَجْمِل بِالعِلْمِ !',pr:'Formule de quel type ?',co:'أَفْعِل بِ — formule 2 du تعجب',opts:['ما أَفْعَلَ — formule 1','أَفْعِل بِ — formule 2 du تعجب','Impératif ordinaire','Phrase nominale'],ex:'أَجْمِل بِ = formule 2 du تعجب. Apparence d\'impératif mais c\'est en réalité un فعل ماضٍ mabnî.'},
+    {ar:'مَا أَجْمَلَ السَّمَاءَ !',pr:'Cas de السَّمَاءَ ?',co:'Nasb — مفعول به',opts:['Raf3 فاعل','Nasb — مفعول به','Jar بعد حرف جر','Raf3 مبتدأ'],ex:'Dans مَا أَفْعَلَ : le nom qui exprime l\'objet admiré est مفعول به au nasb.'},
+    {ar:'أَجْمِل بِالعِلْمِ !',pr:'Cas de العِلْمِ ?',co:'Jar — فاعل في محل جر بالباء',opts:['Nasb مفعول به','Jar — فاعل في محل جر بالباء','Raf3 مبتدأ','Jar مضاف إليه'],ex:'Dans أَفْعِل بِ : الباء زائدة — العلم est en réalité le فاعل mais au jar par باء زائدة.'},
+    {ar:'مَا أَشَدَّ الحَرَّ !',pr:'Pourquoi أَشَدَّ et non أَحَرَّ ?',co:'حَرّ ne remplit pas les conditions du تعجب direct',opts:['أَحَرَّ est aussi correct','حَرّ ne remplit pas les conditions du تعجب direct','C\'est une erreur','أَشَدَّ est un synonyme'],ex:'Quand le verbe source ne peut pas former أَفْعَلَ directement, on utilise مَا أَشَدَّ + مصدر.'},
+  ],
+  jumla:[
+    {ar:'الكِتَابُ مُفِيدٌ',pr:'Type de phrase ?',co:'جملة اسمية — commence par مبتدأ',opts:['جملة فعلية','جملة اسمية — commence par مبتدأ','جملة شرطية','جملة استفهامية'],ex:'الكتاب = مبتدأ au raf3 → جملة اسمية. Exprime un état ou une propriété.'},
+    {ar:'كَتَبَ الطَّالِبُ الدَّرْسَ',pr:'Type de phrase ?',co:'جملة فعلية — commence par verbe',opts:['جملة اسمية','جملة فعلية — commence par verbe','جملة شرطية','جملة استثنائية'],ex:'كَتَبَ = verbe en tête → جملة فعلية. Exprime une action.'},
+    {ar:'كَتَبَ الطُّلَّابُ',pr:'Accord du verbe avec الطُّلَّابُ ?',co:'Genre seulement — كَتَبَ (pas كَتَبُوا)',opts:['Genre + nombre — كَتَبُوا','Genre seulement — كَتَبَ (pas كَتَبُوا)','Pas d\'accord nécessaire','Accord complet obligatoire'],ex:'Règle : en جملة فعلية, quand le فاعل suit le verbe, accord en genre seulement. Pas en nombre.'},
+    {ar:'الطَّالِبُ يَكْتُبُ',pr:'Fonction de يَكْتُبُ ?',co:'جملة فعلية في محل رفع خبر',opts:['فعل مضارع مرفوع فقط','جملة فعلية في محل رفع خبر','مفعول به','حال'],ex:'الطالب = مبتدأ. يكتب = جملة فعلية كاملة qui est le خبر → في محل رفع خبر المبتدأ.'},
+    {ar:'إِيَّاكَ نَعْبُدُ',pr:'Pourquoi إياك en premier ?',co:'تقديم المفعول — mise en relief',opts:['Erreur grammaticale','تقديم المفعول — mise en relief','إياك est مبتدأ','Ordre obligatoire'],ex:'إياك = مفعول به avancé (تقديم وتأخير) pour insister : c\'est TOI et personne d\'autre que nous adorons.'},
+    {ar:'فِي البَيْتِ رَجُلٌ',pr:'Pourquoi le خبر est avancé ici ?',co:'Règle : خبر indéfini exige تقديم الخبر',opts:['Erreur','Règle : خبر indéfini exige تقديم الخبر','رجل est مبتدأ','Simple variation stylistique'],ex:'رجل est نكرة (indéfini) → il ne peut pas être مبتدأ sans تقديم الخبر. في البيت = خبر avancé, رجل = مبتدأ.'},
+  ],
+  mabni_mu3rab:[
+    {ar:'هُوَ يَكْتُبُ',pr:'هُوَ est مبني ou مُعْرَب ?',co:'مبني — sur الضم',opts:['مُعْرَب — raf3','مبني — sur الضم','مُعْرَب — nasb','مبني — sur الفتح'],ex:'هو est un pronom → مبني. Sa finale و ne change jamais. I3râb محلي : في محل رفع مبتدأ.'},
+    {ar:'الَّذِي جَاءَ',pr:'الَّذِي est مبني sur quoi ?',co:'مبني على السكون',opts:['مبني على الفتح','مبني على السكون','مبني على الضم','مُعْرَب'],ex:'الذي = اسم موصول → مبني على السكون. Finale toujours ـِي، i3râb محلي selon la fonction.'},
+    {ar:'أَيْنَ الكِتَابُ ؟',pr:'أَيْنَ est مبني sur quoi ?',co:'مبني على الفتح',opts:['مبني على الضم','مبني على الكسر','مبني على الفتح','مُعْرَب'],ex:'أين = اسم استفهام → مبني على الفتح. Toujours avec fatha finale.'},
+    {ar:'لَيَذْهَبَنَّ',pr:'Ce مضارع est مبني ou مُعْرَب ?',co:'مبني على الفتح — نون التوكيد الثقيلة',opts:['مُعْرَب — raf3','مُعْرَب — nasb','مبني على الفتح — نون التوكيد الثقيلة','مبني على السكون'],ex:'مضارع + نون التوكيد → مبني على الفتح. Le مضارع perd son i3râb normal.'},
+    {ar:'يَذْهَبْنَ',pr:'Ce مضارع est مبني sur quoi ?',co:'مبني على السكون — نون النسوة',opts:['مُعْرَب — raf3','مبني على السكون — نون النسوة','مبني على الفتح','مُعْرَب — jazm'],ex:'مضارع + نون النسوة → مبني على السكون. Réservé aux sujets féminins pluriels.'},
+    {ar:'كَتَبَ',pr:'كَتَبَ est مبني ou مُعْرَب ?',co:'مبني — tous les verbes ماضٍ sont مبني',opts:['مُعْرَب — raf3','مبني — tous les verbes ماضٍ sont مبني','مُعْرَب — nasb','Dépend du contexte'],ex:'Tous les verbes ماضٍ et أمر sont مبني. Seul المضارع est normalement مُعْرَب.'},
+    {ar:'هَذَا كِتَابٌ',pr:'هَذَا est مبني ou مُعْرَب ?',co:'مبني على السكون',opts:['مُعْرَب — raf3','مبني على الفتح','مبني على السكون','مُعْرَب — nasb'],ex:'أسماء الإشارة (هذا، هذه، ذلك…) sont مبني. هذا → مبني على السكون، في محل رفع مبتدأ.'},
+  ],
+  madh_dham:[
+    {ar:'نِعْمَ الرَّجُلُ زَيْدٌ',pr:'Fonction de زَيْدٌ ?',co:'المخصوص بالمدح — raf3',opts:['فاعل نعم','المخصوص بالمدح — raf3','مبتدأ مستقل','مفعول به'],ex:'زَيْدٌ est المخصوص بالمدح, au raf3. Il peut être analysé comme مبتدأ (خبره جملة نعم) ou خبر لمبتدأ محذوف.'},
+    {ar:'بِئْسَ رَجُلاً الكَذَّابُ',pr:'Fonction de رَجُلاً ?',co:'تمييز — nasb',opts:['فاعل بئس — raf3','تمييز — nasb','مفعول به','حال'],ex:'رَجُلاً = تمييز (نكرة منصوبة) précisant la catégorie de blâme. Le فاعل est un ضمير مستتر هو.'},
+    {ar:'حَبَّذَا العِلْمُ !',pr:'Fonction de ذَا dans حَبَّذَا ?',co:'فاعل — اسم إشارة مبني',opts:['مفعول به','فاعل — اسم إشارة مبني','حرف زائد','مبتدأ'],ex:'حَبَّ = فعل ماضٍ. ذَا = اسم إشارة → فاعل مبني على السكون في محل رفع. العلم = المخصوص.'},
+    {ar:'لا حَبَّذَا الكَسَلُ',pr:'لا ici est de quel type ?',co:'لا النافية — nie l\'éloge',opts:['لا الناهية — jazm','لا النافية — nie l\'éloge','لا النافية للجنس','لا الزائدة'],ex:'لا هنا = نافية simple qui nie حَبَّذَا. Elle transforme l\'éloge en blâme intense.'},
+    {ar:'نِعْمَ المُعَلِّمُ زَيْدٌ',pr:'Forme de نِعْمَ ?',co:'فعل ماضٍ جامد — لا يتصرف',opts:['فعل مضارع','اسم','فعل ماضٍ جامد — لا يتصرف','حرف'],ex:'نِعْمَ et بِئْسَ sont des verbes ماضٍ جامدة (figés) — ils ne se conjuguent pas (لا يتصرفان).'},
+    {ar:'نِعْمَ مِنْ رَجُلٍ زَيْدٌ',pr:'Rôle de مِنْ ici ?',co:'حرف جر زائد — le فاعل est رَجُلٍ',opts:['Préposition normale','حرف جر زائد — le فاعل est رَجُلٍ','من الاستفهامية','من الموصولة'],ex:'مِنْ + نكرة après نِعْمَ = باء/من زائدة. رجلٍ est en réalité le فاعل de نعم malgré le jar apparent.'},
+  ],
+  maf3ul_ma3ah:[
+    {ar:'سِرْتُ والنَّهْرَ',pr:'Fonction de النَّهْرَ ?',co:'مفعول معه — nasb',opts:['مفعول به','مفعول معه — nasb','معطوف على الضمير','حال'],ex:'النهر = مفعول معه après واو المعية → nasb. Le و ici n\'est pas عطف mais يفيد المصاحبة.'},
+    {ar:'جِئْتُ وَطُلُوعَ الشَّمْسِ',pr:'Cas de طُلُوعَ ?',co:'Nasb — مفعول معه',opts:['Raf3 فاعل','Nasb — مفعول معه','Jar بعد واو عطف','Nasb حال'],ex:'طلوعَ = مفعول معه (je suis venu en même temps que le lever du soleil). Nasb car واو المعية.'},
+    {ar:'جَاءَ زَيْدٌ وَعَمْرٌو',pr:'عَمْرٌو est مفعول معه ou معطوف ?',co:'معطوف — raf3 (les deux sont venus)',opts:['مفعول معه — nasb','معطوف — raf3 (les deux sont venus)','حال','تمييز'],ex:'عمرو au raf3 = معطوف. Si c\'était مفعول معه, il serait au nasb عمراً. Le sens aussi est différent.'},
+    {ar:'اجْتَهَدْتُ وَالاِمْتِحَانَ',pr:'Pourquoi الامتحانَ au nasb ?',co:'مفعول معه — واو المعية',opts:['مفعول به','مفعول معه — واو المعية','معطوف','خطأ'],ex:'الامتحانَ = مفعول معه : je travaillais en approchant de l\'examen. Le و = واو المعية, pas عطف.'},
+  ],
+  af3al_muqaraba:[
+    {ar:'كَادَ يَسْقُطُ',pr:'Fonction de يَسْقُطُ ?',co:'خبر كاد — مضارع مرفوع',opts:['فعل مستقل','خبر كاد — مضارع مرفوع','مفعول به','حال'],ex:'كاد = من أفعال المقاربة (ناسخة). خبرها = مضارع sans أن obligatoirement. يسقط = خبر في محل نصب.'},
+    {ar:'عَسَى أَنْ يَنْجَحَ',pr:'Pourquoi يَنْجَحَ et non يَنْجَحُ ?',co:'منصوب بأن — خبر عسى',opts:['Jazm après عسى','منصوب بأن — خبر عسى','Raf3 car مضارع','مجزوم بلم مقدرة'],ex:'عسى = رجاء. خبرها = أن + مضارع منصوب. أن ناصبة → يَنْجَحَ بالفتح.'},
+    {ar:'أَخَذَ يَكْتُبُ',pr:'أَخَذَ ici est de quel groupe ?',co:'الشروع — se mettre à',opts:['المقاربة — être sur le point de','الرجاء — peut-être','الشروع — se mettre à','فعل عادي'],ex:'أخذ = من أفعال الشروع. Sens : il se mit à écrire. خبرها = مضارع مرفوع sans أن.'},
+    {ar:'عَسَى الطَّالِبُ أَنْ يَنْجَحَ',pr:'Cas de الطَّالِبُ ?',co:'Raf3 — اسم عسى',opts:['Nasb — اسم عسى','Raf3 — اسم عسى','Jar','Mabnî'],ex:'عسى ناسخة : son اسم au raf3 (الطالبُ), son خبر = أن ينجح في محل نصب.'},
+  ],
+  khabar_insha:[
+    {ar:'جَاءَ زَيْدٌ',pr:'خبر ou إنشاء ?',co:'خبر — peut être vrai ou faux',opts:['إنشاء طلبي','إنشاء غير طلبي','خبر — peut être vrai ou faux','Les deux'],ex:'جاء زيد = assertif (خبر). On peut demander : c\'est vrai ? C\'est faux ? → c\'est la marque du خبر.'},
+    {ar:'اكْتُبِ الدَّرْسَ !',pr:'خبر ou إنشاء ?',co:'إنشاء طلبي — أمر',opts:['خبر','إنشاء طلبي — أمر','إنشاء غير طلبي','Ni l\'un ni l\'autre'],ex:'اكتبِ = أمر → إنشاء طلبي. On ne peut pas dire : c\'est vrai ou c\'est faux. C\'est un acte de parole.'},
+    {ar:'لَيْتَ الشَّبَابَ يَعُودُ',pr:'Type d\'إنشاء ?',co:'إنشاء طلبي — تمني (souhait)',opts:['أمر','إنشاء طلبي — تمني (souhait)','إنشاء غير طلبي','خبر'],ex:'لَيْتَ = particule de souhait → إنشاء طلبي de type تمني. Exprime un désir (souvent irréalisable).'},
+    {ar:'وَاللهِ لَأَذْهَبَنَّ',pr:'Type de phrase ?',co:'إنشاء غير طلبي — قسم (serment)',opts:['خبر','إنشاء طلبي','إنشاء غير طلبي — قسم (serment)','جملة شرطية'],ex:'القسم = إنشاء غير طلبي : l\'acte de jurer s\'accomplit en prononçant la phrase. Pas de réponse attendue.'},
+    {ar:'نِعْمَ الرَّجُلُ زَيْدٌ',pr:'خبر ou إنشاء ?',co:'إنشاء غير طلبي — مدح',opts:['خبر','إنشاء طلبي','إنشاء غير طلبي — مدح','Les deux selon le contexte'],ex:'المدح = إنشاء غير طلبي. L\'acte de louer s\'accomplit en prononçant نِعْمَ. Pas vrai/faux.'},
+  ],
+  qasam:[
+    {ar:'وَاللهِ لَأَجْتَهِدَنَّ',pr:'Cas de اللهِ après و القسم ?',co:'Jar — مجرور بواو القسم',opts:['Raf3','Nasb','Jar — مجرور بواو القسم','Mabnî'],ex:'واو القسم = حرف جر → الله مجرور بها. La finale ِ confirme le jar.'},
+    {ar:'تَاللهِ لَقَدْ آثَرَكَ اللهُ',pr:'تَ القسم s\'utilise avec ?',co:'الله uniquement',opts:['N\'importe quel nom','الله uniquement','Les noms propres','Les noms divins en général'],ex:'تَ القسم est réservée exclusivement à الله. On dit وَرَبِّي، بِعِزَّتِهِ mais jamais تَرَبِّي.'},
+    {ar:'وَاللهِ لَأَذْهَبَنَّ',pr:'Rôle de لَ + نَّ ici ?',co:'لام التوكيد + نون التوكيد الثقيلة',opts:['لام الابتداء فقط','لام التوكيد + نون التوكيد الثقيلة','لام الأمر','لام التعليل'],ex:'Après القسم, جواب القسم المثبت prend لَ + نون توكيد. Double renforcement de l\'assertion.'},
+    {ar:'وَاللهِ لا أَكْذِبُ',pr:'جواب القسم est ici ?',co:'منفي بلا — مضارع مرفوع',opts:['منفي بلم — مجزوم','منفي بلا — مضارع مرفوع','منفي بلن — منصوب','جملة اسمية'],ex:'جواب القسم المنفي = لا + مضارع مرفوع (ou ما + ماضٍ). Pas de لام ولا نون توكيد.'},
+  ],
+  hal_detail:[
+    {ar:'جَاءَ زَيْدٌ رَاكِباً',pr:'Fonction de رَاكِباً ?',co:'حال — nasb',opts:['نعت','حال — nasb','مفعول به','تمييز'],ex:'رَاكِباً = حال منصوبة, نكرة, تصف حال زيد عند المجيء. Répond à : كيف جاء ؟'},
+    {ar:'جَاءَ وَهُوَ يَضْحَكُ',pr:'وَهُوَ يَضْحَكُ est quel type de حال ?',co:'جملة حالية — واو الحال',opts:['حال مفردة','جملة حالية — واو الحال','شبه جملة','نعت'],ex:'Phrase entière = جملة حالية في محل نصب حال. La واو ici = واو الحال (pas عطف).'},
+    {ar:'دَخَلَ القَاعَةَ مُسْرِعاً',pr:'صاحب الحال في هذه الجملة ؟',co:'الفاعل الضمني (هو)',opts:['القاعة','الفاعل الضمني (هو)','لا يوجد','مُسْرِعاً نفسه'],ex:'مُسرِعاً décrit le فاعل (هو = il). Le فاعل est ضمير مستتر = صاحب الحال.'},
+    {ar:'رَأَيْتُهُ رَاكِضاً',pr:'Accord de رَاكِضاً ?',co:'Masculin singulier — suit صاحب الحال (هو)',opts:['Pas d\'accord nécessaire','Masculin singulier — suit صاحب الحال (هو)','Doit être défini','Accord avec le verbe'],ex:'الحال المفردة s\'accorde en genre et nombre avec صاحب الحال. هو = masc. sing. → رَاكِضاً.'},
+  ],
+  tawkid_detail:[
+    {ar:'جَاءَ الرَّجُلُ نَفْسُهُ',pr:'Fonction de نَفْسُهُ ?',co:'توكيد معنوي — raf3',opts:['نعت','توكيد معنوي — raf3','بدل','حال'],ex:'نَفْسُهُ = توكيد معنوي, suit الرجل en raf3. الهاء = ضمير يعود على المؤكَّد الرجل.'},
+    {ar:'رَأَيْتُ الطُّلَّابَ كُلَّهُمْ',pr:'Cas de كُلَّ ?',co:'Nasb — توكيد لـ الطلاب',opts:['Raf3','Nasb — توكيد لـ الطلاب','Jar مضاف إليه','Mabnî'],ex:'كُلَّ suit الطلاب au nasb (مفعول به). توكيد معنوي يفيد الشمول والاستيعاب.'},
+    {ar:'جَاءَ الأُسْتَاذَانِ كِلَاهُمَا',pr:'Cas de كِلَاهُمَا ?',co:'Raf3 بالألف — مثنى',opts:['Nasb بالياء','Raf3 بالألف — مثنى','Jar بالياء','Mabnî'],ex:'كلا/كلتا se déclinent comme un مثنى : raf3 = الألف (كلاهما), nasb/jar = الياء (كليهما).'},
+    {ar:'قَالَ قَالَ زَيْدٌ الحَقَّ',pr:'قَالَ المكرر est quel type de توكيد ?',co:'توكيد لفظي — répétition du verbe',opts:['توكيد معنوي','توكيد لفظي — répétition du verbe','بدل','عطف'],ex:'التوكيد اللفظي = répéter le même mot (verbe, nom ou particule) pour le renforcer.'},
+  ],
+  nawasikh:[
+    {ar:'كَانَ زَيْدٌ عَالِماً',pr:'Cas de زَيْدٌ et عَالِماً ?',co:'زيد raf3 (اسم كان), عالماً nasb (خبر كان)',opts:['Les deux au raf3','Les deux au nasb','زيد raf3 (اسم كان), عالماً nasb (خبر كان)','زيد nasb, عالماً raf3'],ex:'كان ناسخة : اسمها raf3, خبرها nasb. Modifie la جملة اسمية originale زيدٌ عالمٌ.'},
+    {ar:'إِنَّ زَيْداً عَالِمٌ',pr:'Cas de زَيْداً et عَالِمٌ ?',co:'زيداً nasb (اسم إن), عالمٌ raf3 (خبر إن)',opts:['Les deux au raf3','زيداً nasb (اسم إن), عالمٌ raf3 (خبر إن)','Les deux au nasb','زيداً raf3, عالمٌ nasb'],ex:'إنَّ ناسخة : اسمها nasb, خبرها raf3. Opposé de كان !'},
+    {ar:'ظَنَنْتُكَ صَادِقاً',pr:'Cas de الكاف et صَادِقاً ?',co:'Les deux au nasb — مفعول أول وثانٍ',opts:['الكاف raf3, صادقاً nasb','Les deux au nasb — مفعول أول وثانٍ','الكاف nasb, صادقاً raf3','Les deux au raf3'],ex:'ظَنَّ وأخواتها : تنصب مفعولين — المفعول الأول (الكاف) والمفعول الثاني (صادقاً). Tous deux au nasb.'},
+    {ar:'مَا زَالَ زَيْدٌ مُجْتَهِداً',pr:'مَا زَالَ exprime ?',co:'Continuation — زيد est toujours assidu',opts:['Négation totale','Continuation — زيد est toujours assidu','Changement d\'état','Début d\'action'],ex:'مَا زَالَ = من أخوات كان الدالة على الاستمرار. Sens : Zayd est toujours/encore assidu.'},
+    {ar:'لَيْتَ الشَّبَابَ يَعُودُ',pr:'Cas de الشَّبَابَ après لَيْتَ ?',co:'Nasb — اسم ليت',opts:['Raf3 مبتدأ','Nasb — اسم ليت','Jar','Mabnî'],ex:'لَيْتَ = من أخوات إنَّ → اسمها nasb (الشبابَ), خبرها raf3 (يعودُ). Sens : si seulement la jeunesse revenait !'},
+    {ar:'كَأَنَّ زَيْداً أَسَدٌ',pr:'Sens de كَأَنَّ ?',co:'Comparaison — comme si',opts:['Certitude','Comparaison — comme si','Espoir','Regret'],ex:'كَأَنَّ = particule de similitude (تشبيه). Zayd est comme un lion. Suit les règles de إنَّ : اسمها nasb, خبرها raf3.'},
+  ],
+  ikhtisas:[
+    {ar:'أَنَا — المُسْلِمَ — أُحِبُّ العَدْلَ',pr:'Fonction de المُسْلِمَ ?',co:'منصوب على الاختصاص',opts:['مبتدأ ثانٍ','منصوب على الاختصاص','حال','نعت للضمير'],ex:'المسلمَ = منصوب على الاختصاص. Précise qui parle (أنا = en tant que musulman). تقديره : أعني/أخص المسلمَ.'},
+    {ar:'نَحْنُ — الْعَرَبَ — نَكْرُمُ الضَّيْفَ',pr:'Pourquoi العَرَبَ au nasb ?',co:'اختصاص — مفعول به لفعل محذوف أعني',opts:['مفعول به لنكرم','اختصاص — مفعول به لفعل محذوف أعني','حال من نحن','منادى'],ex:'العربَ = اختصاص après نحن. Toujours au nasb, toujours défini (بأل ou موصول).'},
+    {ar:'أَنَا — المُسْلِمَ — أُحِبُّ العَدْلَ',pr:'Avec quel pronom s\'emploie l\'اختصاص ?',co:'Seulement أنا ou نحن (1ère personne)',opts:['N\'importe quel pronom','Seulement أنا ou نحن (1ère personne)','Seulement هو/هي','Seulement أنتَ/أنتِ'],ex:'L\'اختصاص ne s\'emploie qu\'avec les pronoms de la 1ère personne (أنا/نحن). C\'est ce qui le distingue du منادى.'},
+  ],
+};
+
+const lexData=[
+  {ar:'إعراب',tr:'I3râb',de:'Déclinaison — variation des finales selon la fonction',cat:'i3',catL:'I3râb'},
+  {ar:'رفع',tr:'Raf3',de:'Nominatif — damma ـُ — sujet, mubtada, khabar',cat:'na',catL:'Nah7w'},
+  {ar:'نصب',tr:'Nasb',de:'Accusatif — fatha ـَ — COD, après إنَّ, hal, tamyiz…',cat:'na',catL:'Nah7w'},
+  {ar:'جر',tr:'Jar',de:'Génitif — kasra ـِ — après prépositions, idafa',cat:'na',catL:'Nah7w'},
+  {ar:'جزم',tr:'Jazm',de:'Apocopé — sukun ـْ — verbes après لم، لا الناهية…',cat:'i3',catL:'I3râb'},
+  {ar:'نحو',tr:'Nah7w',de:'Syntaxe — étude des relations entre les mots',cat:'na',catL:'Nah7w'},
+  {ar:'صرف',tr:'Sarf',de:'Morphologie — formes, conjugaison, dérivation',cat:'sa',catL:'Sarf'},
+  {ar:'مبتدأ',tr:'Mubtada',de:'Sujet nominal (thème) de phrase nominale — raf3',cat:'na',catL:'Nah7w'},
+  {ar:'خبر',tr:'Khabar',de:'Prédicat de la phrase nominale — raf3',cat:'na',catL:'Nah7w'},
+  {ar:'فاعل',tr:'Fa3il',de:'Sujet du verbe actif — raf3',cat:'na',catL:'Nah7w'},
+  {ar:'مفعول به',tr:'Maf3ul bihi',de:'Complément d\'objet direct — nasb',cat:'na',catL:'Nah7w'},
+  {ar:'إضافة',tr:'Idafa',de:'Construction d\'annexion — مضاف + مضاف إليه (jar)',cat:'na',catL:'Nah7w'},
+  {ar:'مضاف',tr:'Mudaf',de:'1er terme de l\'idafa — perd le tanwin et ال',cat:'na',catL:'Nah7w'},
+  {ar:'مضاف إليه',tr:'Mudaf ilayhi',de:'2ème terme de l\'idafa — toujours au jar',cat:'na',catL:'Nah7w'},
+  {ar:'حروف الجر',tr:'7ourouf el jar',de:'Prépositions : في، من، إلى، على، بِ، لِ، عن…',cat:'ho',catL:'7ourouf'},
+  {ar:'حروف العلة',tr:'7ourouf el 3illa',de:'Lettres faibles : ا، و، ي',cat:'sa',catL:'Sarf'},
+  {ar:'أجوف',tr:'Ajwaf',de:'Verbe creux — lettre faible en 2ème radicale (قَالَ، بَاعَ)',cat:'sa',catL:'Sarf'},
+  {ar:'ناقص',tr:'Naqis',de:'Verbe défectif — lettre faible en 3ème radicale (دَعَا، مَشَى)',cat:'sa',catL:'Sarf'},
+  {ar:'مثال',tr:'Mithal',de:'Verbe à 1ère radicale و — tombe au مضارع (وَجَدَ → يَجِدُ)',cat:'sa',catL:'Sarf'},
+  {ar:'حال',tr:'Hal',de:'Complément de manière/état — nasb — "comment ?"',cat:'na',catL:'Nah7w'},
+  {ar:'تمييز',tr:'Tamyiz',de:'Complément distinctif — nasb — lève l\'ambiguïté',cat:'na',catL:'Nah7w'},
+  {ar:'ذم',tr:'Dham',de:'Blâme — بئس / ساء — opposé du madh',cat:'na',catL:'Nah7w'},
+  {ar:'مدح',tr:'Madh',de:'Éloge — نِعْمَ / حَبَّذَا',cat:'na',catL:'Nah7w'},
+  {ar:'جواب الشرط',tr:'Jawab al-shart',de:'Apodose de la condition — 2ème verbe au jazm après إن',cat:'na',catL:'Nah7w'},
+  {ar:'نائب الفاعل',tr:'Na\'ib al-fa3il',de:'Sujet du verbe passif — raf3',cat:'na',catL:'Nah7w'},
+  {ar:'منادى',tr:'Munada',de:'Nom appelé après يَا — mabnî sur raf3 (nom propre) ou nasb (مضاف)',cat:'na',catL:'Nah7w'},
+  {ar:'مفعول مطلق',tr:'Maf3ul mutlaq',de:'COD absolu — masdar au nasb, même racine que le verbe (توكيد ou نوع)',cat:'na',catL:'Nah7w'},
+  {ar:'مفعول لأجله',tr:'Maf3ul li-ajlihi',de:'Complément de cause — masdar au nasb répondant à la question : pourquoi ?',cat:'na',catL:'Nah7w'},
+  {ar:'مفعول فيه',tr:'Maf3ul fih',de:'Circonstanciel de temps ou de lieu — ظرف — toujours au nasb',cat:'na',catL:'Nah7w'},
+  {ar:'ظرف',tr:'Dharf',de:'Adverbe de temps (يَوْمَ، صَبَاحَ) ou de lieu (أَمَامَ، فَوْقَ) — nasb',cat:'na',catL:'Nah7w'},
+  {ar:'استثناء',tr:'Istithna',de:'Exception avec إلاَّ، غير، سوى — مستثنى au nasb dans une phrase positive',cat:'na',catL:'Nah7w'},
+  {ar:'مستثنى',tr:'Mustathna',de:'Nom excepté — cas variable selon type de phrase (nasb, raf3 ou badal)',cat:'na',catL:'Nah7w'},
+  {ar:'توابع',tr:'Tawabi3',de:'Les 4 suiveurs : نعت، عطف، بدل، توكيد — accordent leur cas avec leur référent',cat:'na',catL:'Nah7w'},
+  {ar:'نعت',tr:"Na3t",de:'Adjectif épithète — suit le nom en cas, genre, nombre et définition',cat:'na',catL:'Nah7w'},
+  {ar:'بدل',tr:'Badal',de:'Apposition — remplace le précédent en cas (بدل كل، بعض، اشتمال)',cat:'na',catL:'Nah7w'},
+  {ar:'توكيد',tr:'Tawkid',de:'Confirmation — نَفْسُهُ، عَيْنُهُ، كُلُّهُ — suit en cas',cat:'na',catL:'Nah7w'},
+  {ar:'عطف',tr:"3atf",de:'Coordination — و، ف، ثم، أو… — le second terme prend le même cas que le premier',cat:'na',catL:'Nah7w'},
+  {ar:'الأفعال الخمسة',tr:'Al-af3al al-khamsa',de:'5 formes du مضارع déclinées par النون : raf3 = نون présente, nasb/jazm = نون supprimée',cat:'i3',catL:'I3râb'},
+  {ar:'ممنوع من الصرف',tr:"Mamnu3 min al-sarf",de:'Nom sans tanwin ni kasra — jar = fatha. Ex : مساجد، أحمد، حمراء',cat:'i3',catL:'I3râb'},
+  {ar:'الأسماء الخمسة',tr:'Al-asma al-khamsa',de:'5 noms déclinés par lettres longues : و (raf3)، ا (nasb)، ي (jar) — أب، أخ، حم، فو، ذو',cat:'i3',catL:'I3râb'},
+  {ar:'لا النافية للجنس',tr:"La al-nafiya lil-jins",de:'Nie toute une catégorie — اسم au nasb sans tanwin, خبر au raf3',cat:'na',catL:'Nah7w'},
+  {ar:'إعراب تقديري',tr:"I3rab taqdiri",de:'I3râb sous-entendu sur lettre faible finale (alif, waw, ya) — ضمة/فتحة/كسرة مقدرة',cat:'i3',catL:'I3râb'},
+  {ar:'إعراب محلي',tr:"I3rab mahalli",de:'I3râb positionnel pour les mots indéclinables (ضمائر، جمل، أسماء موصولة)',cat:'i3',catL:'I3râb'},
+  {ar:'فعل الشرط',tr:"Fi3l al-shart",de:'Premier verbe de la condition — au jazm après إن',cat:'na',catL:'Nah7w'},
+  {ar:'جواب الشرط',tr:"Jawab al-shart",de:'Second verbe de la condition (apodose) — au jazm après إن، ou avec لَ après لو',cat:'na',catL:'Nah7w'},
+  {ar:'ثبوت النون',tr:"Thubut al-nun",de:'Présence du نون = signe du raf3 pour les الأفعال الخمسة',cat:'i3',catL:'I3râb'},
+  {ar:'حذف النون',tr:"Hadhf al-nun",de:'Suppression du نون = signe du nasb ou jazm pour les الأفعال الخمسة',cat:'i3',catL:'I3râb'},
+  {ar:'الأفعال الخمسة',tr:'Al-af3al al-khamsa',de:'5 formes verbales spéciales — raf3 par ثبوت النون, nasb/jazm par حذف النون',cat:'i3',catL:'I3râb'},
+  {ar:'ممنوع من الصرف',tr:'Mamnu3 min al-sarf',de:'Nom refusant tanwin et kasra — jar par fatha — ex : مَسَاجِدَ، أَحْمَدَ',cat:'i3',catL:'I3râb'},
+  {ar:'الأسماء الخمسة',tr:'Al-asma al-khamsa',de:'5 noms déclinés par lettres : و (raf3) ا (nasb) ي (jar) — أبو، أخو، حمو، فو، ذو',cat:'i3',catL:'I3râb'},
+  {ar:'إعراب تقديري',tr:'I3râb taqdiriyy',de:'I3râb sous-entendu sur lettres faibles — مرفوع بضمة مقدرة على الألف',cat:'i3',catL:'I3râb'},
+  {ar:'إعراب محلي',tr:'I3râb mahalli',de:'I3râb positionnel pour mots invariables — في محل رفع / نصب',cat:'i3',catL:'I3râb'},
+  {ar:'لا النافية للجنس',tr:'La al-nafiya lil-jins',de:'Nie une catégorie entière — اسم au nasb (mabnî sur fatha), خبر au raf3',cat:'na',catL:'Nah7w'},
+  {ar:'أسلوب الشرط',tr:'Uslub al-shart',de:'Structure conditionnelle — إن (jazm) / إذا / لو (irréel) / لولا',cat:'na',catL:'Nah7w'},
+  {ar:'فعل الشرط',tr:"Fi3l al-shart",de:'1er verbe de la condition — au jazm après إن، من، ما…',cat:'na',catL:'Nah7w'},
+  {ar:'جواب الشرط',tr:'Jawab al-shart',de:'2ème verbe — apodose — au jazm (après إن) ou passé (après لو)',cat:'na',catL:'Nah7w'},
+  {ar:'الفعل المجرد',tr:'Al-fi3l al-mujarrad',de:'Verbe trilittère nu (sans lettres ajoutées) — base des formes I',cat:'sa',catL:'Sarf'},
+  {ar:'الفعل المزيد',tr:'Al-fi3l al-mazid',de:'Verbe à lettres ajoutées — formes II à X — sens dérivés prévisibles',cat:'sa',catL:'Sarf'},
+  {ar:'فَعَّلَ — Forme II',tr:'Fa33ala',de:'Tachdiid sur 2e radicale — causatif ou intensif — masdar : تَفْعِيل',cat:'sa',catL:'Sarf'},
+  {ar:'فَاعَلَ — Forme III',tr:'Fa3ala',de:'Alif après 1e radicale — réciprocité — masdar : مُفَاعَلَة',cat:'sa',catL:'Sarf'},
+  {ar:'أَفْعَلَ — Forme IV',tr:'Af3ala',de:'أَ en préfixe — causatif — masdar : إِفْعَال',cat:'sa',catL:'Sarf'},
+  {ar:'تَفَعَّلَ — Forme V',tr:'Tafa33ala',de:'تَ + forme II — réflexif de II — masdar : تَفَعُّل',cat:'sa',catL:'Sarf'},
+  {ar:'انْفَعَلَ — Forme VII',tr:'Infa3ala',de:'ان ajouté — passif/réflexif intransitif — masdar : اِنْفِعَال',cat:'sa',catL:'Sarf'},
+  {ar:'اسْتَفْعَلَ — Forme X',tr:'Istaf3ala',de:'استـ ajouté — quérir, estimer, demander — masdar : اِسْتِفْعَال',cat:'sa',catL:'Sarf'},
+  {ar:'اسم الفاعل',tr:'Ism al-fa3il',de:'Participe actif — forme I : فَاعِل — formes II–X : مُفَعِّل، مُفَاعِل…',cat:'sa',catL:'Sarf'},
+  {ar:'اسم المفعول',tr:'Ism al-maf3ul',de:'Participe passif — forme I : مَفْعُول — formes II–X : مُفَعَّل، مُفَاعَل…',cat:'sa',catL:'Sarf'},
+  {ar:'الميزان الصرفي',tr:'Al-mizan al-sarfi',de:'Balance morphologique — ف ع ل = les 3 radicales — outil fondamental',cat:'sa',catL:'Sarf'},
+  {ar:'المصدر',tr:'Al-masdar',de:'Nom verbal — forme I imprévisible — formes II–X régulières',cat:'sa',catL:'Sarf'},
+  {ar:'الحروف الزائدة',tr:"Al-huruf al-za'ida",de:'10 lettres ajoutables à la racine — mémo : سَأَلْتُمُونِيهَا',cat:'sa',catL:'Sarf'},
+  {ar:'المخالفة',tr:'Al-mukhalafa',de:'Principe du paradoxe des nombres 3–10 : le nombre prend le genre opposé au nom compté',cat:'na',catL:'Nah7w'},
+  {ar:'تمييز العدد',tr:"Tamyiz al-3adad",de:'Nom compté après 11–99 : au nasb singulier',cat:'na',catL:'Nah7w'},
+  {ar:'التعجب',tr:"Al-ta3ajjub",de:'Exclamation — deux formules : ما أَفْعَلَ و أَفْعِل بِ',cat:'na',catL:'Nah7w'},
+  {ar:'ما أَفْعَلَ',tr:"Ma af3ala",de:'Formule 1 du تعجب — ما مبتدأ + أفعل فعل ماضٍ + مفعول به nasb',cat:'na',catL:'Nah7w'},
+  {ar:'أَفْعِل بِ',tr:"Af3il bi",de:'Formule 2 du تعجب — فاعل au jar par باء زائدة',cat:'na',catL:'Nah7w'},
+  {ar:'جملة اسمية',tr:"Jumla ismiyya",de:'Phrase nominale — commence par مبتدأ — exprime état ou propriété',cat:'na',catL:'Nah7w'},
+  {ar:'جملة فعلية',tr:"Jumla fi3liyya",de:'Phrase verbale — commence par verbe — accord genre seulement si فاعل suit',cat:'na',catL:'Nah7w'},
+  {ar:'تقديم وتأخير',tr:"Taqdim wa ta'khir",de:'Antéposition d\'un élément pour le mettre en relief — ex : إياك نعبد',cat:'na',catL:'Nah7w'},
+  {ar:'مبتدأ مؤخر',tr:"Mubtada mu'akhkhar",de:'Sujet rejeté en fin — quand خبر indéfini doit être avancé : في البيت رجلٌ',cat:'na',catL:'Nah7w'},
+  {ar:'مبني',tr:'Mabni',de:'Invariable — finale fixe quoi qu\'il arrive — pronoms, حروف, ماضٍ، أمر',cat:'i3',catL:'I3râb'},
+  {ar:'معرب',tr:"Mu3rab",de:'Déclinable — finale change selon la fonction (raf3/nasb/jar/jazm)',cat:'i3',catL:'I3râb'},
+  {ar:'مبني على الضم',tr:"Mabni 3ala al-damm",de:'Invariable avec finale ـُ fixe — ex : قَبْلُ، بَعْدُ en fin de phrase',cat:'i3',catL:'I3râb'},
+  {ar:'مبني على الفتح',tr:"Mabni 3ala al-fath",de:'Invariable avec finale ـَ fixe — ex : أَيْنَ، كَيْفَ، مضارع + نون توكيد',cat:'i3',catL:'I3râb'},
+  {ar:'مبني على السكون',tr:"Mabni 3ala al-sukun",de:'Invariable avec finale ـْ fixe — ex : الذي، هذا، مضارع + نون نسوة',cat:'i3',catL:'I3râb'},
+  {ar:'نون التوكيد',tr:"Nun al-tawkid",de:'نون ثقيلة (ـنَّ) ou خفيفة (ـنْ) — rend le مضارع مبني على الفتح',cat:'i3',catL:'I3râb'},
+  {ar:'نون النسوة',tr:"Nun al-niswa",de:'نون الإناث — verbe féminin pluriel — مضارع مبني على السكون',cat:'i3',catL:'I3râb'},
+  {ar:'المخصوص بالمدح',tr:"Al-makhsus bil-madh",de:'Le nom loué après نِعْمَ — au raf3 (مبتدأ ou خبر محذوف)',cat:'na',catL:'Nah7w'},
+  {ar:'حبذا',tr:"Habbadha",de:'Formule d\'éloge figée — حَبَّ فعل + ذَا فاعل — المخصوص au raf3',cat:'na',catL:'Nah7w'},
+  {ar:'فعل جامد',tr:"Fi3l jamid",de:'Verbe figé non conjuguable — ex : نِعْمَ، بِئْسَ، عَسَى، لَيْسَ',cat:'sa',catL:'Sarf'},
+  {ar:'واو المعية',tr:"Waw al-ma3iyya",de:"و d\'accompagnement — nom qui suit = مفعول معه au nasb (≠ عطف)",cat:'na',catL:'Nah7w'},
+  {ar:'مفعول معه',tr:"Maf3ul ma3ah",de:"Complément d\'accompagnement — nasb après واو المعية",cat:'na',catL:'Nah7w'},
+  {ar:'أفعال المقاربة',tr:"Af3al al-muqaraba",de:'Verbes d\'imminence — كاد، أوشك — خبرها مضارع sans أن',cat:'na',catL:'Nah7w'},
+  {ar:'أفعال الرجاء',tr:"Af3al al-raja",de:"Verbes d\'espoir — عسى — خبرها أن + مضارع منصوب",cat:'na',catL:'Nah7w'},
+  {ar:'أفعال الشروع',tr:"Af3al al-shuru3",de:'Verbes de commencement — أخذ، جعل، شرع — خبرها مضارع sans أن',cat:'na',catL:'Nah7w'},
+  {ar:'الخبر',tr:"Al-khabar (assertif)",de:'Phrase assertive — peut être vraie ou fausse — ex : جاء زيد',cat:'na',catL:'Nah7w'},
+  {ar:'الإنشاء',tr:"Al-insha",de:"Phrase performative — l\'acte s\'accomplit en la disant — أمر، نهي، مدح، قسم…",cat:'na',catL:'Nah7w'},
+  {ar:'الإنشاء الطلبي',tr:"Al-insha al-talabi",de:'Performatif demandant réaction — أمر، نهي، استفهام، تمني، نداء',cat:'na',catL:'Nah7w'},
+  {ar:'الإنشاء غير الطلبي',tr:"Al-insha ghair al-talabi",de:'Performatif sans attente — مدح، ذم، تعجب، قسم، عقود',cat:'na',catL:'Nah7w'},
+  {ar:'القسم',tr:"Al-qasam",de:'Serment — و/ب/ت + مجرور + جواب (لَ + نون توكيد ou لا + مضارع)',cat:'na',catL:'Nah7w'},
+  {ar:'جواب القسم',tr:"Jawab al-qasam",de:'Apodose du serment — affirmatif : لَ + نون توكيد — négatif : لا + مضارع',cat:'na',catL:'Nah7w'},
+  {ar:'الحال المفردة',tr:"Al-hal al-mufrada",de:'Adjectif au nasb décrivant l\'état au moment de l\'action — nécéssairement نكرة',cat:'na',catL:'Nah7w'},
+  {ar:'الحال الجملة',tr:"Al-hal al-jumla",de:'Phrase entière en حال (في محل نصب) — introduite par واو الحال',cat:'na',catL:'Nah7w'},
+  {ar:'صاحب الحال',tr:"Sahib al-hal",de:'Le nom dont la حال décrit l\'état — toujours معرفة',cat:'na',catL:'Nah7w'},
+  {ar:'واو الحال',tr:"Waw al-hal",de:'و qui introduit une جملة حالية — ≠ واو العطف',cat:'na',catL:'Nah7w'},
+  {ar:'توكيد لفظي',tr:"Tawkid lafzi",de:'Répétition du même mot pour renforcer — جاء جاء زيد',cat:'na',catL:'Nah7w'},
+  {ar:'توكيد معنوي',tr:"Tawkid ma3nawi",de:'Renforcement par نفسه/عينه (sing.), كلاهما (duel), كله/كلهم/جميعهم (pl.)',cat:'na',catL:'Nah7w'},
+  {ar:'النواسخ',tr:"Al-nawasikh",de:'Éléments qui modifient la جملة اسمية : كان، إن، ظن، أفعال مقاربة',cat:'na',catL:'Nah7w'},
+  {ar:'أفعال ظن وأخواتها',tr:"Af3al zann",de:'Verbes de pensée/perception qui mettent مبتدأ+خبر tous les deux au nasb',cat:'na',catL:'Nah7w'},
+  {ar:'الاختصاص',tr:"Al-ikhtisas",de:'Nom au nasb après أنا/نحن précisant le locuteur — تقديره أعني/أخص',cat:'na',catL:'Nah7w'},
+  {ar:'كلا وكلتا',tr:"Kila wa kilta",de:'Duel de توكيد — raf3 بالألف, nasb/jar بالياء — suit مثنى',cat:'i3',catL:'I3râb'},
+];
+
+// LOGIC
+let curPhrase=0,curWord=null,qMode='i3rab',qDiff='easy',qIdx=0,qScore=0,qAns=false,qList=[];
+
+function showScr(n){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('scr-'+n).classList.add('active');
+  const map={home:0,fiches:1,i3rab:2,conj:3,quiz:4,lexique:5};
+  document.querySelectorAll('.nb')[map[n]].classList.add('active');
+  if(n==='lexique') buildLex();
+  if(n==='i3rab') buildI3rab();
+  if(n==='conj') buildConj();
+  if(n==='fiches'&&!document.getElementById('fiches-grid').innerHTML) buildFiches();
+}
+
+function buildFiches(filter='all'){
+  const g=document.getElementById('fiches-grid');
+  const show=filter==='all'?fiches:fiches.filter(f=>f.cat===filter);
+  g.innerHTML=show.map(f=>`<div class="fc" onclick="openFiche('${f.id}')"><div class="fc-ar">${f.ar[0]}</div><div class="fc-cat cat-${f.cat}">${f.catL}</div><div class="fc-ti">${f.ti}</div><div class="fc-de">${f.de}</div></div>`).join('');
+}
+
+function filterFiches(cat,btn){
+  document.querySelectorAll('.tf').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildFiches(cat);
+}
+
+function openFiche(id){
+  showScr('fiches');
+  const f=fiches.find(x=>x.id===id); if(!f) return;
+  document.getElementById('fiches-list').classList.add('hidden');
+  const z=document.getElementById('fiche-detail-zone');
+  const c=f.content;
+  z.innerHTML=`<button class="bk" onclick="closeFiche()">← Retour</button>
+    <div class="fdh"><div class="fdh-cat">${f.catL}</div><div class="fdh-ti">${f.ti}</div><div class="fdh-ar">${f.ar}</div></div>
+    <div class="rb2"><div class="rb2-ti">Définition</div><div class="rb2-de">${c.def}</div></div>
+    ${c.rules.map(r=>`<div class="rb2"><div class="rb2-ti">${r.ti}</div><div class="rb2-de">${r.de.replace(/\n/g,'<br>')}</div></div>`).join('')}
+    <div class="rb2"><div class="rb2-ti">Exemples</div>${c.examples.map(e=>`<div class="er"><div class="ear">${e.ar}</div><div class="etr">${e.tr}</div><span class="el ${e.l}">${e.lt}</span></div>`).join('')}</div>`;
+  z.style.display='block';
+}
+
+function closeFiche(){
+  document.getElementById('fiches-list').classList.remove('hidden');
+  document.getElementById('fiche-detail-zone').innerHTML='';
+}
+
+function buildI3rab(){
+  const nav=document.getElementById('phrase-nav');
+  nav.innerHTML=phrases.map((p,i)=>`<button class="pn-btn${i===curPhrase?' active-p':''}" onclick="setPhrase(${i})">${i+1}. ${p.ar.join(' ')}</button>`).join('');
+  renderPhrase();
+}
+
+function setPhrase(i){curPhrase=i;curWord=null;buildI3rab();}
+
+function renderPhrase(){
+  const p=phrases[curPhrase];
+  document.getElementById('phrase-ar').innerHTML=p.ar.map((w,i)=>`<span class="word-chip${curWord===i?' selected':''}" onclick="selectWord(${i})">${w}</span>`).join(' ');
+  document.getElementById('phrase-trans').textContent=p.tr;
+  if(curWord!==null) showI3rabWord(curWord);
+  else document.getElementById('i3rab-panel').innerHTML='<div class="i3rab-hint">← Sélectionnez un mot dans la phrase ci-dessus</div>';
+}
+
+function selectWord(i){curWord=i;renderPhrase();}
+
+function showI3rabWord(i){
+  const w=phrases[curPhrase].i3rab[i];
+  document.getElementById('i3rab-panel').innerHTML=`
+    <div class="i3rab-word">${w.word}</div>
+    <div class="i3rab-row"><span class="i3rab-tag it-cas">${w.cas}</span><span class="i3rab-tag it-fonc">${w.fonc}</span></div>
+    <div style="font-size:12px;color:#555;margin-top:6px;line-height:1.6">${w.note}</div>`;
+}
+
+function buildConj(){
+  const tabs=document.getElementById('conj-tabs');
+  tabs.innerHTML=conjData.map((c,i)=>`<button class="tf${i===0?' active':''}" onclick="showConj(${i},this)">${c.id}</button>`).join('');
+  showConj(0);
+}
+
+function showConj(i,btn){
+  if(btn){document.querySelectorAll('#conj-tabs .tf').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+  const c=conjData[i];
+  document.getElementById('conj-content').innerHTML=`
+    <div class="rb2" style="margin-bottom:8px"><div class="rb2-ti">${c.ti}</div><div class="rb2-de">${c.ex}</div></div>
+    <div class="rb2"><table class="ctbl">
+      <thead><tr><th>Personne</th><th>Passé ماضٍ</th><th>Présent raf3</th><th>Jazm جزم</th><th>Nasb نصب</th></tr></thead>
+      <tbody>${c.rows.map(r=>`<tr><td>${r.pers}</td><td class="ar-cell">${r.passe}</td><td class="ar-cell">${r.pres}</td><td class="ar-cell">${r.jazm}</td><td class="ar-cell">${r.nasb}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+}
+
+function selMode(btn,m){document.querySelectorAll('.qmb').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');qMode=m;}
+function selDiff(btn,d){document.querySelectorAll('.ds').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');qDiff=d;}
+
+function startQuiz(){
+  let pool=[];
+  if(qMode==='mix') Object.values(allQ).forEach(a=>pool.push(...a));
+  else pool=[...(allQ[qMode]||[])];
+  pool=pool.sort(()=>Math.random()-.5).slice(0,8);
+  qList=pool;qIdx=0;qScore=0;qAns=false;
+  document.getElementById('qi-sec').classList.add('hidden');
+  document.getElementById('qa-sec').classList.add('active');
+  document.getElementById('qres-sec').classList.remove('active');
+  showQ();
+}
+
+function showQ(){
+  qAns=false;
+  const q=qList[qIdx];
+  document.getElementById('qcnt').textContent=(qIdx+1)+'/'+qList.length;
+  document.getElementById('qpf').style.width=(qIdx/qList.length*100)+'%';
+  document.getElementById('qsco').textContent=qScore+' pts';
+  document.getElementById('qtlbl').textContent=qMode==='mix'?'Quiz mixte':qMode;
+  document.getElementById('qar').textContent=q.ar;
+  document.getElementById('qpr').textContent=q.pr;
+  const opts=[...q.opts].sort(()=>Math.random()-.5);
+  const og=document.getElementById('og');
+  og.innerHTML='';
+  opts.forEach(o=>{
+    const btn=document.createElement('button');
+    btn.className='ob';
+    btn.textContent=o;
+    btn.dataset.chosen=o;
+    btn.dataset.correct=q.co;
+    btn.dataset.ex=q.ex;
+    btn.addEventListener('click',function(){answerQ(this,this.dataset.chosen,this.dataset.correct,this.dataset.ex);});
+    og.appendChild(btn);
+  });
+  document.getElementById('exb').classList.remove('vis');
+  document.getElementById('nxt').classList.remove('vis');
+}
+
+function answerQ(btn,chosen,correct,ex){
+  if(qAns) return; qAns=true;
+  document.querySelectorAll('.ob').forEach(b=>{b.disabled=true;if(b.textContent===correct)b.classList.add('correct');});
+  if(chosen===correct){btn.classList.add('correct');qScore++;}else btn.classList.add('wrong');
+  document.getElementById('ext').textContent=chosen===correct?'✓ Bonne réponse !':'✗ Pas tout à fait…';
+  document.getElementById('exd').textContent=ex;
+  document.getElementById('exb').classList.add('vis');
+  document.getElementById('nxt').classList.add('vis');
+  document.getElementById('qsco').textContent=qScore+' pts';
+}
+
+function nextQ(){
+  qIdx++;
+  if(qIdx>=qList.length){
+    document.getElementById('qa-sec').classList.remove('active');
+    document.getElementById('qres-sec').classList.add('active');
+    document.getElementById('rsc').textContent=qScore+'/'+qList.length;
+    document.getElementById('rcor').textContent=qScore;
+    document.getElementById('rwro').textContent=qList.length-qScore;
+    document.getElementById('rpct').textContent=Math.round(qScore/qList.length*100)+'%';
+  } else showQ();
+}
+
+function resetQuiz(){
+  document.getElementById('qres-sec').classList.remove('active');
+  document.getElementById('qi-sec').classList.remove('hidden');
+  document.getElementById('qa-sec').classList.remove('active');
+}
+
+function buildLex(filter=''){
+  const show=filter?lexData.filter(x=>x.tr.toLowerCase().includes(filter)||x.ar.includes(filter)||x.de.toLowerCase().includes(filter)):lexData;
+  document.getElementById('lex-list').innerHTML=show.map(x=>`
+    <div class="lex-item">
+      <div class="li-ar">${x.ar}</div>
+      <div style="flex:1"><div class="li-tr">${x.tr}</div><div class="li-de">${x.de}</div></div>
+      <span class="li-badge rb ${x.cat}">${x.catL}</span>
+    </div>`).join('');
+}
+
+function filterLex(v){buildLex(v.toLowerCase());}
+buildFiches();
+</script>
+</body>
+</html>
